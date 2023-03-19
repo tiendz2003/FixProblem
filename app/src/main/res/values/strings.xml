@@ -1,9 +1,17 @@
 <resources>
     <string name="app_name">CityEye</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="title_activity_login">Login activity</string>
     <string name="capture">Capture</string>
-    <string name="previous">Previous</string>
+    <string name="list">List</string>
+
+    <string name="google_sign_in">Google Sign-in</string>
+
+    <string name="client_ID">626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com</string>
+
+    <string name="dialog_permission_request_title">Permissions</string>
+    <string name="dialog_permission_request_support">Please open app settings and grant camera and location permissions.
+    Thank you.</string>
+    <string name="dialog_permission_request_open_settings">Open setting</string>
+    <string name="dialog_permission_request_cancel">Cancel</string>
+
 </resources>
