@@ -13,5 +13,9 @@
     Thank you.</string>
     <string name="dialog_permission_request_open_settings">Open setting</string>
     <string name="dialog_permission_request_cancel">Cancel</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

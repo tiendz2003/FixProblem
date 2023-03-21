@@ -1,16 +1,11 @@
 package com.nullpointerexception.cityeye.util
 
-import android.app.Activity
 import android.content.Context
-import android.net.Uri
 import android.os.Environment
-import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.nullpointerexception.cityeye.firebase.Database
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
