@@ -2,6 +2,7 @@ package com.nullpointerexception.cityeye.util
 
 import android.content.Context
 import android.os.Environment
+import android.view.View
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -13,11 +14,15 @@ import java.util.*
 object CameraUtil {
 
     private var currentPhotoPath: String? = null
-    private lateinit var storage: FirebaseStorage
 
-    fun retrieveImage(context: Context) {
+    fun retrieveImage(view:View) {
         val savedImageFile = currentPhotoPath?.let { File(it) }
-        Database.addNormalProblem(context,  savedImageFile!!.name, "Some title", savedImageFile)
+
+        val location = OtherUtilities().getCurrentLocation(view)
+
+        Database.addNormalProblem(view.context,  savedImageFile!!.name, "Some title", savedImageFile,
+            location!!
+        )
     }
 
     fun createImageFile(context: Context): File {

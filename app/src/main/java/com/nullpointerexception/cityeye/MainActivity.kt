@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.databinding.ActivityMainBinding
@@ -15,7 +13,8 @@ import com.nullpointerexception.cityeye.ui.custom.ToolbarManager
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var toolbar: Toolbar
+    private val captureFragment = CaptureFragment()
+    private val listFragment = ListFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -27,24 +26,35 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.navigation_capture -> {
-                    loadFragment(CaptureFragment())
+                    switchToFragment(captureFragment)
                     true
                 }
                 else -> {
-                    loadFragment(ListFragment())
+                    switchToFragment(listFragment)
                    true
                 }
             }
         }
 
-        ToolbarManager(binding.toolbar, Firebase.auth.currentUser!!)
+        ToolbarManager(binding.mainToolbar, Firebase.auth.currentUser!!, this)
+
+
 
     }
 
-    private  fun loadFragment(fragment: Fragment){
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container,fragment)
-        transaction.commit()
+    private fun switchToFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            if (!fragment.isAdded) {
+                add(R.id.container, fragment)
+            }
+            supportFragmentManager.fragments.forEach {
+                if (it != fragment) {
+                    hide(it)
+                }
+            }
+            show(fragment)
+            commit()
+        }
     }
 
 

@@ -5,33 +5,26 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.heatmaps.HeatmapTileProvider
+import com.google.maps.android.heatmaps.WeightedLatLng
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
+import org.json.JSONArray
 import java.io.File
 import java.io.IOException
-import java.net.ConnectException
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class CaptureFragment : Fragment() {
@@ -47,12 +40,14 @@ class CaptureFragment : Fragment() {
 
 
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
+
         return binding!!.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
 
         binding?.capture?.setOnClickListener{
@@ -85,7 +80,7 @@ class CaptureFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            CameraUtil.retrieveImage(requireContext())
+            CameraUtil.retrieveImage(requireView())
         }
     }
 
@@ -105,8 +100,7 @@ class CaptureFragment : Fragment() {
         return false
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             100 -> {
                 if (grantResults.isNotEmpty() &&
@@ -122,4 +116,9 @@ class CaptureFragment : Fragment() {
             }
         }
     }
+
+    //val data = listOf(WeightedLatLng(LatLng(0.0, 0.0), 1.0), WeightedLatLng(LatLng(1.0, 1.0), 100.0))
+
+
+
 }

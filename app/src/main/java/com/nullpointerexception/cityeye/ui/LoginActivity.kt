@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.se.omapi.Session
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.app.ActivityCompat
@@ -24,6 +25,7 @@ import com.nullpointerexception.cityeye.MainActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.data.LoginViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityLoginBinding
+import com.nullpointerexception.cityeye.util.SessionUtil
 
 class LoginActivity : AppCompatActivity() {
 
@@ -45,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        autoCheckUser()
+        SessionUtil().autoCheckUser(this)
 
         oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
@@ -88,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithCredential(firebaseCredential)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            proceedToMainScreen()
+                            SessionUtil().proceedToMainScreen(this)
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.exception)
                         }
@@ -100,13 +102,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun proceedToMainScreen(){
-        startActivity(Intent(this, MainActivity::class.java))
-    }
 
-    fun autoCheckUser(){
-        if(auth.currentUser != null){
-            proceedToMainScreen()
-        }
-    }
+
 }

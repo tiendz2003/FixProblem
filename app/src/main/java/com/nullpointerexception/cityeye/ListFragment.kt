@@ -1,20 +1,18 @@
 package com.nullpointerexception.cityeye
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nullpointerexception.cityeye.data.ListViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentListBinding
 import com.nullpointerexception.cityeye.entities.Problem
-import com.nullpointerexception.cityeye.ui.adapters.ProblemViewHolder
 import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProblems
 
 
@@ -37,10 +35,11 @@ class ListFragment : Fragment() {
         val options: FirestoreRecyclerOptions<Problem> = FirestoreRecyclerOptions.Builder<Problem>()
             .setQuery(query, Problem::class.java)
             .build()
-        adapter = RecyclerViewProblems(options)
+        adapter = RecyclerViewProblems(options, requireContext())
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.itemAnimator = null
 
         return binding.root
 
@@ -48,6 +47,12 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.layoutSwitch.setOnClickListener{
+            binding.recyclerView.layoutManager = if(adapter.toggleItemViewType()) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(), 2)
+
+        }
+
     }
 
     override fun onStart() {

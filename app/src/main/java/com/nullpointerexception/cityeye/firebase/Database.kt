@@ -2,6 +2,7 @@ package com.nullpointerexception.cityeye.firebase
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.location.Location
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -16,7 +17,7 @@ import java.io.File
 
 object Database {
 
-    fun addNormalProblem(context: Context, imageName:String, title:String, savedImageFile: File){
+    fun addNormalProblem(context: Context, imageName:String, title:String, savedImageFile: File, location:Location){
 
         val database = Firebase.firestore
         val storage = Firebase.storage
@@ -25,7 +26,9 @@ object Database {
         val problem = hashMapOf(
             "uid" to firebase.uid,
             "image" to imageName,
-            "title" to title
+            "title" to title,
+            "location_lat" to location.latitude.toString(),
+            "location_lon" to location.longitude.toString()
         )
 
 
@@ -46,22 +49,5 @@ object Database {
             Log.e("ERROR", it.stackTraceToString())
         }
 
-    }
-
-    fun getAllProblems(): MutableList<Problem> {
-        val database = Firebase.firestore
-        val problems = mutableListOf<Problem>()
-        database.collection("problems")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    println(document)
-                    problems.add(Problem(document.data["uid"].toString(), document.data["image"].toString(), document.data["title"].toString()))
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-        return problems
     }
 }
