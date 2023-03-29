@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/ic_google.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_fab.xml" value="0.3009833262077811" />
-        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_login.xml" value="0.31657608695652173" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_main2.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/content_main.xml" value="0.2815049864007253" />

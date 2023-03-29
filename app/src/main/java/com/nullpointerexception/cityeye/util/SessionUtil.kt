@@ -1,13 +1,11 @@
 package com.nullpointerexception.cityeye.util
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.MainActivity
-import com.nullpointerexception.cityeye.ui.LoginActivity
+import com.nullpointerexception.cityeye.LoginActivity
 
 class SessionUtil {
 

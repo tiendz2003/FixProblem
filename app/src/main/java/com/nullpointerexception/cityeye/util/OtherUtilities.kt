@@ -15,12 +15,5 @@ class OtherUtilities {
             .joinToString("")
     }
 
-    @SuppressLint("MissingPermission")
-    fun getCurrentLocation(view: View): Location? {
-        val locationManager =
-            view.context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-    }
 
 }

@@ -6,6 +6,7 @@ import android.location.Location
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -17,7 +18,7 @@ import java.io.File
 
 object Database {
 
-    fun addNormalProblem(context: Context, imageName:String, title:String, savedImageFile: File, location:Location){
+    fun addNormalProblem(context: Context, imageName:String, title:String, savedImageFile: File, location: LatLng){
 
         val database = Firebase.firestore
         val storage = Firebase.storage

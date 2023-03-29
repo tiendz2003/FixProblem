@@ -36,4 +36,24 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
+    <TextView
+        android:id="@+id/latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/longitude"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="176dp" />
+
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="356dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/space2"
+        tools:layout_editor_absoluteX="176dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

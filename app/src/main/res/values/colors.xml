@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="forgotPassword">#4285FA</color>
+    <color name="login">#190152</color>
+    <color name="or">#757171</color>
 </resources>

@@ -3,9 +3,9 @@ package com.nullpointerexception.cityeye.util
 import android.content.Context
 import android.os.Environment
 import android.view.View
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.nullpointerexception.cityeye.firebase.Database
 import java.io.File
 import java.text.SimpleDateFormat
@@ -15,13 +15,12 @@ object CameraUtil {
 
     private var currentPhotoPath: String? = null
 
-    fun retrieveImage(view:View) {
+    fun retrieveImage(view:View, location: LatLng) {
         val savedImageFile = currentPhotoPath?.let { File(it) }
 
-        val location = OtherUtilities().getCurrentLocation(view)
 
         Database.addNormalProblem(view.context,  savedImageFile!!.name, "Some title", savedImageFile,
-            location!!
+            location
         )
     }
 

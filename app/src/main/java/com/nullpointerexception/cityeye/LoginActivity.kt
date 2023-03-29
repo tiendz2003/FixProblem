@@ -1,4 +1,4 @@
-package com.nullpointerexception.cityeye.ui
+package com.nullpointerexception.cityeye
 
 import android.app.Activity
 import android.content.ContentValues
@@ -35,7 +35,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signInRequest: BeginSignInRequest
 
     private val REQ_ONE_TAP = 2
-    private var showOneTapUI = true
 
     private lateinit var auth: FirebaseAuth
 
@@ -59,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                     .build()
             ).build()
 
-        binding.button.setOnClickListener {
+        binding.googleButton.setOnClickListener {
             oneTapClient.beginSignIn(signInRequest)
                 .addOnSuccessListener(this) { result ->
                     try {
@@ -73,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
                 .addOnFailureListener(this) { e ->
-                    Log.d(TAG, e.localizedMessage)
+                    Log.d(TAG, e.localizedMessage!!)
                 }
         }
     }
@@ -81,23 +80,25 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
-        val idToken = googleCredential.googleIdToken
+        if(resultCode == -1){
+            val googleCredential = oneTapClient.getSignInCredentialFromIntent(data)
+            val idToken = googleCredential.googleIdToken
 
-        when {
-            idToken != null -> {
-                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                auth.signInWithCredential(firebaseCredential)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            SessionUtil().proceedToMainScreen(this)
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.exception)
+            when {
+                idToken != null -> {
+                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                    auth.signInWithCredential(firebaseCredential)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                SessionUtil().proceedToMainScreen(this)
+                            } else {
+                                Log.w(TAG, "signInWithCredential:failure", task.exception)
+                            }
                         }
-                    }
-            }
-            else -> {
-                Log.d(TAG, "No ID token!")
+                }
+                else -> {
+                    Log.d(TAG, "No ID token!")
+                }
             }
         }
     }
