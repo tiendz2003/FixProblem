@@ -1,6 +1,7 @@
 package com.nullpointerexception.cityeye
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Looper
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -42,13 +45,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     switchToFragment(listFragment)
-                   true
+                    true
                 }
             }
         }
 
-        ToolbarManager(binding.mainToolbar, Firebase.auth.currentUser!!, this)
+        Firebase.auth.currentUser?.let { ToolbarManager(binding.mainToolbar, it, this) }
 
+        if (Firebase.auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
 

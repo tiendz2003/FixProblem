@@ -1,9 +1,12 @@
 package com.nullpointerexception.cityeye.util
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.maps.model.LatLng
 import java.util.Date
-import com.google.type.DateTime
+import com.nullpointerexception.cityeye.ProblemPreview
+import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,8 +34,23 @@ class OtherUtilities {
     fun getTimeFromEpoch(epoch: Int): String {
         val date = Date(epoch.toLong() * 1000)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
-        val formattedDate = dateFormat.format(date)
-        return formattedDate
+        return dateFormat.format(date)
+    }
+
+    fun startProblemPreviewActivity(
+        image: File,
+        act: Activity,
+        latitude: Double,
+        longitude: Double
+    ) {
+        val activity = Intent(act.applicationContext, ProblemPreview::class.java)
+        activity.putExtra("image", image).putExtras(
+            OtherUtilities().makeCoordinatesBundle(
+                LatLng(latitude, longitude)
+            )
+        ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        act.startActivity(activity)
+
     }
 
 }

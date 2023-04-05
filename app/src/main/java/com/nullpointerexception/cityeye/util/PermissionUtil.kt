@@ -1,5 +1,6 @@
 package com.nullpointerexception.cityeye.util
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.app.Activity
 import android.app.AlertDialog
@@ -47,6 +48,29 @@ object PermissionUtils {
                 context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
             }
             .show()
+    }
+
+    fun requestPermission(activity: Activity): Boolean {
+
+        val permissions =
+            arrayOf(Manifest.permission.CAMERA, ACCESS_FINE_LOCATION)
+
+        if (ContextCompat.checkSelfPermission(
+                activity.applicationContext,
+                Manifest.permission.CAMERA
+            ) ==
+            PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                activity.applicationContext,
+                ACCESS_FINE_LOCATION
+            ) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        } else {
+            ActivityCompat.requestPermissions(activity, permissions, 100)
+        }
+        return false
     }
 
 }

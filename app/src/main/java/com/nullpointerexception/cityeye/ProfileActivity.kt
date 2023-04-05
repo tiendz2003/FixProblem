@@ -41,9 +41,14 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.backButton.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAfterTransition()
     }
 
     fun setImage() {

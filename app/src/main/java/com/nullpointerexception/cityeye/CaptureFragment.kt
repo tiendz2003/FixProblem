@@ -22,6 +22,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.installations.Utils
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
@@ -44,7 +45,6 @@ class CaptureFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
         return binding!!.root
@@ -54,8 +54,8 @@ class CaptureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.capture?.setOnClickListener {
-            if (requestPermission()) {
+        binding!!.capture.setOnClickListener {
+            if (PermissionUtils.requestPermission(requireActivity())) {
                 startCamera()
             }
         }
@@ -110,30 +110,16 @@ class CaptureFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            startProblemPreviewActivity(CameraUtil.retrieveImage())
+            OtherUtilities().startProblemPreviewActivity(
+                CameraUtil.retrieveImage(),
+                requireActivity(),
+                latitude,
+                longitude
+            )
         }
 
     }
 
-    private fun requestPermission(): Boolean {
-
-        val permissions =
-            arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
-            PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) ==
-            PackageManager.PERMISSION_GRANTED
-        ) {
-            return true
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), permissions, 100)
-        }
-        return false
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -146,7 +132,7 @@ class CaptureFragment : Fragment() {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    Log.i("PERMISSIONG", "All good")
+                    Log.i("PERMISSION", "All good")
                 } else {
 
                     Log.i("TAG", "LMAO")
@@ -185,16 +171,4 @@ class CaptureFragment : Fragment() {
             Looper.myLooper()
         )
     }
-
-    fun startProblemPreviewActivity(image: File) {
-        val activity = Intent(requireContext(), ProblemPreview::class.java)
-        activity.putExtra("image", image).putExtras(
-            OtherUtilities().makeCoordinatesBundle(
-                LatLng(latitude, longitude)
-            )
-        ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-        startActivity(activity)
-    }
-
-
 }

@@ -204,23 +204,25 @@ object FirebaseDatabase {
 
     suspend fun getProblems(problems: List<String>): List<Problem> =
         suspendCoroutine { continuation ->
-            val colRef = Firebase.firestore.collection("problems")
-            colRef.whereIn(FieldPath.documentId(), problems)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    val documents = querySnapshot.documents
-                    val problemList = mutableListOf<Problem>()
-                    for (document in documents) {
-                        val problem = document.toObject(Problem::class.java)
-                        if (problem != null) {
-                            problemList.add(problem)
+            if (problems.isNotEmpty()) {
+                val colRef = Firebase.firestore.collection("problems")
+                colRef.whereIn(FieldPath.documentId(), problems)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        val documents = querySnapshot.documents
+                        val problemList = mutableListOf<Problem>()
+                        for (document in documents) {
+                            val problem = document.toObject(Problem::class.java)
+                            if (problem != null) {
+                                problemList.add(problem)
+                            }
                         }
+                        continuation.resume(problemList)
                     }
-                    continuation.resume(problemList)
-                }
-                .addOnFailureListener { exception ->
-                    Log.d(TAG, "Error getting documents: ", exception)
-                }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Error getting documents: ", exception)
+                    }
+            }
         }
 
 
