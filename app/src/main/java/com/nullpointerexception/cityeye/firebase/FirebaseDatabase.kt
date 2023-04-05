@@ -6,8 +6,10 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.firestoreSettings
@@ -20,6 +22,9 @@ import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 object FirebaseDatabase {
 
@@ -45,7 +50,8 @@ object FirebaseDatabase {
             savedImageFile.name,
             address,
             location.latitude.toString(),
-            location.longitude.toString()
+            location.longitude.toString(),
+            (System.currentTimeMillis() / 1000).toInt()
         )
 
 
@@ -179,6 +185,43 @@ object FirebaseDatabase {
 
         return isDeleted
     }
+
+
+    suspend fun getUser(userID: String): User? = suspendCoroutine { continuation ->
+        val docRef = Firebase.firestore.collection("users").document(userID)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    continuation.resume(document.toObject(User::class.java))
+                } else {
+                    continuation.resume(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                continuation.resumeWithException(e)
+            }
+    }
+
+    suspend fun getProblems(problems: List<String>): List<Problem> =
+        suspendCoroutine { continuation ->
+            val colRef = Firebase.firestore.collection("problems")
+            colRef.whereIn(FieldPath.documentId(), problems)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val problemList = mutableListOf<Problem>()
+                    for (document in documents) {
+                        val problem = document.toObject(Problem::class.java)
+                        if (problem != null) {
+                            problemList.add(problem)
+                        }
+                    }
+                    continuation.resume(problemList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+        }
 
 
 }

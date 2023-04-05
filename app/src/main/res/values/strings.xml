@@ -36,12 +36,8 @@
     <string name="geocoderError">Unable to get address!</string>
 
     <string name="errorLogging">Error while logging in.</string>
-    <string name="title_activity_profile">ProfileActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="profileNoProblems">%1$d problems reported</string>
+    <string name="title_activity_profile">Profile</string>
 
 
 </resources>

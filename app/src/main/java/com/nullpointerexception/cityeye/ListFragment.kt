@@ -13,14 +13,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentListBinding
 import com.nullpointerexception.cityeye.entities.Problem
-import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProblems
+import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProblemsAdapter
 
 
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
     private lateinit var viewModel: ProblemPreviewViewModel
-    private lateinit var adapter: RecyclerViewProblems
+    private lateinit var adapter: RecyclerViewProblemsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +35,7 @@ class ListFragment : Fragment() {
         val options: FirestoreRecyclerOptions<Problem> = FirestoreRecyclerOptions.Builder<Problem>()
             .setQuery(query, Problem::class.java)
             .build()
-        adapter = RecyclerViewProblems(options, requireContext())
+        adapter = RecyclerViewProblemsAdapter(options, requireContext())
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

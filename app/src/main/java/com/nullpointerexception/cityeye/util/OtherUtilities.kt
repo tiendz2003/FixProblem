@@ -1,14 +1,13 @@
 package com.nullpointerexception.cityeye.util
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.net.toUri
 import com.google.android.gms.maps.model.LatLng
+import java.util.Date
+import com.google.type.DateTime
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class OtherUtilities {
 
@@ -27,6 +26,13 @@ class OtherUtilities {
         val args = Bundle()
         args.putParcelable("coordinates", coordinates)
         return args
+    }
+
+    fun getTimeFromEpoch(epoch: Int): String {
+        val date = Date(epoch.toLong() * 1000)
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val formattedDate = dateFormat.format(date)
+        return formattedDate
     }
 
 }

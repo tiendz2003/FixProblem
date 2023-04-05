@@ -20,8 +20,11 @@ import com.nullpointerexception.cityeye.databinding.ProblemLayoutListBinding
 import com.nullpointerexception.cityeye.entities.Problem
 import kotlin.random.Random
 
-class RecyclerViewProblems(options: FirestoreRecyclerOptions<Problem>, val context:Context) :
-    FirestoreRecyclerAdapter<Problem, RecyclerViewProblems.ProblemHolderView>(options) {
+class RecyclerViewProblemsAdapter(
+    options: FirestoreRecyclerOptions<Problem>,
+    val context: Context
+) :
+    FirestoreRecyclerAdapter<Problem, RecyclerViewProblemsAdapter.ProblemHolderView>(options) {
 
     var isSwitchView = true
 
@@ -31,7 +34,8 @@ class RecyclerViewProblems(options: FirestoreRecyclerOptions<Problem>, val conte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProblemHolderView {
 
-        val view:View = LayoutInflater.from(parent.context).inflate(R.layout.problem_layout_list, parent, false)
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.problem_layout_list, parent, false)
 
         return ProblemHolderView(view)
     }

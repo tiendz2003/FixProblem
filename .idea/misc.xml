@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/ic_google.xml" value="0.1" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/rounded_bckgr.xml" value="0.3465" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout-w1240dp/problem_preview_content.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout-w936dp/problem_preview_content.xml" value="0.14140625" />
@@ -30,6 +31,9 @@
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_preview_content_parameters.xml" value="0.14" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_review.xml" value="0.30055579307396324" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/profile_dropdown_item.xml" value="0.14688675302966986" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/profile_header.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/profile_problem_item.xml" value="0.75" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/profile_problems_layout.xml" value="0.30012825994014536" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/menu_problem_preview.xml" value="0.3009833262077811" />

@@ -7,5 +7,5 @@ data class User(
     val email: String? = null,
     val phoneNumber: String? = null,
     val provider: String? = null,
-    val problemIDs: Array<String>? = arrayOf()
+    val problems: List<String>? = listOf()
 )
