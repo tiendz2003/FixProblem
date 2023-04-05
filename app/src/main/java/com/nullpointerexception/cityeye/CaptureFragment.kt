@@ -22,8 +22,10 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.installations.Utils
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
+import com.nullpointerexception.cityeye.util.OtherUtilities
 import com.nullpointerexception.cityeye.util.PermissionUtils
 import java.io.File
 import java.io.IOException
@@ -33,8 +35,8 @@ class CaptureFragment : Fragment() {
 
     private var binding: FragmentCaptureBinding? = null
     private val REQUEST_IMAGE_CAPTURE = 1
-    private var latitude:Double = 0.0
-    private var longitude:Double = 0.0
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
 
 
     override fun onCreateView(
@@ -52,8 +54,8 @@ class CaptureFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.capture?.setOnClickListener{
-            if(requestPermission()){
+        binding?.capture?.setOnClickListener {
+            if (requestPermission()) {
                 startCamera()
             }
         }
@@ -86,7 +88,7 @@ class CaptureFragment : Fragment() {
         }
     }
 
-    private fun startCamera(){
+    private fun startCamera() {
         val photoFile: File? = try {
             CameraUtil.createImageFile(requireContext())
         } catch (ex: IOException) {
@@ -95,7 +97,11 @@ class CaptureFragment : Fragment() {
 
         photoFile?.also {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val photoURI: Uri = FileProvider.getUriForFile(requireContext(), "com.nullpointerexception.cityeye.fileprovider", it)
+            val photoURI: Uri = FileProvider.getUriForFile(
+                requireContext(),
+                "com.nullpointerexception.cityeye.fileprovider",
+                it
+            )
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
@@ -104,17 +110,22 @@ class CaptureFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            CameraUtil.retrieveImage(requireView(), LatLng(latitude, longitude))
+            startProblemPreviewActivity(CameraUtil.retrieveImage())
         }
+
     }
 
-    private fun requestPermission() : Boolean {
+    private fun requestPermission(): Boolean {
 
-        val permissions = arrayOf(android.Manifest.permission.CAMERA, android.Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissions =
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION)
 
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA) ==
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_GRANTED &&
-            ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) ==
             PackageManager.PERMISSION_GRANTED
         ) {
             return true
@@ -124,7 +135,11 @@ class CaptureFragment : Fragment() {
         return false
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             100 -> {
                 if (grantResults.isNotEmpty() &&
@@ -162,9 +177,6 @@ class CaptureFragment : Fragment() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
                     for (location in locationResult.locations) {
-                        binding?.latitude?.text = location.latitude.toString()
-                        binding?.longitude?.text = location.longitude.toString()
-
                         latitude = location.latitude
                         longitude = location.longitude
                     }
@@ -172,6 +184,16 @@ class CaptureFragment : Fragment() {
             },
             Looper.myLooper()
         )
+    }
+
+    fun startProblemPreviewActivity(image: File) {
+        val activity = Intent(requireContext(), ProblemPreview::class.java)
+        activity.putExtra("image", image).putExtras(
+            OtherUtilities().makeCoordinatesBundle(
+                LatLng(latitude, longitude)
+            )
+        ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(activity)
     }
 
 

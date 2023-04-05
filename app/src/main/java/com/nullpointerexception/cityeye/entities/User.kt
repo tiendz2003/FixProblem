@@ -1,3 +1,11 @@
 package com.nullpointerexception.cityeye.entities
 
-data class User(val uid:String, val displayName:String, val photoUrl:String, val email:String, val phoneNumber:String)
+data class User(
+    val uid: String? = null,
+    val displayName: String? = null,
+    val photoUrl: String? = null,
+    val email: String? = null,
+    val phoneNumber: String? = null,
+    val provider: String? = null,
+    val problemIDs: Array<String>? = arrayOf()
+)

@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.ktx.Firebase
@@ -43,17 +43,28 @@ class RecyclerViewProblems(options: FirestoreRecyclerOptions<Problem>, val conte
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: ProblemHolderView, position: Int, model: Problem) {
 
-            holder.binding.title.text = model.title
-            holder.binding.userID.text = model.uid
-            holder.binding.location.text = model.location_lat + " " + model.location_lon
+        holder.binding.title.text = model.title
+        holder.binding.location.text = model.address
 
-            holder.binding.layout.setBackgroundColor(Color.argb(100, Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)))
-            Firebase.storage.reference.child("images/${model.image}").downloadUrl.addOnSuccessListener {
-                    url -> Glide.with(holder.itemView).load(url).transform(CircleCrop()).into(holder.binding.image)
+        holder.binding.layout.setBackgroundColor(
+            Color.argb(
+                100,
+                Random.nextInt(256),
+                Random.nextInt(256),
+                Random.nextInt(256)
+            )
+        )
+        Firebase.storage.reference.child("images/${model.imageName}").downloadUrl.addOnSuccessListener { url ->
+            holder.binding.image.load(url) {
+                transformations(CircleCropTransformation())
             }
 
-        holder.binding.layout.animation = AnimationUtils.loadAnimation(context, R.anim.recycler_problem_animation)
         }
+
+        holder.binding.layout.animation =
+            AnimationUtils.loadAnimation(context, R.anim.recycler_problem_animation)
+
+    }
 
     fun toggleItemViewType(): Boolean {
         isSwitchView = !isSwitchView

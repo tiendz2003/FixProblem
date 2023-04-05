@@ -23,6 +23,25 @@
     <string name="or">or</string>
 
     <string name="profile_dropdown_signOut">Sign out</string>
+    <string name="title_activity_problem_preview">ProblemPreview</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="problemPreviewTitle">Title</string>
+    <string name="problemPreviewDescription">Description</string>
+    <string name="problemPreviewAddress">Address</string>
+    <string name="errorUploading">Error occured while uploading!</string>
+    <string name="problemExists">Problem already exists!</string>
+    <string name="problemUploaded">Problem uploaded successfully!</string>
+    <string name="noInternet">No internet connection!</string>
+    <string name="geocoderError">Unable to get address!</string>
+
+    <string name="errorLogging">Error while logging in.</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
 
 </resources>

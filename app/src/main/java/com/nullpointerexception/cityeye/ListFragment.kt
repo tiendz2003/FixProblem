@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import com.nullpointerexception.cityeye.data.ListViewModel
+import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentListBinding
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProblems
@@ -19,8 +19,8 @@ import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProblems
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
-    private lateinit var viewModel:ListViewModel
-    private lateinit var adapter:RecyclerViewProblems
+    private lateinit var viewModel: ProblemPreviewViewModel
+    private lateinit var adapter: RecyclerViewProblems
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +29,7 @@ class ListFragment : Fragment() {
 
         binding = FragmentListBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProvider(requireActivity())[ListViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[ProblemPreviewViewModel::class.java]
 
         val query = FirebaseFirestore.getInstance().collection("problems")
         val options: FirestoreRecyclerOptions<Problem> = FirestoreRecyclerOptions.Builder<Problem>()

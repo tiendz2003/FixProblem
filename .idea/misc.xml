@@ -5,13 +5,19 @@
       <map>
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/ic_google.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout-w1240dp/problem_preview_content.xml" value="0.1" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout-w936dp/problem_preview_content.xml" value="0.14140625" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_fab.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_main2.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_problem_preview.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/activity_profile.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/content_main.xml" value="0.2815049864007253" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/content_profile.xml" value="0.22" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/content_scrolling.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/custom_empty.xml" value="0.365625" />
-        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/custom_toolbar.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/custom_toolbar.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/fragment_capture.xml" value="0.2484134179510426" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/fragment_first.xml" value="0.2563405797101449" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/fragment_list.xml" value="0.33" />
@@ -20,9 +26,13 @@
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_layout.xml" value="0.5" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_layout_grid.xml" value="0.30012825994014536" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_layout_list.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_preview_content.xml" value="0.5" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_preview_content_parameters.xml" value="0.14" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/problem_review.xml" value="0.30055579307396324" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/layout/profile_dropdown_item.xml" value="0.14688675302966986" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/menu_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/menu_problem_preview.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/menu/profile_dropdown_menu.xml" value="0.1" />
         <entry key="..\:/Users/renat/AndroidStudioProjects/CityEye/app/src/main/res/xml/file_paths.xml" value="0.1" />
       </map>

@@ -1,30 +1,21 @@
 package com.nullpointerexception.cityeye
 
-import android.app.Activity
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.se.omapi.Session
 import android.util.Log
-import android.view.LayoutInflater
-import androidx.core.app.ActivityCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.nullpointerexception.cityeye.MainActivity
-import com.nullpointerexception.cityeye.R
-import com.nullpointerexception.cityeye.data.LoginViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityLoginBinding
+import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.SessionUtil
 
 class LoginActivity : AppCompatActivity() {
@@ -46,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        SessionUtil().autoCheckUser(this)
+        SessionUtil(this).autoCheckUser()
 
         oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
@@ -75,6 +66,16 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, e.localizedMessage!!)
                 }
         }
+
+        binding.loginButton.setOnClickListener {
+            SessionUtil(this).signInWithMail(
+                this,
+                binding.root,
+                auth,
+                binding.emailField.getText(),
+                binding.passwordField.getText()
+            )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -90,7 +91,8 @@ class LoginActivity : AppCompatActivity() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
-                                SessionUtil().proceedToMainScreen(this)
+                                FirebaseDatabase.addNewUser(this, "google")
+                                SessionUtil(this).proceedToMainScreen()
                             } else {
                                 Log.w(TAG, "signInWithCredential:failure", task.exception)
                             }
@@ -103,6 +105,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-
+    fun TextInputLayout.getText(): String {
+        return this.editText!!.text.toString()
+    }
 }
