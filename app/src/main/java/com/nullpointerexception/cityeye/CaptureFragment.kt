@@ -1,6 +1,7 @@
 package com.nullpointerexception.cityeye
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,16 +15,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.installations.Utils
+import com.google.android.gms.maps.model.MarkerOptions
+import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
@@ -35,9 +39,26 @@ import java.io.IOException
 class CaptureFragment : Fragment() {
 
     private var binding: FragmentCaptureBinding? = null
+    private lateinit var viewModel: CaptureViewModel
     private val REQUEST_IMAGE_CAPTURE = 1
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var hasZoomed = false
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        val myLocation =
+            LatLng(viewModel.coordinates.value!!.latitude, viewModel.coordinates.value!!.longitude)
+        googleMap.clear()
+        googleMap.addMarker(MarkerOptions().position(myLocation).title("My current location!"))
+        
+        if (!hasZoomed) {
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    myLocation, 17.0f
+                )
+            )
+            hasZoomed = true
+        }
+
+    }
 
 
     override fun onCreateView(
@@ -47,8 +68,9 @@ class CaptureFragment : Fragment() {
 
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
-        return binding!!.root
+        viewModel = ViewModelProvider(requireActivity())[CaptureViewModel::class.java]
 
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +80,11 @@ class CaptureFragment : Fragment() {
             if (PermissionUtils.requestPermission(requireActivity())) {
                 startCamera()
             }
+        }
+
+        viewModel.getCoordinates().observe(viewLifecycleOwner) {
+            val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+            mapFragment?.getMapAsync(callback)
         }
     }
 
@@ -113,8 +140,8 @@ class CaptureFragment : Fragment() {
             OtherUtilities().startProblemPreviewActivity(
                 CameraUtil.retrieveImage(),
                 requireActivity(),
-                latitude,
-                longitude
+                viewModel.coordinates.value!!.latitude,
+                viewModel.coordinates.value!!.longitude
             )
         }
 
@@ -142,6 +169,7 @@ class CaptureFragment : Fragment() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
         val locationRequest = LocationRequest().setInterval(500).setFastestInterval(1000)
@@ -163,8 +191,7 @@ class CaptureFragment : Fragment() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
                     for (location in locationResult.locations) {
-                        latitude = location.latitude
-                        longitude = location.longitude
+                        viewModel.setCoordinates(LatLng(location.latitude, location.longitude))
                     }
                 }
             },
