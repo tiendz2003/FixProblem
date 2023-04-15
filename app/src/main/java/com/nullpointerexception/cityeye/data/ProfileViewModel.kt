@@ -44,7 +44,7 @@ class ProfileViewModel : ViewModel() {
 
     fun getUserProblems(problems: List<String>) {
         viewModelScope.launch {
-            val problems = FirebaseDatabase.getProblems(problems)
+            val problems = FirebaseDatabase.getUserProblems(problems)
             setProblems(problems)
         }
     }

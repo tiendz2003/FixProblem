@@ -23,10 +23,12 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.heatmaps.HeatmapTileProvider
 import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
@@ -38,10 +40,11 @@ import java.io.IOException
 
 class CaptureFragment : Fragment() {
 
-    private var binding: FragmentCaptureBinding? = null
+    private lateinit var binding: FragmentCaptureBinding
     private lateinit var viewModel: CaptureViewModel
     private val REQUEST_IMAGE_CAPTURE = 1
     private var hasZoomed = false
+    private lateinit var myMap: SupportMapFragment
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
@@ -49,7 +52,10 @@ class CaptureFragment : Fragment() {
         googleMap.isMyLocationEnabled = true
 
         val myLocation =
-            LatLng(viewModel.coordinates.value!!.latitude, viewModel.coordinates.value!!.longitude)
+            LatLng(
+                viewModel.myCoordinates.value!!.latitude,
+                viewModel.myCoordinates.value!!.longitude
+            )
         googleMap.clear()
 
         if (!hasZoomed) {
@@ -60,6 +66,10 @@ class CaptureFragment : Fragment() {
             )
             hasZoomed = true
         }
+        viewModel.getCoordinates().observe(viewLifecycleOwner) {
+            makeHeatmap(googleMap)
+        }
+
 
     }
 
@@ -67,33 +77,32 @@ class CaptureFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[CaptureViewModel::class.java]
 
-        return binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding!!.capture.setOnClickListener {
+        binding.capture.setOnClickListener {
             if (PermissionUtils.requestPermission(requireActivity())) {
                 startCamera()
             }
         }
 
-        viewModel.getCoordinates().observe(viewLifecycleOwner) {
-            val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-            mapFragment?.getMapAsync(callback)
+        viewModel.getMyCoordinates().observe(viewLifecycleOwner) {
+            myMap = (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
+            myMap.getMapAsync(callback)
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+        viewModel.loadProblemCoordinates()
+
+
     }
 
     override fun onStart() {
@@ -143,8 +152,8 @@ class CaptureFragment : Fragment() {
             OtherUtilities().startProblemPreviewActivity(
                 CameraUtil.retrieveImage(),
                 requireActivity(),
-                viewModel.coordinates.value!!.latitude,
-                viewModel.coordinates.value!!.longitude
+                viewModel.myCoordinates.value!!.latitude,
+                viewModel.myCoordinates.value!!.longitude
             )
         }
 
@@ -194,11 +203,21 @@ class CaptureFragment : Fragment() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
                     for (location in locationResult.locations) {
-                        viewModel.setCoordinates(LatLng(location.latitude, location.longitude))
+                        viewModel.setMyCoordinates(LatLng(location.latitude, location.longitude))
                     }
                 }
             },
             Looper.myLooper()
         )
+    }
+
+    private fun makeHeatmap(googleMap: GoogleMap) {
+        val heatmapProvider = HeatmapTileProvider.Builder()
+            .data(viewModel.getCoordinates().value)
+            .radius(20)
+            .build()
+
+        val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider)
+        googleMap.addTileOverlay(tileOverlayOptions)
     }
 }

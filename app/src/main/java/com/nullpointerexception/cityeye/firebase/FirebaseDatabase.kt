@@ -6,19 +6,15 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.entities.User
-import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
@@ -220,7 +216,7 @@ object FirebaseDatabase {
             }
     }
 
-    suspend fun getProblems(problems: List<String>): List<Problem> =
+    suspend fun getUserProblems(problems: List<String>): List<Problem> =
         suspendCoroutine { continuation ->
             if (problems.isNotEmpty()) {
                 val colRef = Firebase.firestore.collection("problems")
@@ -243,5 +239,24 @@ object FirebaseDatabase {
             }
         }
 
+    suspend fun getAllProblems(): List<Problem> =
+        suspendCoroutine { continuation ->
+            val colRef = Firebase.firestore.collection("problems")
+            colRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val problemList = mutableListOf<Problem>()
+                    for (document in documents) {
+                        val problem = document.toObject(Problem::class.java)
+                        if (problem != null) {
+                            problemList.add(problem)
+                        }
+                    }
+                    continuation.resume(problemList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
 
+        }
 }
