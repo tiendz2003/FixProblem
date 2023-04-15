@@ -49,6 +49,10 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
 
+        val uiSettings = googleMap.uiSettings
+        uiSettings.isMyLocationButtonEnabled = true
+        uiSettings.isCompassEnabled = true
+
         googleMap.isMyLocationEnabled = true
 
         val myLocation =

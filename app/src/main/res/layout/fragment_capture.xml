@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@+id/map"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_margin="40dp"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="650dp"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
     <fragment
@@ -20,6 +20,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
