@@ -43,12 +43,15 @@ class CaptureFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var hasZoomed = false
 
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
+
+        googleMap.isMyLocationEnabled = true
+
         val myLocation =
             LatLng(viewModel.coordinates.value!!.latitude, viewModel.coordinates.value!!.longitude)
         googleMap.clear()
-        googleMap.addMarker(MarkerOptions().position(myLocation).title("My current location!"))
-        
+
         if (!hasZoomed) {
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
@@ -172,7 +175,7 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(500).setFastestInterval(1000)
+        val locationRequest = LocationRequest().setInterval(100).setFastestInterval(500)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,

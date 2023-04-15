@@ -17,6 +17,9 @@ import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.databinding.ActivityLoginBinding
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.SessionUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -91,7 +94,11 @@ class LoginActivity : AppCompatActivity() {
                     auth.signInWithCredential(firebaseCredential)
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
-                                FirebaseDatabase.addNewUser(this, "google")
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    if (!FirebaseDatabase.isDuplicateUser(Firebase.auth.currentUser!!.uid)) {
+                                        FirebaseDatabase.addNewUser(applicationContext, "google")
+                                    }
+                                }
                                 SessionUtil(this).proceedToMainScreen()
                             } else {
                                 Log.w(TAG, "signInWithCredential:failure", task.exception)

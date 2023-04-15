@@ -31,6 +31,7 @@
     <string name="problemPreviewAddress">Address</string>
     <string name="errorUploading">Error occured while uploading!</string>
     <string name="problemExists">Problem already exists!</string>
+    <string name="userExists">User already exists!</string>
     <string name="problemUploaded">Problem uploaded successfully!</string>
     <string name="noInternet">No internet connection!</string>
     <string name="geocoderError">Unable to get address!</string>

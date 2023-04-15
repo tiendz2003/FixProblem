@@ -127,38 +127,56 @@ object FirebaseDatabase {
         return isDuplicate
     }
 
+    suspend fun isDuplicateUser(uid: String): Boolean = suspendCoroutine { continuation ->
+        val database = Firebase.firestore
+        val colRef = database.collection("users").document(uid)
+
+        colRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    continuation.resume(true)
+                } else {
+                    continuation.resume(false)
+                }
+            }
+            .addOnFailureListener { e ->
+                continuation.resumeWithException(e)
+            }
+    }
+
     fun addNewUser(context: Context, provider: String): Boolean {
 
         val loggedUser = Firebase.auth.currentUser
         val database = Firebase.firestore
 
         val newUser = User(
-            loggedUser!!.uid,
-            loggedUser.displayName,
-            loggedUser.photoUrl.toString(),
-            loggedUser.email,
-            loggedUser.phoneNumber,
+            loggedUser?.uid,
+            loggedUser?.displayName,
+            loggedUser?.photoUrl.toString(),
+            loggedUser?.email,
+            loggedUser?.phoneNumber,
             provider
         )
 
-        if (NetworkUtil.isNetworkAvailable(context)
-        ) {
-            database.collection("users").document(loggedUser.uid)
-                .set(newUser).addOnSuccessListener {
-                    Toast.makeText(
-                        context,
-                        context.resources.getString(R.string.welcome),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        context.resources.getString(R.string.errorLogging),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@addOnFailureListener
-                }
+        if (NetworkUtil.isNetworkAvailable(context)) {
+            loggedUser?.let {
+                database.collection("users").document(it.uid)
+                    .set(newUser).addOnSuccessListener {
+                        Toast.makeText(
+                            context,
+                            context.resources.getString(R.string.welcome),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            context,
+                            context.resources.getString(R.string.errorLogging),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@addOnFailureListener
+                    }
+            }
         } else {
             Toast.makeText(
                 context,

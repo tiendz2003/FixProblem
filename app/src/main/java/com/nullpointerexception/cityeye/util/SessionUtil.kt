@@ -16,6 +16,9 @@ import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.MainActivity
 import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SessionUtil(private val activity: Activity) {
 
@@ -55,8 +58,12 @@ class SessionUtil(private val activity: Activity) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity) { task ->
                     if (task.isSuccessful) {
-                        FirebaseDatabase.addNewUser(context, "email")
-                        proceedToMainScreen()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            if (!FirebaseDatabase.isDuplicateUser(Firebase.auth.currentUser!!.uid)) {
+                                FirebaseDatabase.addNewUser(context, "email")
+                            }
+                            proceedToMainScreen()
+                        }
                     } else {
                         //if user is logged in with google
                         Snackbar.make(
