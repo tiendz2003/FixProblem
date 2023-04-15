@@ -29,6 +29,7 @@
     <string name="problemPreviewTitle">Title</string>
     <string name="problemPreviewDescription">Description</string>
     <string name="problemPreviewAddress">Address</string>
+    <string name="titleOrDescriptionTooLong">Title or description is too long!</string>
     <string name="errorUploading">Error occured while uploading!</string>
     <string name="problemExists">Problem already exists!</string>
     <string name="userExists">User already exists!</string>

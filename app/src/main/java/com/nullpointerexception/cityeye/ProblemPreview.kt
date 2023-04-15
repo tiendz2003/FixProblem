@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
@@ -44,26 +45,34 @@ class ProblemPreview : AppCompatActivity() {
         setProblemImage()
         viewModel.address.value?.let { setAddressText(it) }
 
-        //MLUtil(this, viewModel.image.value!!)
-
         binding.fab.setOnClickListener {
             swapFocusFields()
 
-            if (
-                FirebaseDatabase.addNormalProblem(
-                    this,
-                    binding.contentScrolling.problemTitleEditText!!.text(),
-                    binding.contentScrolling.problemDescriptionEditText!!.text(),
-                    viewModel.image.value!!,
-                    viewModel.coordinates.value!!,
-                    viewModel.address.value!!
+            if (!binding.contentScrolling.problemTitleEditText!!.checkIfCharactersExceed(20) && !binding.contentScrolling.problemDescriptionEditText!!.checkIfCharactersExceed(
+                    50
                 )
             ) {
-                finish()
-            } else {
-                swapFocusFields()
-                clearAllFields()
+                if (FirebaseDatabase.addNormalProblem(
+                        this,
+                        binding.contentScrolling.problemTitleEditText!!.text(),
+                        binding.contentScrolling.problemDescriptionEditText!!.text(),
+                        viewModel.image.value!!,
+                        viewModel.coordinates.value!!,
+                        viewModel.address.value!!
+                    )
+                ) {
+                    finish()
+                } else {
+                    swapFocusFields()
+                    clearAllFields()
 
+                }
+            } else {
+                Snackbar.make(
+                    window.decorView.rootView,
+                    resources.getString(R.string.titleOrDescriptionTooLong),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -102,6 +111,13 @@ class ProblemPreview : AppCompatActivity() {
             field.isEnabled = !areFieldsEnabled
         }
         areFieldsEnabled = !areFieldsEnabled
-
     }
+
+    fun TextInputLayout.checkIfCharactersExceed(amount: Int): Boolean {
+        if (this.text().length > amount) {
+            return true
+        }
+        return false
+    }
+
 }

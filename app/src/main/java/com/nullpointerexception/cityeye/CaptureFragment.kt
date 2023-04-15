@@ -184,7 +184,7 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(100).setFastestInterval(500)
+        val locationRequest = LocationRequest().setInterval(1).setFastestInterval(5)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,
@@ -214,7 +214,7 @@ class CaptureFragment : Fragment() {
     private fun makeHeatmap(googleMap: GoogleMap) {
         val heatmapProvider = HeatmapTileProvider.Builder()
             .data(viewModel.getCoordinates().value)
-            .radius(20)
+            .radius(40)
             .build()
 
         val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider)
