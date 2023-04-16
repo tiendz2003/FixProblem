@@ -53,4 +53,5 @@ class CaptureViewModel : ViewModel() {
         }
     }
 
+
 }

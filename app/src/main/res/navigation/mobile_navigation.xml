@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_capture"
-        android:name="com.nullpointerexception.cityeye.CaptureFragment"
+        android:name="com.nullpointerexception.cityeye.ui.fragments.CaptureFragment"
         android:label="@string/capture"
         tools:layout="@layout/fragment_capture">
         <action
@@ -17,9 +17,9 @@
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.nullpointerexception.cityeye.ListFragment"
-        android:label="@string/list"
-        tools:layout="@layout/fragment_list" >
+        android:name="com.nullpointerexception.cityeye.ui.fragments.ListFragment"
+        android:label="@string/reports"
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_navigation_list_to_navigation_capture"
             app:destination="@id/navigation_capture" />

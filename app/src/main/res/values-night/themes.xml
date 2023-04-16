@@ -4,7 +4,7 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorBlack">@color/white</item>
-        <item name="colorWhite">@color/white</item>
+        <item name="colorWhite">@color/black</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 

@@ -5,7 +5,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListFragment">
+    tools:context=".ui.fragments.ListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,24 +21,28 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_format_list_bulleted_24"/>
+            android:src="@drawable/ic_baseline_format_list_bulleted_24"
+            app:tint="?attr/colorBlack" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/layoutSwitch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:checked="false" />
+
         <ImageView
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_view_module_24"/>
+            android:src="@drawable/ic_baseline_view_module_24"
+            app:tint="?attr/colorBlack" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="124dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

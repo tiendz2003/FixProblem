@@ -2,7 +2,7 @@
     <string name="app_name">CityEye</string>
     <string name="title_activity_login">Login activity</string>
     <string name="capture">Capture</string>
-    <string name="list">List</string>
+    <string name="reports">Reports</string>
 
 
     <string name="client_ID">626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com</string>
@@ -29,6 +29,8 @@
     <string name="problemPreviewTitle">Title</string>
     <string name="problemPreviewDescription">Description</string>
     <string name="problemPreviewAddress">Address</string>
+    <string name="details">Details</string>
+    <string name="send">SEND</string>
     <string name="titleOrDescriptionTooLong">Title or description is too long!</string>
     <string name="errorUploading">Error occured while uploading!</string>
     <string name="problemExists">Problem already exists!</string>

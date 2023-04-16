@@ -1,26 +1,16 @@
 package com.nullpointerexception.cityeye
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.databinding.ActivityMainBinding
 import com.nullpointerexception.cityeye.ui.custom.ToolbarManager
-import com.nullpointerexception.cityeye.util.LocationUtil
-import com.nullpointerexception.cityeye.util.PermissionUtils
+import com.nullpointerexception.cityeye.ui.fragments.CaptureFragment
+import com.nullpointerexception.cityeye.ui.fragments.ListFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -15,6 +15,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CityEye"
@@ -24,6 +25,17 @@
                 app:layout_constraintHorizontal_bias="0.071"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_notification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/userImage"
+                app:layout_constraintHorizontal_bias="0.877"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorBlack" />
 
             <ImageView
                 android:id="@+id/userImage"

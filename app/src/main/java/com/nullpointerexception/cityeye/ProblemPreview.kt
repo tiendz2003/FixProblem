@@ -20,7 +20,6 @@ class ProblemPreview : AppCompatActivity() {
 
     private lateinit var binding: ActivityProblemPreviewBinding
     private lateinit var viewModel: ProblemPreviewViewModel
-    private var areFieldsEnabled = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +27,6 @@ class ProblemPreview : AppCompatActivity() {
 
         binding = ActivityProblemPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setSupportActionBar(findViewById(R.id.toolbar))
-        binding.toolbarLayout.title = title
 
         viewModel = ViewModelProvider(this)[ProblemPreviewViewModel::class.java]
 
@@ -46,26 +42,21 @@ class ProblemPreview : AppCompatActivity() {
         viewModel.address.value?.let { setAddressText(it) }
 
         binding.fab.setOnClickListener {
-            swapFocusFields()
 
-            if (!binding.contentScrolling.problemTitleEditText!!.checkIfCharactersExceed(20) && !binding.contentScrolling.problemDescriptionEditText!!.checkIfCharactersExceed(
+            if (!binding.problemTitleEditText.checkIfCharactersExceed(20) && !binding.problemDescriptionEditText.checkIfCharactersExceed(
                     50
                 )
             ) {
                 if (FirebaseDatabase.addNormalProblem(
                         this,
-                        binding.contentScrolling.problemTitleEditText!!.text(),
-                        binding.contentScrolling.problemDescriptionEditText!!.text(),
+                        binding.problemTitleEditText.text(),
+                        binding.problemDescriptionEditText.text(),
                         viewModel.image.value!!,
                         viewModel.coordinates.value!!,
                         viewModel.address.value!!
                     )
                 ) {
                     finish()
-                } else {
-                    swapFocusFields()
-                    clearAllFields()
-
                 }
             } else {
                 Snackbar.make(
@@ -75,10 +66,15 @@ class ProblemPreview : AppCompatActivity() {
                 ).show()
             }
         }
+
+
+        binding.back.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setAddressText(address: String) {
-        binding.contentScrolling.address!!.text = address
+        binding.address.text = address
     }
 
     private fun setProblemImage() {
@@ -91,30 +87,12 @@ class ProblemPreview : AppCompatActivity() {
         return this.editText?.text.toString()
     }
 
-    fun TextInputLayout.empty() {
+    private fun TextInputLayout.empty() {
         this.editText?.text?.clear()
     }
 
-    fun clearAllFields() {
-        val fields =
-            this.binding.contentScrolling.constraintLayout!!.children.filterIsInstance<TextInputLayout>()
-        for (field in fields) {
-            field.empty()
-        }
-    }
-
-    fun swapFocusFields() {
-        val fields =
-            this.binding.contentScrolling.constraintLayout!!.children.filterIsInstance<TextInputEditText>()
-
-        for (field in fields) {
-            field.isEnabled = !areFieldsEnabled
-        }
-        areFieldsEnabled = !areFieldsEnabled
-    }
-
-    fun TextInputLayout.checkIfCharactersExceed(amount: Int): Boolean {
-        if (this.text().length > amount) {
+    private fun TextInputLayout.checkIfCharactersExceed(amount: Int): Boolean {
+        if (this.text().length > amount || this.text().length < 5) {
             return true
         }
         return false

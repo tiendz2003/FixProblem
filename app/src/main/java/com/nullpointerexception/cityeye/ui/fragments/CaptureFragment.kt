@@ -1,4 +1,4 @@
-package com.nullpointerexception.cityeye
+package com.nullpointerexception.cityeye.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -29,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.heatmaps.HeatmapTileProvider
+import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
@@ -45,6 +46,7 @@ class CaptureFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1
     private var hasZoomed = false
     private lateinit var myMap: SupportMapFragment
+
 
     @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
@@ -73,8 +75,7 @@ class CaptureFragment : Fragment() {
         viewModel.getCoordinates().observe(viewLifecycleOwner) {
             makeHeatmap(googleMap)
         }
-
-
+        binding.capture.visibility = View.VISIBLE
     }
 
 
@@ -153,12 +154,14 @@ class CaptureFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            OtherUtilities().startProblemPreviewActivity(
-                CameraUtil.retrieveImage(),
-                requireActivity(),
-                viewModel.myCoordinates.value!!.latitude,
-                viewModel.myCoordinates.value!!.longitude
-            )
+            if (viewModel.myCoordinates.value != null) {
+                OtherUtilities().startProblemPreviewActivity(
+                    CameraUtil.retrieveImage(),
+                    requireActivity(),
+                    viewModel.myCoordinates.value!!.latitude,
+                    viewModel.myCoordinates.value!!.longitude
+                )
+            }
         }
 
     }
@@ -221,7 +224,9 @@ class CaptureFragment : Fragment() {
             .radius(40)
             .build()
 
-        val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider)
+        val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider).fadeIn(true)
         googleMap.addTileOverlay(tileOverlayOptions)
+
+
     }
 }
