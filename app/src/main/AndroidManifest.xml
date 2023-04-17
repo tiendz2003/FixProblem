@@ -21,6 +21,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -34,9 +35,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CityEye">
 
+        <service
+            android:name=".firebase.FirebaseMessages"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_id" />
 
         <activity
             android:name=".ProfileActivity"

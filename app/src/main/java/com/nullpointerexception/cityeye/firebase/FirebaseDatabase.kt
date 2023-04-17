@@ -6,11 +6,15 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Problem
@@ -145,42 +149,53 @@ object FirebaseDatabase {
         val loggedUser = Firebase.auth.currentUser
         val database = Firebase.firestore
 
-        val newUser = User(
-            loggedUser?.uid,
-            loggedUser?.displayName,
-            loggedUser?.photoUrl.toString(),
-            loggedUser?.email,
-            loggedUser?.phoneNumber,
-            provider
-        )
-
-        if (NetworkUtil.isNetworkAvailable(context)) {
-            loggedUser?.let {
-                database.collection("users").document(it.uid)
-                    .set(newUser).addOnSuccessListener {
-                        Toast.makeText(
-                            context,
-                            context.resources.getString(R.string.welcome),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(
-                            context,
-                            context.resources.getString(R.string.errorLogging),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@addOnFailureListener
-                    }
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
             }
-        } else {
-            Toast.makeText(
-                context,
-                context.resources.getString(R.string.errorUploading),
-                Toast.LENGTH_SHORT
-            ).show()
-            return false
-        }
+
+            val token = task.result
+            val newUser = User(
+                loggedUser?.uid,
+                loggedUser?.displayName,
+                loggedUser?.photoUrl.toString(),
+                loggedUser?.email,
+                loggedUser?.phoneNumber,
+                provider,
+                token
+            )
+
+            if (NetworkUtil.isNetworkAvailable(context)) {
+                loggedUser?.let {
+                    database.collection("users").document(it.uid)
+                        .set(newUser).addOnSuccessListener {
+                            Toast.makeText(
+                                context,
+                                context.resources.getString(R.string.welcome),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                context,
+                                context.resources.getString(R.string.errorLogging),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@addOnFailureListener
+                        }
+                }
+            } else {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.errorUploading),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@OnCompleteListener
+            }
+        })
+
+
         return true
     }
 

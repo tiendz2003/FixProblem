@@ -43,5 +43,6 @@
     <string name="profileNoProblems">%1$d problems reported</string>
     <string name="title_activity_profile">Profile</string>
 
+    <string name="notification_channel_id">CHANNEL_ID</string>
 
 </resources>

@@ -219,14 +219,14 @@ class CaptureFragment : Fragment() {
     }
 
     private fun makeHeatmap(googleMap: GoogleMap) {
-        val heatmapProvider = HeatmapTileProvider.Builder()
-            .data(viewModel.getCoordinates().value)
-            .radius(40)
-            .build()
+        if (viewModel.getCoordinates().value!!.isNotEmpty()) {
+            val heatmapProvider = HeatmapTileProvider.Builder()
+                .data(viewModel.getCoordinates().value)
+                .radius(40)
+                .build()
 
-        val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider).fadeIn(true)
-        googleMap.addTileOverlay(tileOverlayOptions)
-
-
+            val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider).fadeIn(true)
+            googleMap.addTileOverlay(tileOverlayOptions)
+        }
     }
 }
