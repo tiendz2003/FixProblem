@@ -46,12 +46,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (Firebase.auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+        askNotificationPermission()
+
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_capture -> {
                     switchToFragment(captureFragment)
                     true
                 }
+
                 else -> {
                     switchToFragment(listFragment)
                     true
@@ -61,10 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         Firebase.auth.currentUser?.let { ToolbarManager(binding.mainToolbar, it, this) }
 
-        if (Firebase.auth.currentUser == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            askNotificationPermission()
-        }
+
     }
 
 

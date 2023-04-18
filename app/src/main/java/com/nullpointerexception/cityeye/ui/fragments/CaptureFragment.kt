@@ -74,6 +74,7 @@ class CaptureFragment : Fragment() {
         }
         viewModel.getCoordinates().observe(viewLifecycleOwner) {
             makeHeatmap(googleMap)
+            binding.indicator.hide()
         }
         binding.capture.visibility = View.VISIBLE
     }
@@ -106,7 +107,9 @@ class CaptureFragment : Fragment() {
         }
 
         viewModel.loadProblemCoordinates()
+        setUpLocationListener(this.activity as AppCompatActivity)
 
+        binding.indicator.show()
 
     }
 
@@ -178,6 +181,7 @@ class CaptureFragment : Fragment() {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED
                 ) {
+                    startCamera()
                     Log.i("PERMISSION", "All good")
                 } else {
 

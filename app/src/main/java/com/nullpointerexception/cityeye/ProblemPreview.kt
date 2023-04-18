@@ -43,20 +43,30 @@ class ProblemPreview : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
 
+
             if (!binding.problemTitleEditText.checkIfCharactersExceed(20) && !binding.problemDescriptionEditText.checkIfCharactersExceed(
                     50
                 )
             ) {
-                if (FirebaseDatabase.addNormalProblem(
-                        this,
-                        binding.problemTitleEditText.text(),
-                        binding.problemDescriptionEditText.text(),
-                        viewModel.image.value!!,
-                        viewModel.coordinates.value!!,
-                        viewModel.address.value!!
-                    )
-                ) {
-                    finish()
+
+                if (!binding.problemTitleEditText.checkIfHasLessAmountOfCharacters() && !binding.problemDescriptionEditText.checkIfHasLessAmountOfCharacters()) {
+                    if (FirebaseDatabase.addNormalProblem(
+                            this,
+                            binding.problemTitleEditText.text(),
+                            binding.problemDescriptionEditText.text(),
+                            viewModel.image.value!!,
+                            viewModel.coordinates.value!!,
+                            viewModel.address.value!!
+                        )
+                    ) {
+                        finish()
+                    }
+                } else {
+                    Snackbar.make(
+                        window.decorView.rootView,
+                        resources.getString(R.string.titleOrDescriptionNotLongEnough),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             } else {
                 Snackbar.make(
@@ -92,7 +102,14 @@ class ProblemPreview : AppCompatActivity() {
     }
 
     private fun TextInputLayout.checkIfCharactersExceed(amount: Int): Boolean {
-        if (this.text().length > amount || this.text().length < 5) {
+        if (this.text().length > amount) {
+            return true
+        }
+        return false
+    }
+
+    private fun TextInputLayout.checkIfHasLessAmountOfCharacters(): Boolean {
+        if (this.text().length < 5) {
             return true
         }
         return false

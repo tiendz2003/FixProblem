@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.CaptureFragment">
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/capture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@+id/map"
-        android:layout_marginStart="330dp"
-        android:layout_marginTop="650dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="50dp"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24"
         android:visibility="invisible" />
+
 
     <fragment
         android:id="@+id/map"
@@ -27,6 +28,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".MapsFragment" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/indicator"
+        android:indeterminate="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

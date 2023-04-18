@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 
 class CaptureViewModel : ViewModel() {
 
@@ -32,6 +32,7 @@ class CaptureViewModel : ViewModel() {
     fun getCoordinates(): MutableLiveData<List<LatLng>> {
         return _problemCoordinates
     }
+
 
     fun loadProblemCoordinates() {
         viewModelScope.launch {

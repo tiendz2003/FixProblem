@@ -32,6 +32,7 @@
     <string name="details">Details</string>
     <string name="send">SEND</string>
     <string name="titleOrDescriptionTooLong">Title or description is too long!</string>
+    <string name="titleOrDescriptionNotLongEnough">Title or description is not long enough!</string>
     <string name="errorUploading">Error occured while uploading!</string>
     <string name="problemExists">Problem already exists!</string>
     <string name="userExists">User already exists!</string>

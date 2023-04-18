@@ -45,8 +45,8 @@ object FirebaseDatabase {
 
         val problem = Problem(
             firebase.uid,
-            title,
-            description,
+            title.trim(),
+            description.trim(),
             savedImageFile.name,
             address,
             location.latitude.toString(),
