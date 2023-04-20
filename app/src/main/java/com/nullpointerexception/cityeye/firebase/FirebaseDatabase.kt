@@ -7,18 +7,18 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
+import com.nullpointerexception.cityeye.entities.Answer
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.entities.User
+import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
@@ -43,15 +43,20 @@ object FirebaseDatabase {
         val storage = Firebase.storage
         val firebase = Firebase.auth
 
+        val problemID = OtherUtilities().getRandomString(20)
+
         val problem = Problem(
             firebase.uid,
+            problemID,
             title.trim(),
             description.trim(),
             savedImageFile.name,
             address,
             location.latitude.toString(),
             location.longitude.toString(),
-            (System.currentTimeMillis() / 1000).toInt()
+            (System.currentTimeMillis() / 1000).toInt(),
+            null,
+            false
         )
 
 
@@ -60,7 +65,7 @@ object FirebaseDatabase {
                 savedImageFile.name
             )
         ) {
-            val problemID = OtherUtilities().getRandomString(20)
+
 
             val imagesRef = storage.reference.child("images/${savedImageFile.name}")
             val problemRef = database.collection("problems").document(problemID)
@@ -163,7 +168,9 @@ object FirebaseDatabase {
                 loggedUser?.email,
                 loggedUser?.phoneNumber,
                 provider,
-                token
+                token,
+                listOf(),
+                listOf()
             )
 
             if (NetworkUtil.isNetworkAvailable(context)) {
@@ -199,6 +206,32 @@ object FirebaseDatabase {
         return true
     }
 
+    fun updateFCMToken(context: Context) {
+
+        val database = Firebase.firestore
+        val loggedUser = Firebase.auth.currentUser
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+
+            if (NetworkUtil.isNetworkAvailable(context)) {
+                loggedUser?.let {
+                    database.collection("users").document(it.uid)
+                        .update("fcmToken", token).addOnSuccessListener {
+                        }
+                        .addOnFailureListener {
+                        }
+                }
+            }
+        })
+
+    }
+
     fun removeImage(imageName: String): Boolean {
         val storageRef = Firebase.storage.reference
 
@@ -231,6 +264,25 @@ object FirebaseDatabase {
             }
     }
 
+    suspend fun getProblemById(id: String): Problem? =
+        suspendCoroutine { continuation ->
+            val docRef = Firebase.firestore.collection("problems").whereEqualTo("problemID", id)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    val documents = document.documents
+                    for (document in documents) {
+                        val problem = document.toObject(Problem::class.java)
+                        if (problem != null) {
+                            continuation.resume(problem)
+                        }
+                    }
+
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+        }
+
     suspend fun getUserProblems(problems: List<String>): List<Problem> =
         suspendCoroutine { continuation ->
             if (problems.isNotEmpty()) {
@@ -247,6 +299,29 @@ object FirebaseDatabase {
                             }
                         }
                         continuation.resume(problemList)
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Error getting documents: ", exception)
+                    }
+            }
+        }
+
+    suspend fun getUserNotifications(notifications: List<String>): List<UserNotification> =
+        suspendCoroutine { continuation ->
+            if (notifications.isNotEmpty()) {
+                val colRef = Firebase.firestore.collection("userNotifications")
+                colRef.whereIn(FieldPath.documentId(), notifications)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        val documents = querySnapshot.documents
+                        val notificationsList = mutableListOf<UserNotification>()
+                        for (document in documents) {
+                            val notification = document.toObject(UserNotification::class.java)
+                            if (notification != null) {
+                                notificationsList.add(notification)
+                            }
+                        }
+                        continuation.resume(notificationsList)
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAG, "Error getting documents: ", exception)
@@ -274,4 +349,33 @@ object FirebaseDatabase {
                 }
 
         }
+
+    suspend fun getAllAnswersForUser(userID: String): List<Answer> =
+        suspendCoroutine { continuation ->
+            val colRef = Firebase.firestore.collection("answers").whereEqualTo("userID", userID)
+            colRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val answersList = mutableListOf<Answer>()
+                    for (document in documents) {
+                        val answer = document.toObject(Answer::class.java)
+                        if (answer != null) {
+                            answersList.add(answer)
+                        }
+                    }
+                    continuation.resume(answersList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+
+        }
+
+    fun markNotificationAsRead(notificationID: String) {
+        val database = Firebase.firestore
+        database.collection("userNotifications").document(notificationID)
+            .update("isRead", true).addOnSuccessListener {
+            }
+    }
+
 }

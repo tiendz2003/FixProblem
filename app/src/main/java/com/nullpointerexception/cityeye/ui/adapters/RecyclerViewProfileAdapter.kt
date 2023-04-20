@@ -1,6 +1,7 @@
 package com.nullpointerexception.cityeye.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.nullpointerexception.cityeye.ProblemDetailActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.ProfileProblemItemBinding
 import com.nullpointerexception.cityeye.entities.Problem
@@ -41,6 +43,12 @@ class RecyclerViewProfileAdapter(val context: Context, val problems: ArrayList<P
             holder.binding.image.load(url) {
                 transformations(CircleCropTransformation())
             }
+        }
+
+        holder.binding.layout.setOnClickListener {
+            val intent = Intent(context, ProblemDetailActivity::class.java)
+            intent.putExtra("problemID", problem.problemID!!)
+            context.startActivity(intent)
         }
     }
 

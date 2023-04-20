@@ -11,8 +11,9 @@
         android:id="@+id/capture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="bottom|right"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24"
         android:visibility="invisible" />
 
@@ -33,8 +34,7 @@
         android:id="@+id/indicator"
         android:indeterminate="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_height="wrap_content" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

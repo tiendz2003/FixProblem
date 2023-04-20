@@ -35,7 +35,7 @@ class ListFragment : Fragment() {
         val options: FirestoreRecyclerOptions<Problem> = FirestoreRecyclerOptions.Builder<Problem>()
             .setQuery(query, Problem::class.java)
             .build()
-        adapter = RecyclerViewProblemsAdapter(options, requireContext())
+        adapter = RecyclerViewProblemsAdapter(options, requireContext(), requireActivity())
 
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

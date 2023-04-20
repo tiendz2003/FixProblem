@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.MainActivity
+import com.nullpointerexception.cityeye.NotificationsActivity
 import com.nullpointerexception.cityeye.ProfileActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.CustomToolbarBinding
@@ -39,6 +40,7 @@ class ToolbarManager(
                     logOut()
                     true
                 }
+
                 else -> {
                     true
                 }
@@ -47,6 +49,10 @@ class ToolbarManager(
 
         toolbar.userImage.setOnClickListener {
             listPopupWindow.show()
+        }
+
+        toolbar.notificationsIcon.setOnClickListener {
+            startNotificationsActivity()
         }
     }
 
@@ -58,6 +64,10 @@ class ToolbarManager(
             "userImage"
         )
         activity.startActivity(intent, options.toBundle())
+    }
+
+    fun startNotificationsActivity() {
+        activity.startActivity(Intent(activity, NotificationsActivity::class.java))
     }
 
 

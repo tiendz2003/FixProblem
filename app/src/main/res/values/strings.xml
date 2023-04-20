@@ -26,9 +26,9 @@
     <string name="title_activity_problem_preview">ProblemPreview</string>
     <string name="action_settings">Settings</string>
 
-    <string name="problemPreviewTitle">Title</string>
-    <string name="problemPreviewDescription">Description</string>
-    <string name="problemPreviewAddress">Address</string>
+    <string name="problemPreviewTitle">Title: </string>
+    <string name="problemPreviewDescription">Description: </string>
+    <string name="problemPreviewAddress">Address: </string>
     <string name="details">Details</string>
     <string name="send">SEND</string>
     <string name="titleOrDescriptionTooLong">Title or description is too long!</string>
@@ -45,5 +45,9 @@
     <string name="title_activity_profile">Profile</string>
 
     <string name="notification_channel_id">CHANNEL_ID</string>
+
+    <string name="isSolved">Is solved: </string>
+    <string name="problemResolved">Problem Resolved</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

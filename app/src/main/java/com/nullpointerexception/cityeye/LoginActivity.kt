@@ -1,14 +1,22 @@
 package com.nullpointerexception.cityeye
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NOTIFICATION_POLICY
+import android.Manifest.permission.CAMERA
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -16,6 +24,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.databinding.ActivityLoginBinding
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
+import com.nullpointerexception.cityeye.util.PermissionUtils
 import com.nullpointerexception.cityeye.util.SessionUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,8 +49,10 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        SessionUtil(this).autoCheckUser()
 
+
+        SessionUtil(this).autoCheckUser()
+        requestPermissions()
         oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
@@ -98,6 +109,7 @@ class LoginActivity : AppCompatActivity() {
                                     if (!FirebaseDatabase.isDuplicateUser(Firebase.auth.currentUser!!.uid)) {
                                         FirebaseDatabase.addNewUser(applicationContext, "google")
                                     }
+                                    FirebaseDatabase.updateFCMToken(applicationContext)
                                 }
                                 SessionUtil(this).proceedToMainScreen()
                             } else {
@@ -105,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                 }
+
                 else -> {
                     Log.d(TAG, "No ID token!")
                 }
@@ -115,4 +128,55 @@ class LoginActivity : AppCompatActivity() {
     fun TextInputLayout.getText(): String {
         return this.editText!!.text.toString()
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 100) {
+            if (arePermissionsGranted()) {
+                Log.i("PERMISSIONS", "All accepted.")
+            } else {
+                PermissionUtils.requestNotificationPermission(this)
+                //Snackbar.make(findViewById(android.R.id.content), "Please enable, notifications, location and camera permissions in settings.", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    private fun arePermissionsGranted(): Boolean {
+        val cameraPermission = ContextCompat.checkSelfPermission(
+            this, CAMERA
+        )
+        val fineLocationPermission = ContextCompat.checkSelfPermission(
+            this, ACCESS_FINE_LOCATION
+        )
+        val coarseLocationPermission = ContextCompat.checkSelfPermission(
+            this, ACCESS_COARSE_LOCATION
+        )
+        val notificationPolicyPermission = ContextCompat.checkSelfPermission(
+            this, ACCESS_NOTIFICATION_POLICY
+        )
+        return cameraPermission == PackageManager.PERMISSION_GRANTED &&
+                fineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                coarseLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                notificationPolicyPermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                CAMERA,
+                ACCESS_FINE_LOCATION,
+                ACCESS_COARSE_LOCATION,
+                ACCESS_NOTIFICATION_POLICY
+            ),
+            100
+        )
+    }
+
+
 }

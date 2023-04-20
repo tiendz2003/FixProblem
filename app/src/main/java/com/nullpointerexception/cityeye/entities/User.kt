@@ -8,5 +8,6 @@ data class User(
     val phoneNumber: String? = null,
     val provider: String? = null,
     val fcmToken: String? = null,
-    val problems: List<String>? = listOf()
+    val problems: List<String>? = listOf(),
+    val notifications: List<String>? = listOf()
 )

@@ -195,7 +195,7 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(1).setFastestInterval(5)
+        val locationRequest = LocationRequest().setInterval(10000).setFastestInterval(10000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,

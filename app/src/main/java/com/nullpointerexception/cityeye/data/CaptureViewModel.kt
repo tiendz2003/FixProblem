@@ -40,12 +40,18 @@ class CaptureViewModel : ViewModel() {
             val coordinates: MutableList<LatLng> = mutableListOf()
 
             for (problem in response) {
-                coordinates.add(
-                    LatLng(
-                        problem.location_lat!!.toDouble(),
-                        problem.location_lon!!.toDouble()
+                problem.location_lat?.toDouble()?.let {
+                    problem.location_lon?.toDouble()?.let { it1 ->
+                        LatLng(
+                            it,
+                            it1
+                        )
+                    }
+                }?.let {
+                    coordinates.add(
+                        it
                     )
-                )
+                }
             }
 
             setCoordinates(

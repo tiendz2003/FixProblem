@@ -2,13 +2,16 @@ package com.nullpointerexception.cityeye.entities
 
 data class Problem(
     var uid: String? = null,
+    var problemID: String? = null,
     val title: String? = null,
     val description: String? = null,
     val imageName: String? = null,
     val address: String? = null,
     val location_lat: String? = null,
     val location_lon: String? = null,
-    val epoch: Int? = null
+    val epoch: Int? = null,
+    val answerID: String? = null,
+    val solved: Boolean? = null
 ) {
 
     override fun toString(): String {

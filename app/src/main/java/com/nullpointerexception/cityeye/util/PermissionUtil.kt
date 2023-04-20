@@ -2,6 +2,7 @@ package com.nullpointerexception.cityeye.util
 
 import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -66,6 +67,29 @@ object PermissionUtils {
             ContextCompat.checkSelfPermission(
                 activity.applicationContext,
                 ACCESS_FINE_LOCATION
+            ) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        } else {
+            ActivityCompat.requestPermissions(activity, permissions, 100)
+        }
+        return false
+    }
+
+    fun requestNotificationPermission(activity: Activity): Boolean {
+
+        val permissions =
+            arrayOf(POST_NOTIFICATIONS)
+
+        if (ContextCompat.checkSelfPermission(
+                activity.applicationContext,
+                POST_NOTIFICATIONS
+            ) ==
+            PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(
+                activity.applicationContext,
+                POST_NOTIFICATIONS
             ) ==
             PackageManager.PERMISSION_GRANTED
         ) {
