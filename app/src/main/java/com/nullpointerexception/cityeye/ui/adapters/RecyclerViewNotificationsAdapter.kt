@@ -46,7 +46,9 @@ class RecyclerViewNotificationsAdapter(
         holder.binding.time.text = notification.time
 
         holder.binding.layout.setOnClickListener {
-            notification.notificationID?.let { it1 -> FirebaseDatabase.markNotificationAsRead(it1) }
+            notification.notificationID?.let { it1 ->
+                FirebaseDatabase.markNotificationAsRead(it1)
+            }
             val intent = Intent(context, ProblemDetailActivity::class.java)
             intent.putExtra("problemID", notification.problemID)
             context.startActivity(intent)

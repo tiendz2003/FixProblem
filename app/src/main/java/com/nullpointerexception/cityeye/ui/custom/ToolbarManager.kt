@@ -24,8 +24,11 @@ class ToolbarManager(
     val listPopupWindow = PopupMenu(activity.applicationContext, toolbar.userImage)
 
     init {
-        Glide.with(activity.applicationContext).load(user.photoUrl).transform(CircleCrop())
-            .into(toolbar.userImage)
+        if (user.photoUrl.toString() != "null") {
+            Glide.with(activity.applicationContext).load(user.photoUrl).transform(CircleCrop())
+                .into(toolbar.userImage)
+        }
+
 
         toolbar.userImage.isClickable = true
 

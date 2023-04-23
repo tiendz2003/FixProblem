@@ -39,6 +39,19 @@ class NotificationsActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        Firebase.auth.currentUser?.let { viewModel.getUserFromDatabase(it.uid) }
+
+        viewModel.getUser().observe(this) {
+            viewModel.getUserNotifications()
+        }
+        viewModel.getNotifications().observe(this) {
+            setNotifications()
+        }
+    }
+
     fun setNotifications() {
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)

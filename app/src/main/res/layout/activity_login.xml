@@ -81,6 +81,7 @@
 
     <TextView
         android:id="@+id/forgotPassword"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"

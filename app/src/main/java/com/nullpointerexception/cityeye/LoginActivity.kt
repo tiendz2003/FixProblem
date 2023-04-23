@@ -4,13 +4,17 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NOTIFICATION_POLICY
 import android.Manifest.permission.CAMERA
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
@@ -41,6 +45,18 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                Log.i("Permission: ", "Granted")
+            } else {
+                Log.i("Permission: ", "Denied")
+            }
+
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,10 +65,11 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-
+        ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION), 100)
 
         SessionUtil(this).autoCheckUser()
-        requestPermissions()
+
+
         oneTapClient = Identity.getSignInClient(this)
         signInRequest = BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
@@ -129,6 +146,7 @@ class LoginActivity : AppCompatActivity() {
         return this.editText!!.text.toString()
     }
 
+    /*
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -176,6 +194,39 @@ class LoginActivity : AppCompatActivity() {
             ),
             100
         )
+    }*/
+
+    private fun requestPermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED -> {
+
+            }
+
+            ActivityCompat.shouldShowRequestPermissionRationale(this, POST_NOTIFICATIONS) -> {
+
+            }
+
+            else -> {
+                Toast.makeText(this, "Enable notifications in settings!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun askNotifications() {
+        // Check if permission is already granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            checkSelfPermission(ACCESS_NOTIFICATION_POLICY) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission has not been granted, request it
+            requestPermissions(arrayOf(ACCESS_NOTIFICATION_POLICY), 1)
+        } else {
+            // Permission already granted
+            // Do something here that requires the permission
+        }
+
     }
 
 

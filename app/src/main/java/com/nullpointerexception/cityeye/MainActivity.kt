@@ -25,6 +25,7 @@ import com.nullpointerexception.cityeye.databinding.ActivityMainBinding
 import com.nullpointerexception.cityeye.ui.custom.ToolbarManager
 import com.nullpointerexception.cityeye.ui.fragments.CaptureFragment
 import com.nullpointerexception.cityeye.ui.fragments.ListFragment
+import com.nullpointerexception.cityeye.util.PermissionUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,29 +56,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (Firebase.auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+        PermissionUtils.createNotificationChannel(this)
+
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
-
-        viewModel.getUserFromDb()
-
-        viewModel.getUser().observe(this) {
-            viewModel.getLiveMessagesCount()
-        }
-
-        viewModel.getMessagesCount().observe(this) {
-            if (it > 0) {
-                val badge = BadgeDrawable.create(this)
-                badge.number = it
-                BadgeUtils.attachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
-            }
-        }
 
         if (Firebase.auth.currentUser == null) {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
 
-
-        askNotificationPermission()
+        //askNotificationPermission()
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -115,6 +107,8 @@ class MainActivity : AppCompatActivity() {
                 BadgeUtils.attachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
             }
         }
+
+
     }
 
     private fun askNotificationPermission() {

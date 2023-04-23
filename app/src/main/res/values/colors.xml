@@ -13,4 +13,6 @@
     <color name="login">#190152</color>
     <color name="or">#757171</color>
 
+    <color name="status_error">#c7361f</color>
+
 </resources>

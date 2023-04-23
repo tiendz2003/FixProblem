@@ -1,11 +1,14 @@
 package com.nullpointerexception.cityeye.data
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.entities.User
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
@@ -45,9 +48,10 @@ class MainActivityViewModel : ViewModel() {
 
     fun getLiveMessagesCount() {
         viewModelScope.launch {
-            val response =
-                getUser().value!!.notifications?.let { FirebaseDatabase.getUserNotifications(it) }
-            setMessagesCount(response!!.count { !it.isRead!! })
+            val response = FirebaseDatabase.getUserNotifications(_user.value!!.notifications!!)
+            setMessagesCount(response.count { !it.isRead!! })
         }
     }
+
+
 }

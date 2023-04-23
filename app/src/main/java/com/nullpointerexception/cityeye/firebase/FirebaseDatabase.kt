@@ -325,9 +325,13 @@ object FirebaseDatabase {
                     }
                     .addOnFailureListener { exception ->
                         Log.d(TAG, "Error getting documents: ", exception)
+                        continuation.resumeWithException(exception)
                     }
+            } else {
+                continuation.resume(emptyList())
             }
         }
+
 
     suspend fun getAllProblems(): List<Problem> =
         suspendCoroutine { continuation ->
@@ -375,6 +379,9 @@ object FirebaseDatabase {
         val database = Firebase.firestore
         database.collection("userNotifications").document(notificationID)
             .update("isRead", true).addOnSuccessListener {
+            }
+            .addOnFailureListener {
+                Log.i("FAILURE", it.toString())
             }
     }
 

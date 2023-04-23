@@ -10,5 +10,7 @@ data class UserNotification(
     @set:PropertyName("isRead")
     var isRead: Boolean? = null,
     val uid: String? = null,
-    val notificationID: String? = null
+    @get:PropertyName("notificationID")
+    @set:PropertyName("notificationID")
+    var notificationID: String? = null
 )

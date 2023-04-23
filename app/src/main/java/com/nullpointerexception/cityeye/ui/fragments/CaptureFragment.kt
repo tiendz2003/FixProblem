@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -28,7 +29,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.maps.android.heatmaps.HeatmapTileProvider
+import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
@@ -85,6 +89,12 @@ class CaptureFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            100
+        )
+
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
         viewModel = ViewModelProvider(requireActivity())[CaptureViewModel::class.java]
@@ -94,6 +104,10 @@ class CaptureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (Firebase.auth.currentUser == null) {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
 
         binding.capture.setOnClickListener {
             if (PermissionUtils.requestPermission(requireActivity())) {
@@ -170,28 +184,6 @@ class CaptureFragment : Fragment() {
     }
 
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            100 -> {
-                if (grantResults.isNotEmpty() &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED
-                ) {
-                    startCamera()
-                    Log.i("PERMISSION", "All good")
-                } else {
-
-                    Log.i("TAG", "LMAO")
-                }
-                return
-            }
-        }
-    }
-
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
@@ -205,6 +197,7 @@ class CaptureFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
+            //1
             PermissionUtils.requestAccessFineLocationPermission(activity, 10)
             return
         }

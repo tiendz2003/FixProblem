@@ -33,6 +33,7 @@ class ProfileActivity : AppCompatActivity() {
         }
         viewModel.getProblems().observe(this) {
             setProblems()
+            binding.content.problems.pullToRefresh.isRefreshing = false
         }
 
         viewModel.getCurrentUser(Firebase.auth.currentUser!!.uid)
@@ -44,6 +45,10 @@ class ProfileActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.content.problems.pullToRefresh.setOnRefreshListener {
+            viewModel.getUserProblems(viewModel.getUser().value!!.problems!!)
+        }
+
     }
 
     override fun onBackPressed() {
@@ -52,7 +57,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun setImage() {
-        binding.content.header.userImage.load(Firebase.auth.currentUser!!.photoUrl) {
+        val imageUrl = Firebase.auth.currentUser!!.photoUrl
+        if (imageUrl.toString() == "null") return
+        binding.content.header.userImage.load(imageUrl) {
             transformations(CircleCropTransformation())
             size(1000)
             scale(Scale.FILL)

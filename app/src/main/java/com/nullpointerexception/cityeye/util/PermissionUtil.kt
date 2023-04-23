@@ -5,6 +5,8 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -75,6 +77,20 @@ object PermissionUtils {
             ActivityCompat.requestPermissions(activity, permissions, 100)
         }
         return false
+    }
+
+    fun createNotificationChannel(context: Context) {
+        val channelId = "my_channel_id"
+        val channelName = "My Channel"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance).apply {
+            description = "My channel description"
+        }
+
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
     }
 
     fun requestNotificationPermission(activity: Activity): Boolean {
