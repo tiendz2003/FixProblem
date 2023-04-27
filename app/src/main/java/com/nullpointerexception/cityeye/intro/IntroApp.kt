@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.R
+import com.nullpointerexception.cityeye.util.SessionUtil
 
 
 class IntroApp : AppIntro() {
@@ -26,6 +27,9 @@ class IntroApp : AppIntro() {
         isSystemBackButtonLocked = true
         isWizardMode = true
         setImmersiveMode()
+
+        SessionUtil(this).autoCheckUser()
+
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {

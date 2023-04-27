@@ -1,14 +1,10 @@
 package com.nullpointerexception.cityeye
 
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
+import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -17,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityProblemPreviewBinding
-import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.LocationUtil
 import java.io.File
 
@@ -55,17 +50,16 @@ class ProblemPreview : AppCompatActivity() {
             ) {
 
                 if (!binding.problemTitleEditText.checkIfHasLessAmountOfCharacters() && !binding.problemDescriptionEditText.checkIfHasLessAmountOfCharacters()) {
-                    if (FirebaseDatabase.addNormalProblem(
-                            this,
-                            binding.problemTitleEditText.text(),
-                            binding.problemDescriptionEditText.text(),
-                            viewModel.image.value!!,
-                            viewModel.coordinates.value!!,
-                            viewModel.address.value!!
-                        )
-                    ) {
-                        finish()
-                    }
+
+                    viewModel.addProblem(
+                        this,
+                        binding.problemTitleEditText.text(),
+                        binding.problemDescriptionEditText.text(),
+                        viewModel.image.value!!,
+                        viewModel.coordinates.value!!,
+                        viewModel.address.value!!
+                    )
+
                 } else {
                     Snackbar.make(
                         window.decorView.rootView,
@@ -86,6 +80,25 @@ class ProblemPreview : AppCompatActivity() {
         binding.back.setOnClickListener {
             finish()
         }
+
+        viewModel.response.observe(this) { response ->
+            binding.layout.children.iterator().forEach { it.visibility = View.INVISIBLE }
+            if (response) {
+                binding.animationDone.visibility = View.VISIBLE
+                binding.animationDone.playAnimation()
+                delay(3000)
+            } else {
+                binding.animationError.visibility = View.VISIBLE
+                binding.animationError.playAnimation()
+                delay(4000)
+            }
+        }
+    }
+
+    private fun delay(milis: Long) {
+        Handler().postDelayed({
+            finish()
+        }, milis)
     }
 
     private fun setAddressText(address: String) {

@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -211,14 +209,8 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest: LocationRequest
-        if (viewModel.isLoaded) {
-            locationRequest = LocationRequest().setInterval(10000).setFastestInterval(20000)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        } else {
-            locationRequest = LocationRequest().setInterval(100).setFastestInterval(100)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        }
+        val locationRequest = LocationRequest().setInterval(3000).setFastestInterval(3000)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION

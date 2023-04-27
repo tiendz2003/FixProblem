@@ -1,5 +1,6 @@
 package com.nullpointerexception.cityeye.firebase
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
@@ -16,6 +18,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Answer
+import com.nullpointerexception.cityeye.entities.Comment
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.entities.User
@@ -23,7 +26,6 @@ import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
-import kotlin.contracts.contract
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -31,7 +33,7 @@ import kotlin.coroutines.suspendCoroutine
 object FirebaseDatabase {
 
 
-    fun addNormalProblem(
+    suspend fun addNormalProblem(
         context: Context,
         title: String,
         description: String,
@@ -53,6 +55,7 @@ object FirebaseDatabase {
             problemID,
             title.trim(),
             description.trim(),
+            null,
             savedImageFile.name,
             address,
             location.latitude.toString(),
@@ -69,46 +72,63 @@ object FirebaseDatabase {
             )
         ) {
 
-
             val imagesRef = storage.reference.child("images/${savedImageFile.name}")
             val problemRef = database.collection("problems").document(problemID)
             val userRef = database.collection("users").document(firebase.currentUser!!.uid)
-            val uploadTask = imagesRef.putFile(Uri.fromFile(savedImageFile))
 
-            uploadTask.addOnSuccessListener {
-
-                database.runBatch { batch ->
-                    batch.update(userRef, "problems", FieldValue.arrayUnion(problemID))
-
-                    batch.set(problemRef, problem)
-                }.addOnSuccessListener {
-                    Toast.makeText(
-                        context,
-                        context.resources.getString(R.string.problemUploaded),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            val uploadTask = suspendCoroutine<Boolean> { continuation ->
+                imagesRef.putFile(Uri.fromFile(savedImageFile))
+                    .addOnSuccessListener {
+                        continuation.resume(true)
+                    }
                     .addOnFailureListener {
+                        continuation.resume(false)
+                    }
+            }
+
+            if (uploadTask) {
+                val batchResult = suspendCoroutine<Boolean> { continuation ->
+                    database.runBatch { batch ->
+                        batch.update(userRef, "problems", FieldValue.arrayUnion(problemID))
+                        batch.set(problemRef, problem)
+                    }.addOnSuccessListener {
                         Toast.makeText(
                             context,
-                            context.resources.getString(R.string.errorUploading),
+                            context.resources.getString(R.string.problemUploaded),
                             Toast.LENGTH_SHORT
                         ).show()
-                        removeImage(savedImageFile.name)
+                        continuation.resume(true)
+                    }.addOnFailureListener {
+                        continuation.resume(false)
                     }
-            }.addOnFailureListener {
+                }
+
+                return if (batchResult) {
+                    true
+                } else {
+                    // Batch write failed
+                    Toast.makeText(
+                        context,
+                        context.resources.getString(R.string.errorUploading),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    removeImage(savedImageFile.name)
+                    false
+                }
+            } else {
+                // Image upload failed
                 Toast.makeText(
                     context,
                     context.resources.getString(R.string.errorUploading),
                     Toast.LENGTH_SHORT
                 ).show()
-                return@addOnFailureListener
+                return false
             }
         } else {
             return false
         }
-        return true
     }
+
 
     private fun isDuplicateProblem(context: Context, imageName: String): Boolean {
         val database = Firebase.firestore
@@ -401,6 +421,25 @@ object FirebaseDatabase {
             }
             .addOnFailureListener { e ->
                 it.resumeWithException(e)
+            }
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    suspend fun addComment(text: String, problemID: String, user: User) = suspendCoroutine<Unit> {
+        val database = Firebase.firestore
+        val colRef = database.collection("problems").document(problemID).collection("comments")
+        val comment =
+            Comment(
+                user.displayName,
+                text,
+                Timestamp.now(),
+                user.photoUrl
+            )
+        colRef.add(comment).addOnSuccessListener {
+
+        }
+            .addOnFailureListener {
+
             }
     }
 

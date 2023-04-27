@@ -1,9 +1,13 @@
 package com.nullpointerexception.cityeye.data
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
+import kotlinx.coroutines.launch
 import java.io.File
 
 class ProblemPreviewViewModel : ViewModel() {
@@ -30,6 +34,35 @@ class ProblemPreviewViewModel : ViewModel() {
 
     fun setAddress(address: String) {
         _address.value = address
+    }
+
+    private val _response = MutableLiveData<Boolean>()
+    val response: MutableLiveData<Boolean>
+        get() = _response
+
+    fun setResponse(response: Boolean) {
+        _response.value = response
+    }
+
+    fun addProblem(
+        context: Context,
+        title: String,
+        description: String,
+        savedImageFile: File,
+        location: LatLng,
+        address: String
+    ) {
+        viewModelScope.launch {
+            val response = FirebaseDatabase.addNormalProblem(
+                context,
+                title,
+                description,
+                savedImageFile,
+                location,
+                address
+            )
+            setResponse(response)
+        }
     }
 
 }

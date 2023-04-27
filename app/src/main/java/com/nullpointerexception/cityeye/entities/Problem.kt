@@ -6,6 +6,7 @@ data class Problem(
     var problemID: String? = null,
     val title: String? = null,
     val description: String? = null,
+    val comments: List<Comment>? = listOf(),
     val imageName: String? = null,
     val address: String? = null,
     val location_lat: String? = null,
