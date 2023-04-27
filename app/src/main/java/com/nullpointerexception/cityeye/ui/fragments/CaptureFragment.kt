@@ -29,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.maps.android.heatmaps.HeatmapTileProvider
@@ -37,6 +38,7 @@ import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
+import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import com.nullpointerexception.cityeye.util.PermissionUtils
 import java.io.File
@@ -49,7 +51,9 @@ class CaptureFragment : Fragment() {
     private lateinit var viewModel: CaptureViewModel
     private val REQUEST_IMAGE_CAPTURE = 1
     private var hasZoomed = false
+    private var isLocationLoaded = false
     private lateinit var myMap: SupportMapFragment
+    private var shouldCheckLocation = true
 
 
     @SuppressLint("MissingPermission")
@@ -114,10 +118,30 @@ class CaptureFragment : Fragment() {
                 startCamera()
             }
         }
+        viewModel.getlatestSupportedCities()
 
         viewModel.getMyCoordinates().observe(viewLifecycleOwner) {
-            myMap = (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
-            myMap.getMapAsync(callback)
+            if (viewModel.getSupportedCities().value?.cities?.isNotEmpty() == true) {
+                if (LocationUtil.checkIfInSupportedCity(
+                        requireContext(), viewModel.myCoordinates.value!!,
+                        viewModel.getSupportedCities().value!!
+                    )
+                ) {
+                    myMap =
+                        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
+                    myMap.getMapAsync(callback)
+                } else {
+                    shouldCheckLocation = false
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.notInSupportedCityTitle))
+                        .setMessage(getString(R.string.notInSupportedCityDescription))
+                        .setPositiveButton(getString(R.string.retry)) { dialog, which ->
+                            shouldCheckLocation = true
+                            viewModel.getlatestSupportedCities()
+                        }
+                        .show()
+                }
+            }
         }
 
         viewModel.loadProblemCoordinates()
@@ -187,8 +211,14 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(10000).setFastestInterval(10000)
-            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        val locationRequest: LocationRequest
+        if (viewModel.isLoaded) {
+            locationRequest = LocationRequest().setInterval(10000).setFastestInterval(20000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        } else {
+            locationRequest = LocationRequest().setInterval(100).setFastestInterval(100)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        }
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -197,7 +227,6 @@ class CaptureFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            //1
             PermissionUtils.requestAccessFineLocationPermission(activity, 10)
             return
         }
@@ -206,8 +235,17 @@ class CaptureFragment : Fragment() {
             object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
-                    for (location in locationResult.locations) {
-                        viewModel.setMyCoordinates(LatLng(location.latitude, location.longitude))
+                    if (shouldCheckLocation) {
+                        for (location in locationResult.locations) {
+                            viewModel.setMyCoordinates(
+                                LatLng(
+                                    location.latitude,
+                                    location.longitude
+                                )
+                            )
+                            viewModel.isLoaded = true
+
+                        }
                     }
                 }
             },

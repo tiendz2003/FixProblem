@@ -33,7 +33,7 @@ class OtherUtilities {
 
     fun getTimeFromEpoch(epoch: Int): String {
         val date = Date(epoch.toLong() * 1000)
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
         return dateFormat.format(date)
     }
 

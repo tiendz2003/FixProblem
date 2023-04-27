@@ -1,20 +1,26 @@
 package com.nullpointerexception.cityeye
 
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityProblemPreviewBinding
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.LocationUtil
 import java.io.File
+
 
 class ProblemPreview : AppCompatActivity() {
 
@@ -23,7 +29,6 @@ class ProblemPreview : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityProblemPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -45,7 +50,7 @@ class ProblemPreview : AppCompatActivity() {
 
 
             if (!binding.problemTitleEditText.checkIfCharactersExceed(20) && !binding.problemDescriptionEditText.checkIfCharactersExceed(
-                    50
+                    70
                 )
             ) {
 

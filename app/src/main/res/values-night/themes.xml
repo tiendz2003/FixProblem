@@ -5,6 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorBlack">@color/white</item>
         <item name="colorWhite">@color/black</item>
+
+        <item name="colorToolbar">@color/toolbarDark</item>
+
         <item name="android:windowContentTransitions">true</item>
     </style>
 

@@ -8,12 +8,12 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.MainActivity
 import com.nullpointerexception.cityeye.NotificationsActivity
 import com.nullpointerexception.cityeye.ProfileActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.CustomToolbarBinding
+import com.nullpointerexception.cityeye.intro.IntroApp
 
 class ToolbarManager(
     val toolbar: CustomToolbarBinding,
@@ -28,7 +28,6 @@ class ToolbarManager(
             Glide.with(activity.applicationContext).load(user.photoUrl).transform(CircleCrop())
                 .into(toolbar.userImage)
         }
-
 
         toolbar.userImage.isClickable = true
 
@@ -76,7 +75,7 @@ class ToolbarManager(
 
     fun logOut() {
         Firebase.auth.signOut()
-        activity.startActivity(Intent(activity.applicationContext, LoginActivity::class.java))
+        activity.startActivity(Intent(activity.applicationContext, IntroApp::class.java))
         activity.finish()
     }
 

@@ -3,19 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/userNameCreator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Renato Rak"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp" />
 
         <ImageView
             android:id="@+id/image"
             android:transitionName="image"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="350dp"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,16 +40,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                />
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:id="@+id/location"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary"
-                />
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:id="@+id/dateTime"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </LinearLayout>
 

@@ -17,11 +17,13 @@ import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Answer
 import com.nullpointerexception.cityeye.entities.Problem
+import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.entities.User
 import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
+import kotlin.contracts.contract
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -47,6 +49,7 @@ object FirebaseDatabase {
 
         val problem = Problem(
             firebase.uid,
+            firebase.currentUser!!.displayName,
             problemID,
             title.trim(),
             description.trim(),
@@ -384,5 +387,22 @@ object FirebaseDatabase {
                 Log.i("FAILURE", it.toString())
             }
     }
+
+    suspend fun getSupportedCities() = suspendCoroutine {
+        val database = Firebase.firestore
+        val colRef = database.collection("supportedCities").document("cities")
+        colRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    it.resume(document.toObject(SupportedCities::class.java))
+                } else {
+                    it.resume(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                it.resumeWithException(e)
+            }
+    }
+
 
 }

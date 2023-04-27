@@ -4,7 +4,7 @@
     android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/rounded_bckgr">
+    android:background="@drawable/rounded_bckgr_profile">
 
     <ImageView
         android:id="@+id/userImage"

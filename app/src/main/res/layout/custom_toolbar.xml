@@ -14,29 +14,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CityEye"
-                android:textSize="30sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/userImage"
-                app:layout_constraintHorizontal_bias="0.071"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/notificationsIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_notification"
-                app:tint="?attr/colorBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/userImage"
                 app:layout_constraintHorizontal_bias="0.877"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorBlack" />
 
             <ImageView
                 android:id="@+id/userImage"
@@ -53,5 +41,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </com.google.android.material.appbar.AppBarLayout>

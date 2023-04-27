@@ -14,5 +14,7 @@
     <color name="or">#757171</color>
 
     <color name="status_error">#c7361f</color>
+    <color name="toolbarDark">#2B2B2B</color>
+    <color name="toolbarLight">#FFFFFF</color>
 
 </resources>

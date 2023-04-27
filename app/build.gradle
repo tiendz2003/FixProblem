@@ -3,7 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 }
+
 
 android {
     compileSdk 33
@@ -40,7 +42,10 @@ android {
 
 dependencies {
 
+    implementation 'com.github.AppIntro:AppIntro:6.2.0'
 
+
+    implementation "com.airbnb.android:lottie:3.4.0"
     implementation 'com.github.bumptech.glide:glide:4.15.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'

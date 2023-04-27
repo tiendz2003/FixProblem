@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.entities.User
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import kotlinx.coroutines.launch

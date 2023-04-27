@@ -3,6 +3,7 @@
     <string name="title_activity_login">Login activity</string>
     <string name="capture">Capture</string>
     <string name="reports">Reports</string>
+    <string name="map">Map</string>
 
 
     <string name="client_ID">626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com</string>
@@ -49,5 +50,26 @@
     <string name="isSolved">Is solved: </string>
     <string name="problemResolved">Problem Resolved</string>
     <string name="notifications">Notifications</string>
+
+    <string name="notInSupportedCityTitle">Oops!</string>
+    <string name="notInSupportedCityDescription">You are not in supported city</string>
+    <string name="retry">RETRY</string>
+    <string name="title_activity_intro">IntroActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="intro_first_slide_title">Make a Difference</string>
+    <string name="intro_first_slide">Report issues in your city with ease. Take a photo and add details to help improve your community.</string>
+    <string name="intro_second_slide_title">Track Your Reports</string>
+    <string name="intro_second_slide">Get updates on issues you have reported and see what others are reporting.</string>
+    <string name="intro_third_slide_title">Join Forces with Your Neighbors</string>
+    <string name="intro_third_slide">Connect with your community. See what issues are being reported near you and join discussions to make your voice heard.</string>
+    <string name="welcome_to_city_eye">Welcome to CityEye!</string>
+    <string name="lets_improve">Let\'s improve our city together.</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_capture"
         android:name="com.nullpointerexception.cityeye.ui.fragments.CaptureFragment"
-        android:label="@string/capture"
+        android:label="@string/map"
         tools:layout="@layout/fragment_capture">
         <action
             android:id="@+id/action_navigation_capture_to_navigation_list"

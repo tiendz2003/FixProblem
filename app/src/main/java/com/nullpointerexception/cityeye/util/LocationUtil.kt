@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.nullpointerexception.cityeye.R
+import com.nullpointerexception.cityeye.entities.SupportedCities
 import java.io.IOException
 import java.util.*
 
@@ -31,7 +32,7 @@ object LocationUtil {
             val addressList: MutableList<Address>? =
                 geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
 
-            if (addressList != null && addressList.isNotEmpty()) {
+            if (!addressList.isNullOrEmpty()) {
                 val address = addressList[0]
 
                 return address.getAddressLine(0).toString()
@@ -44,7 +45,24 @@ object LocationUtil {
             ).show()
         }
         return null
+    }
 
+    fun checkIfInSupportedCity(
+        context: Context,
+        latLng: LatLng,
+        supportedCities: SupportedCities
+    ): Boolean {
+        val address = getAddressFromCo(context, latLng)
+        Log.i("ADDRESS", address.toString())
+        var validCity = false
+
+        for (city in supportedCities.cities!!) {
+            if (address!!.contains(city)) {
+                validCity = true
+                break
+            }
+        }
+        return validCity
     }
 
 

@@ -25,28 +25,13 @@ import com.nullpointerexception.cityeye.databinding.ActivityMainBinding
 import com.nullpointerexception.cityeye.ui.custom.ToolbarManager
 import com.nullpointerexception.cityeye.ui.fragments.CaptureFragment
 import com.nullpointerexception.cityeye.ui.fragments.ListFragment
+import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.PermissionUtils
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val captureFragment = CaptureFragment()
-    private val listFragment = ListFragment()
     private lateinit var viewModel: MainActivityViewModel
-
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            Log.i("PERMISSION", "GRANTED")
-        } else {
-            Toast.makeText(
-                this,
-                "Unable to show notifications, please change it in settings for better experience.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +53,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-
-        //askNotificationPermission()
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -86,7 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         Firebase.auth.currentUser?.let { ToolbarManager(binding.mainToolbar, it, this) }
-
 
     }
 
@@ -110,21 +92,4 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-    private fun askNotificationPermission() {
-        // This is only necessary for API level >= 33 (TIRAMISU)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                // FCM SDK (and your app) can post notifications.
-            } else if (shouldShowRequestPermissionRationale(POST_NOTIFICATIONS)) {
-
-            } else {
-                requestPermissionLauncher.launch(POST_NOTIFICATIONS)
-            }
-        }
-    }
-
-
 }

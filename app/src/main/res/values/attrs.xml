@@ -2,4 +2,5 @@
 <resources>
     <attr name="colorBlack" format="reference" />
     <attr name="colorWhite" format="reference" />
+    <attr name="colorToolbar" format="reference" />
 </resources>

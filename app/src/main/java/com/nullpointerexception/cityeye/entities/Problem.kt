@@ -2,6 +2,7 @@ package com.nullpointerexception.cityeye.entities
 
 data class Problem(
     var uid: String? = null,
+    var userName: String? = null,
     var problemID: String? = null,
     val title: String? = null,
     val description: String? = null,

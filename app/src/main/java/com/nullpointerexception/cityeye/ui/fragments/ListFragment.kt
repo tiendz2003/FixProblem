@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,22 +36,15 @@ class ListFragment : Fragment() {
             .build()
         adapter = RecyclerViewProblemsAdapter(options, requireContext(), requireActivity())
 
+
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.itemAnimator = null
-
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.layoutSwitch.setOnClickListener{
-            binding.recyclerView.layoutManager = if(adapter.toggleItemViewType()) LinearLayoutManager(requireContext()) else GridLayoutManager(requireContext(), 2)
-
-        }
-
     }
 
     override fun onStart() {

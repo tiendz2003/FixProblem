@@ -24,6 +24,7 @@ import com.nullpointerexception.cityeye.ProfileActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.ProblemLayoutListBinding
 import com.nullpointerexception.cityeye.entities.Problem
+import com.nullpointerexception.cityeye.util.OtherUtilities
 import kotlin.random.Random
 
 class RecyclerViewProblemsAdapter(
@@ -54,22 +55,13 @@ class RecyclerViewProblemsAdapter(
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: ProblemHolderView, position: Int, model: Problem) {
 
+        holder.binding.userNameCreator.text = model.userName
         holder.binding.title.text = model.title
         holder.binding.location.text = model.address
+        holder.binding.dateTime.text = OtherUtilities().getTimeFromEpoch(model.epoch!!)
 
-        holder.binding.layout.setBackgroundColor(
-            Color.argb(
-                100,
-                Random.nextInt(256),
-                Random.nextInt(256),
-                Random.nextInt(256)
-            )
-        )
         Firebase.storage.reference.child("images/${model.imageName}").downloadUrl.addOnSuccessListener { url ->
-            holder.binding.image.load(url) {
-                transformations(CircleCropTransformation())
-            }
-
+            holder.binding.image.load(url)
         }
 
         holder.binding.layout.animation =

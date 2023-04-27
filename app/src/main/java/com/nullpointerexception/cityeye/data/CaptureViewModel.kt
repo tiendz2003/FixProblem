@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
+import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import kotlinx.coroutines.launch
 
@@ -33,6 +34,7 @@ class CaptureViewModel : ViewModel() {
         return _problemCoordinates
     }
 
+    var isLoaded = false
 
     fun loadProblemCoordinates() {
         viewModelScope.launch {
@@ -60,5 +62,24 @@ class CaptureViewModel : ViewModel() {
         }
     }
 
+
+    private val _supportedCities = MutableLiveData<SupportedCities>()
+    var supportedCities: LiveData<SupportedCities> = _supportedCities
+
+    fun getSupportedCities(): MutableLiveData<SupportedCities> {
+        return _supportedCities
+    }
+
+    fun setSupportedCities(sc: SupportedCities) {
+        _supportedCities.value = sc
+    }
+
+    fun getlatestSupportedCities() {
+        viewModelScope.launch {
+            val response = FirebaseDatabase.getSupportedCities()
+            response?.let { setSupportedCities(it) }
+
+        }
+    }
 
 }
