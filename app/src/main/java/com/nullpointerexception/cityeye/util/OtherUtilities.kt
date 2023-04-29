@@ -4,12 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.gms.maps.model.LatLng
-import java.util.Date
 import com.nullpointerexception.cityeye.ProblemPreview
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 
 class OtherUtilities {
@@ -34,6 +34,12 @@ class OtherUtilities {
     fun getTimeFromEpoch(epoch: Int): String {
         val date = Date(epoch.toLong() * 1000)
         val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+        return dateFormat.format(date)
+    }
+
+    fun getDateFromEpoch(epoch: Int): String {
+        val date = Date(epoch.toLong() * 1000)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
         return dateFormat.format(date)
     }
 

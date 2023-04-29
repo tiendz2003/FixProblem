@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.data.ProblemDetailViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityProblemDetailBinding
+import com.nullpointerexception.cityeye.util.OtherUtilities
 
 class ProblemDetailActivity : AppCompatActivity() {
 
@@ -26,16 +26,14 @@ class ProblemDetailActivity : AppCompatActivity() {
         viewModel.getThisProblem(intent.getStringExtra("problemID")!!)
 
         viewModel.getProblem().observe(this) {
-            binding.title.append(it.title)
-            binding.description.append(it.description)
-            binding.address.append(it.address)
-            binding.isSolved.append(if (it.solved.toString() === "true") "Yes" else "No")
+            binding.title.text = it.title
+            binding.description.text = it.description
+            binding.address.text = it.address
+            binding.date.text = it.epoch?.let { it1 -> OtherUtilities().getDateFromEpoch(it1) }
 
 
             Firebase.storage.reference.child("images/${it.imageName}").downloadUrl.addOnSuccessListener { url ->
-                binding.image.load(url) {
-                    transformations(CircleCropTransformation())
-                }
+                binding.image.load(url)
             }
         }
 

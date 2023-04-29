@@ -23,7 +23,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintBottom_toTopOf="@+id/date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.132"
         app:layout_constraintStart_toEndOf="@id/icon"
@@ -32,7 +32,7 @@
         tools:text="Some title" />
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/date"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"

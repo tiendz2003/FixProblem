@@ -1,31 +1,19 @@
 package com.nullpointerexception.cityeye
 
-import android.Manifest.permission.POST_NOTIFICATIONS
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.nullpointerexception.cityeye.data.CaptureViewModel
 import com.nullpointerexception.cityeye.data.MainActivityViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityMainBinding
 import com.nullpointerexception.cityeye.ui.custom.ToolbarManager
-import com.nullpointerexception.cityeye.ui.fragments.CaptureFragment
-import com.nullpointerexception.cityeye.ui.fragments.ListFragment
-import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.PermissionUtils
 
 class MainActivity : AppCompatActivity() {
@@ -80,6 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getUser().observe(this) {
             viewModel.getLiveMessagesCount()
+            viewModel.startListeningForNotifications()
         }
 
         viewModel.getMessagesCount().observe(this) {
@@ -87,9 +76,10 @@ class MainActivity : AppCompatActivity() {
                 val badge = BadgeDrawable.create(this)
                 badge.number = it
                 BadgeUtils.attachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
+            } else {
+                val badge = BadgeDrawable.create(this)
+                BadgeUtils.detachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
             }
         }
-
-
     }
 }

@@ -6,12 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ProblemDetailActivity">
 
+    <TextView
+        android:id="@+id/problemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/problem_detail" />
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="20dp"
         android:src="@drawable/ic_arrow_back"
+        android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?attr/colorBlack" />
@@ -19,58 +31,78 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
         android:transitionName="image"
-        android:layout_marginTop="92dp"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/problemTitle" />
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        android:text="@string/problemPreviewTitle" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        tools:text="Problem 1" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        android:text="@string/problemPreviewDescription" />
+        tools:text="mm/dd/yyyy" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_calendar"
+        app:layout_constraintStart_toEndOf="@id/date"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:tint="?attr/colorBlack" />
 
     <TextView
         android:id="@+id/address"
-        android:layout_width="200dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/description"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        android:text="@string/problemPreviewAddress" />
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="25dp"
+        android:src="@drawable/ic_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:tint="?attr/colorBlack" />
 
     <TextView
-        android:id="@+id/isSolved"
-        android:layout_width="wrap_content"
+        android:id="@+id/description"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/address"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        android:text="@string/isSolved" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="left"
-        app:constraint_referenced_ids="address,isSolved,description,title"
-        app:layout_constraintStart_toStartOf="@id/image" />
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

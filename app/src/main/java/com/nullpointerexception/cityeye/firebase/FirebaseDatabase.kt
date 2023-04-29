@@ -308,26 +308,24 @@ object FirebaseDatabase {
 
     suspend fun getUserProblems(problems: List<String>): List<Problem> =
         suspendCoroutine { continuation ->
-            if (problems.isNotEmpty()) {
-                val colRef = Firebase.firestore.collection("problems")
-                colRef.whereIn(FieldPath.documentId(), problems)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val documents = querySnapshot.documents
-                        val problemList = mutableListOf<Problem>()
-                        for (document in documents) {
-                            val problem = document.toObject(Problem::class.java)
-                            if (problem != null) {
-                                problemList.add(problem)
-                            }
+            val colRef = Firebase.firestore.collection("problems")
+            colRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val problemList = mutableListOf<Problem>()
+                    for (document in documents) {
+                        val problem = document.toObject(Problem::class.java)
+                        if (problem != null && problem.problemID in problems) {
+                            problemList.add(problem)
                         }
-                        continuation.resume(problemList)
                     }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAG, "Error getting documents: ", exception)
-                    }
-            }
+                    continuation.resume(problemList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
         }
+
 
     suspend fun getUserNotifications(notifications: List<String>): List<UserNotification> =
         suspendCoroutine { continuation ->
@@ -441,6 +439,27 @@ object FirebaseDatabase {
             .addOnFailureListener {
 
             }
+    }
+
+    suspend fun listenForUserNotifications(ids: List<String>) = suspendCoroutine {
+        val colRef = Firebase.firestore.collection("userNotifications")
+        val query = colRef.whereArrayContains("notificationID", ids)
+
+        query.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
+                // Handle any errors
+                return@addSnapshotListener
+            }
+
+            if (snapshot != null) {
+                // Loop through the documents in the snapshot and update your UI or perform any necessary actions
+                var count = 0
+                for (document in snapshot.documents) {
+                    if (document.toObject(UserNotification::class.java)!!.isRead == true) count++
+                }
+                it.resume(count)
+            }
+        }
     }
 
 

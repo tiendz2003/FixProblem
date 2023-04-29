@@ -27,6 +27,7 @@
     <string name="title_activity_problem_preview">ProblemPreview</string>
     <string name="action_settings">Settings</string>
 
+    <string name="problem_detail">Problem details</string>
     <string name="problemPreviewTitle">Title: </string>
     <string name="problemPreviewDescription">Description: </string>
     <string name="problemPreviewAddress">Address: </string>
