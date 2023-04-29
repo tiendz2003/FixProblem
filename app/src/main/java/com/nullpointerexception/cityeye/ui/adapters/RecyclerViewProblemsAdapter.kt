@@ -9,8 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -74,6 +72,5 @@ class RecyclerViewProblemsAdapter(
         intent.putExtra("problemID", problemID)
         activity.startActivity(intent)
     }
-
-    )
+    
 }
