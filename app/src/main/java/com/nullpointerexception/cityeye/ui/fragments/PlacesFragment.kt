@@ -1,4 +1,4 @@
-package com.nullpointerexception.cityeye
+package com.nullpointerexception.cityeye.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

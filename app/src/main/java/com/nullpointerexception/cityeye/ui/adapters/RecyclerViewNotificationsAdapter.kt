@@ -41,7 +41,7 @@ class RecyclerViewNotificationsAdapter(
         }
 
         holder.binding.title.text = notification.problemTitle
-        holder.binding.time.text = notification.time
+        holder.binding.time.text = notification.time.toString()
 
         holder.binding.layout.setOnClickListener {
             notification.notificationID?.let { it1 ->

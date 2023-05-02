@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityProblemPreviewBinding
-import com.nullpointerexception.cityeye.util.LocationUtil
 import java.io.File
 
 
@@ -28,18 +27,28 @@ class ProblemPreview : AppCompatActivity() {
         binding = ActivityProblemPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.loadIndicator.hide()
+
         viewModel = ViewModelProvider(this)[ProblemPreviewViewModel::class.java]
 
         viewModel.setCoordinates(intent.getParcelableExtra("coordinates"))
         viewModel.setImage(intent.getSerializableExtra("image") as File)
-        LocationUtil.getAddressFromCo(
+
+        viewModel.getAddressFromLocation(
             this,
             LatLng(viewModel.coordinates.value!!.latitude, viewModel.coordinates.value!!.longitude)
         )
-            ?.let { viewModel.setAddress(it) }
+
+        viewModel.address.observe(this) {
+            if (it.isNullOrEmpty()) {
+                finish()
+            } else {
+                setAddressText(it)
+            }
+        }
 
         setProblemImage()
-        viewModel.address.value?.let { setAddressText(it) }
+
 
         binding.fab.setOnClickListener {
 
@@ -59,6 +68,7 @@ class ProblemPreview : AppCompatActivity() {
                         viewModel.coordinates.value!!,
                         viewModel.address.value!!
                     )
+                    binding.loadIndicator.show()
 
                 } else {
                     Snackbar.make(

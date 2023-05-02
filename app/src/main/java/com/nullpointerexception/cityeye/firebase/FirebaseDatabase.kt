@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -76,7 +75,7 @@ object FirebaseDatabase {
             val problemRef = database.collection("problems").document(problemID)
             val userRef = database.collection("users").document(firebase.currentUser!!.uid)
 
-            val uploadTask = suspendCoroutine<Boolean> { continuation ->
+            val uploadTask = suspendCoroutine { continuation ->
                 imagesRef.putFile(Uri.fromFile(savedImageFile))
                     .addOnSuccessListener {
                         continuation.resume(true)
@@ -87,7 +86,7 @@ object FirebaseDatabase {
             }
 
             if (uploadTask) {
-                val batchResult = suspendCoroutine<Boolean> { continuation ->
+                val batchResult = suspendCoroutine { continuation ->
                     database.runBatch { batch ->
                         batch.update(userRef, "problems", FieldValue.arrayUnion(problemID))
                         batch.set(problemRef, problem)
@@ -179,7 +178,6 @@ object FirebaseDatabase {
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
 
@@ -236,7 +234,6 @@ object FirebaseDatabase {
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
 
@@ -331,15 +328,16 @@ object FirebaseDatabase {
         suspendCoroutine { continuation ->
             if (notifications.isNotEmpty()) {
                 val colRef = Firebase.firestore.collection("userNotifications")
-                colRef.whereIn(FieldPath.documentId(), notifications)
-                    .get()
+                colRef.get()
                     .addOnSuccessListener { querySnapshot ->
                         val documents = querySnapshot.documents
                         val notificationsList = mutableListOf<UserNotification>()
                         for (document in documents) {
-                            val notification = document.toObject(UserNotification::class.java)
-                            if (notification != null) {
-                                notificationsList.add(notification)
+                            if (notifications.contains(document.id)) {
+                                val notification = document.toObject(UserNotification::class.java)
+                                if (notification != null) {
+                                    notificationsList.add(notification)
+                                }
                             }
                         }
                         continuation.resume(notificationsList)

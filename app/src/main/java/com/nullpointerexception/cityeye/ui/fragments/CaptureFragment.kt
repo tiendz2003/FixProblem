@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
@@ -36,7 +37,6 @@ import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.data.SharedViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
-import com.nullpointerexception.cityeye.util.LocationUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import com.nullpointerexception.cityeye.util.PermissionUtils
 import java.io.File
@@ -48,8 +48,7 @@ class CaptureFragment : Fragment() {
     private lateinit var binding: FragmentCaptureBinding
     private lateinit var viewModel: SharedViewModel
     private val REQUEST_IMAGE_CAPTURE = 1
-    private var hasZoomed = false
-    private var isLocationLoaded = false
+    private var dialog: AlertDialog? = null
     private lateinit var myMap: SupportMapFragment
     private var shouldCheckLocation = true
 
@@ -70,13 +69,18 @@ class CaptureFragment : Fragment() {
             )
         googleMap.clear()
 
-        if (!hasZoomed) {
+        if (!viewModel.isLoaded) {
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     myLocation, 17.0f
                 )
             )
-            hasZoomed = true
+        } else {
+            googleMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    myLocation, 17.0f
+                )
+            )
         }
         viewModel.getCoordinates().observe(viewLifecycleOwner) {
             makeHeatmap(googleMap)
@@ -96,10 +100,8 @@ class CaptureFragment : Fragment() {
             arrayOf(Manifest.permission.POST_NOTIFICATIONS),
             100
         )
-
-        binding = FragmentCaptureBinding.inflate(inflater, container, false)
-
         viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+        binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -111,33 +113,33 @@ class CaptureFragment : Fragment() {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
 
-        binding.capture.setOnClickListener {
-            if (PermissionUtils.requestPermission(requireActivity())) {
-                startCamera()
-            }
-        }
         viewModel.getlatestSupportedCities()
 
         viewModel.getMyCoordinates().observe(viewLifecycleOwner) {
             if (viewModel.getSupportedCities().value?.cities?.isNotEmpty() == true) {
-                if (LocationUtil.checkIfInSupportedCity(
-                        requireContext(), viewModel.myCoordinates.value!!,
-                        viewModel.getSupportedCities().value!!
-                    )
-                ) {
-                    myMap =
-                        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
-                    myMap.getMapAsync(callback)
-                } else {
-                    shouldCheckLocation = false
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(getString(R.string.notInSupportedCityTitle))
-                        .setMessage(getString(R.string.notInSupportedCityDescription))
-                        .setPositiveButton(getString(R.string.retry)) { dialog, which ->
-                            shouldCheckLocation = true
-                            viewModel.getlatestSupportedCities()
-                        }
-                        .show()
+
+                viewModel.checkIfInSupportedCity(
+                    requireContext(), viewModel.myCoordinates.value!!,
+                    viewModel.getSupportedCities().value!!
+                )
+
+                viewModel.getInSupportedCity().observe(viewLifecycleOwner) {
+                    if (it) {
+                        myMap =
+                            (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?)!!
+                        myMap.getMapAsync(callback)
+                    } else {
+                        shouldCheckLocation = false
+                        dialog?.dismiss()
+                        dialog = MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(getString(R.string.notInSupportedCityTitle))
+                            .setMessage(getString(R.string.notInSupportedCityDescription))
+                            .setPositiveButton(getString(R.string.retry)) { dialog, which ->
+                                shouldCheckLocation = true
+                                viewModel.getlatestSupportedCities()
+                            }
+                            .show()
+                    }
                 }
             }
         }
@@ -146,6 +148,12 @@ class CaptureFragment : Fragment() {
         setUpLocationListener(this.activity as AppCompatActivity)
 
         binding.indicator.show()
+
+        binding.capture.setOnClickListener {
+            if (PermissionUtils.requestPermission(requireActivity())) {
+                startCamera()
+            }
+        }
 
     }
 

@@ -12,10 +12,14 @@
         tools:layout="@layout/fragment_capture">
         <action
             android:id="@+id/action_navigation_capture_to_navigation_list"
-            app:destination="@id/navigation_list" />
+            app:destination="@id/navigation_list"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_capture_to_placesFragment"
-            app:destination="@id/navigation_places" />
+            app:destination="@id/navigation_places"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -25,22 +29,30 @@
         tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_navigation_list_to_navigation_capture"
-            app:destination="@id/navigation_capture" />
+            app:destination="@id/navigation_capture"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_list_to_placesFragment"
-            app:destination="@id/navigation_places" />
+            app:destination="@id/navigation_places"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_places"
-        android:name="com.nullpointerexception.cityeye.PlacesFragment"
+        android:name="com.nullpointerexception.cityeye.ui.fragments.PlacesFragment"
         android:label="fragment_places"
         tools:layout="@layout/fragment_places">
         <action
             android:id="@+id/action_placesFragment_to_navigation_capture"
-            app:destination="@id/navigation_capture" />
+            app:destination="@id/navigation_capture"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_placesFragment_to_navigation_list"
-            app:destination="@id/navigation_list" />
+            app:destination="@id/navigation_list"
+            app:popUpTo="@+id/navigation_capture"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

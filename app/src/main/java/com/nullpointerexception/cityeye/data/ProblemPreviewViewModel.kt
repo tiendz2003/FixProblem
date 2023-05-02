@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
+import com.nullpointerexception.cityeye.util.LocationUtil
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -32,7 +33,7 @@ class ProblemPreviewViewModel : ViewModel() {
         _image.value = image
     }
 
-    fun setAddress(address: String) {
+    fun setAddress(address: String?) {
         _address.value = address
     }
 
@@ -62,6 +63,13 @@ class ProblemPreviewViewModel : ViewModel() {
                 address
             )
             setResponse(response)
+        }
+    }
+
+    fun getAddressFromLocation(context: Context, latLng: LatLng) {
+        viewModelScope.launch {
+            val address = LocationUtil.getAddressFromCo(context, latLng)
+            setAddress(address)
         }
     }
 

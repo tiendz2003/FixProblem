@@ -35,7 +35,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CityEye">
+        android:theme="@style/Theme.CityEye"
+        android:largeHeap="true">
 
         <activity
             android:name=".intro.IntroApp"

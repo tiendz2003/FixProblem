@@ -1,63 +1,54 @@
 package com.nullpointerexception.cityeye.util
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
-import android.os.Looper
-import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import java.io.IOException
-import java.util.*
+import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object LocationUtil {
 
-    fun getAddressFromCo(context: Context, latLng: LatLng): String? {
-        val geocoder = Geocoder(context, Locale.getDefault())
+    suspend fun getAddressFromCo(context: Context, latLng: LatLng): String? =
+        suspendCoroutine { continuation ->
+            val geocoder = Geocoder(context, Locale.getDefault())
 
-        try {
-            val addressList: MutableList<Address>? =
-                geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            try {
+                val addressList: MutableList<Address>? =
+                    geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
 
-            if (!addressList.isNullOrEmpty()) {
-                val address = addressList[0]
-
-                return address.getAddressLine(0).toString()
+                if (!addressList.isNullOrEmpty()) {
+                    val address = addressList[0]
+                    continuation.resume(address.getAddressLine(0))
+                } else {
+                    continuation.resume(null)
+                }
+            } catch (e: IOException) {
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.geocoderError),
+                    Toast.LENGTH_LONG
+                ).show()
+                continuation.resume(null)
             }
-        } catch (e: IOException) {
-            Toast.makeText(
-                context,
-                context.resources.getString(R.string.geocoderError),
-                Toast.LENGTH_LONG
-            ).show()
         }
-        return null
-    }
 
-    fun checkIfInSupportedCity(
+
+    suspend fun checkIfInSupportedCity(
         context: Context,
         latLng: LatLng,
         supportedCities: SupportedCities
     ): Boolean {
         val address = getAddressFromCo(context, latLng)
-        Log.i("ADDRESS", address.toString())
         var validCity = false
 
         for (city in supportedCities.cities!!) {
-            if (address!!.contains(city)) {
+            if (address?.contains(city)!!) {
                 validCity = true
                 break
             }

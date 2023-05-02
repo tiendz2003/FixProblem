@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     @SuppressLint("UnsafeOptInUsageError")
     override fun onStart() {
         super.onStart()

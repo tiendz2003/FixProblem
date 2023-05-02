@@ -10,6 +10,7 @@ import com.nullpointerexception.cityeye.data.NotificationsViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityNotificationsBinding
 import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewNotificationsAdapter
+import com.nullpointerexception.cityeye.util.DateComparator
 
 class NotificationsActivity : AppCompatActivity() {
 
@@ -53,7 +54,7 @@ class NotificationsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = RecyclerViewNotificationsAdapter(
             this,
-            viewModel.getNotifications().value as List<UserNotification>
+            (viewModel.getNotifications().value as List<UserNotification>).sortedWith(DateComparator())
         )
     }
 
