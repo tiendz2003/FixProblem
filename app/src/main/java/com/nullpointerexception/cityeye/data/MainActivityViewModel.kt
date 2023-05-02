@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.badge.BadgeDrawable
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -68,5 +69,6 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
+    var badge: BadgeDrawable? = null
 
 }

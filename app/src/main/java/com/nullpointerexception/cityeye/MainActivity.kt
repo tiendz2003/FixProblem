@@ -6,7 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.auth.ktx.auth
@@ -40,34 +43,20 @@ class MainActivity : AppCompatActivity() {
         if (Firebase.auth.currentUser == null) {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+        supportActionBar?.hide()
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        binding.navView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.navigation_capture -> {
-                    navController.navigate(R.id.navigation_capture)
-                    true
-                }
-
-                R.id.navigation_list -> {
-                    navController.navigate(R.id.navigation_list)
-                    true
-                }
-
-                else -> {
-                    navController.navigate(R.id.navigation_places)
-                    true
-                }
-            }
-        }
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_capture, R.id.navigation_list, R.id.navigation_places
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
 
         Firebase.auth.currentUser?.let { ToolbarManager(binding.mainToolbar, it, this) }
 
     }
-
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun onStart() {
@@ -82,12 +71,17 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getMessagesCount().observe(this) {
             if (it > 0) {
-                val badge = BadgeDrawable.create(this)
-                badge.number = it
-                BadgeUtils.attachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
+                viewModel.badge = BadgeDrawable.create(this)
+                viewModel.badge!!.number = it
+                BadgeUtils.attachBadgeDrawable(
+                    viewModel.badge!!,
+                    binding.mainToolbar.notificationsIcon
+                )
             } else {
-                val badge = BadgeDrawable.create(this)
-                BadgeUtils.detachBadgeDrawable(badge, binding.mainToolbar.notificationsIcon)
+                BadgeUtils.detachBadgeDrawable(
+                    viewModel.badge,
+                    binding.mainToolbar.notificationsIcon
+                )
             }
         }
     }

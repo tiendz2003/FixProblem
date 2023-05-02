@@ -1,6 +1,8 @@
 package com.nullpointerexception.cityeye.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,13 +41,15 @@ class PlacesFragment : Fragment() {
 
         viewModel.getNearbyPlaces(requireActivity(), viewModel.getMyCoordinates().value, 5000)
 
-        viewModel.getPlaces().observe(requireActivity()) {
-            binding.loadIndicator.hide()
-            val adapter = RecyclerViewPlacesAdapter(requireContext(), it.results.toList())
-            binding.recyclerView.adapter = adapter
-            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            binding.recyclerView.itemAnimator = null
+        viewModel.getPlaces().observe(viewLifecycleOwner) { places ->
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.loadIndicator.hide()
+                val adapter = RecyclerViewPlacesAdapter(requireContext(), places.results.toList())
+                binding.recyclerView.adapter = adapter
+                binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerView.itemAnimator = null
+            }, 50)
         }
-
     }
+
 }

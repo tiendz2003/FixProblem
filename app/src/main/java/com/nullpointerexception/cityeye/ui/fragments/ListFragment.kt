@@ -56,4 +56,6 @@ class ListFragment : Fragment() {
         super.onStop()
         adapter.stopListening()
     }
+
+
 }
