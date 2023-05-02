@@ -48,7 +48,7 @@ object LocationUtil {
         var validCity = false
 
         for (city in supportedCities.cities!!) {
-            if (address?.contains(city)!!) {
+            if (address?.contains(city) == true) {
                 validCity = true
                 break
             }
