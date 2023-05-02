@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import coil.Coil
 import coil.load
+import coil.request.ImageRequest
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.ktx.Firebase
@@ -47,12 +49,23 @@ class RecyclerViewProblemsAdapter(
     @SuppressLint("CheckResult")
     override fun onBindViewHolder(holder: ProblemHolderView, position: Int, model: Problem) {
 
+        holder.binding.loadIndicator.show()
         holder.binding.title.text = model.title
         holder.binding.address.text = model.address
         holder.binding.date.text = OtherUtilities().getDateFromEpoch(model.epoch!!)
 
         Firebase.storage.reference.child("images/${model.imageName}").downloadUrl.addOnSuccessListener { url ->
             holder.binding.image.load(url)
+
+            val request = ImageRequest.Builder(context)
+                .data(url)
+                .target { drawable ->
+                    holder.binding.loadIndicator.hide()
+                    holder.binding.image.setImageDrawable(drawable)
+                    holder.binding.image.visibility = View.VISIBLE
+                }
+                .build()
+            Coil.imageLoader(context).enqueue(request)
         }
 
         holder.binding.layout.animation =

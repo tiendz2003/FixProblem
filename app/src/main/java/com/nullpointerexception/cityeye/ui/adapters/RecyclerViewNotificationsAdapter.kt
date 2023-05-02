@@ -8,17 +8,15 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.ProblemDetailActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.NotificationLayoutBinding
-import com.nullpointerexception.cityeye.databinding.ProfileProblemItemBinding
 import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 
 class RecyclerViewNotificationsAdapter(
     val context: Context,
-    val notifications: ArrayList<UserNotification>
+    val notifications: List<UserNotification>
 ) :
     RecyclerView.Adapter<RecyclerViewNotificationsAdapter.NotificationViewHolder>() {
 

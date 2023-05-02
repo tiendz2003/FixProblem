@@ -4,9 +4,11 @@
     <string name="capture">Capture</string>
     <string name="reports">Reports</string>
     <string name="map">Map</string>
+    <string name="places">Places</string>
 
 
     <string name="client_ID">626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com</string>
+    <string name="maps_key">AIzaSyCUY11RGhx0bJVxMRphkwgtBbxobSDtDTo</string>
 
     <string name="dialog_permission_request_title">Permissions</string>
     <string name="dialog_permission_request_support">Please open app settings and grant camera and location permissions.
@@ -72,5 +74,8 @@
     <string name="lets_improve">Let\'s improve our city together.</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="rating">%1$s/%2$s</string>
+    <string name="place_image">https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference=%1$s&amp;key=%2$s</string>
 
 </resources>

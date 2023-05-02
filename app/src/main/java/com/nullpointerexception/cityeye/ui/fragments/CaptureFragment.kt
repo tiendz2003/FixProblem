@@ -33,7 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.maps.android.heatmaps.HeatmapTileProvider
 import com.nullpointerexception.cityeye.LoginActivity
 import com.nullpointerexception.cityeye.R
-import com.nullpointerexception.cityeye.data.CaptureViewModel
+import com.nullpointerexception.cityeye.data.SharedViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
 import com.nullpointerexception.cityeye.util.LocationUtil
@@ -46,7 +46,7 @@ import java.io.IOException
 class CaptureFragment : Fragment() {
 
     private lateinit var binding: FragmentCaptureBinding
-    private lateinit var viewModel: CaptureViewModel
+    private lateinit var viewModel: SharedViewModel
     private val REQUEST_IMAGE_CAPTURE = 1
     private var hasZoomed = false
     private var isLocationLoaded = false
@@ -99,7 +99,7 @@ class CaptureFragment : Fragment() {
 
         binding = FragmentCaptureBinding.inflate(inflater, container, false)
 
-        viewModel = ViewModelProvider(requireActivity())[CaptureViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         return binding.root
     }

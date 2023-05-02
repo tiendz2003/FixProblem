@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.firebase.auth.ktx.auth
@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
         }
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_capture -> {
@@ -49,8 +52,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                else -> {
+                R.id.navigation_list -> {
                     navController.navigate(R.id.navigation_list)
+                    true
+                }
+
+                else -> {
+                    navController.navigate(R.id.navigation_places)
                     true
                 }
             }
@@ -59,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         Firebase.auth.currentUser?.let { ToolbarManager(binding.mainToolbar, it, this) }
 
     }
+
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun onStart() {
