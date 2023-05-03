@@ -22,4 +22,11 @@
         android:name="com.nullpointerexception.cityeye.ui.fragments.PlacesFragment"
         android:label="fragment_places"
         tools:layout="@layout/fragment_places" />
+
+    <fragment
+        android:id="@+id/navigation_events"
+        android:name="com.nullpointerexception.cityeye.ui.fragments.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" />
+
 </navigation>

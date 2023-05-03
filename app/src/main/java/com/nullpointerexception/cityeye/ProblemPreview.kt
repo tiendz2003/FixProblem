@@ -26,6 +26,7 @@ class ProblemPreview : AppCompatActivity() {
 
         binding = ActivityProblemPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         binding.loadIndicator.hide()
 

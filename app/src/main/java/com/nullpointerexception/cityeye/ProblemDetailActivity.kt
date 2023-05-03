@@ -20,6 +20,7 @@ class ProblemDetailActivity : AppCompatActivity() {
 
         binding = ActivityProblemDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         viewModel = ViewModelProvider(this)[ProblemDetailViewModel::class.java]
 

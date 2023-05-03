@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 
 class OtherUtilities {
@@ -31,9 +33,9 @@ class OtherUtilities {
         return args
     }
 
-    fun getTimeFromEpoch(epoch: Int): String {
-        val date = Date(epoch.toLong() * 1000)
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+    fun getTimeFromEpoch(epoch: Long): String {
+        val date = Date(epoch * 1000)
+        val dateFormat = SimpleDateFormat("HH:mm")
         return dateFormat.format(date)
     }
 
@@ -56,6 +58,16 @@ class OtherUtilities {
             )
         ).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         act.startActivity(activity)
+    }
+
+    fun epochToFormattedString(epoch: Long): String {
+        val date = Date(epoch * 1000L)
+
+        val sdf = SimpleDateFormat("E, MMM dd · HH:mm", Locale.US)
+
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+
+        return sdf.format(date)
     }
 
 }

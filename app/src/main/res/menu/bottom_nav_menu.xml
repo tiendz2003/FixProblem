@@ -18,4 +18,10 @@
         android:icon="@drawable/ic_places"
         android:title="@string/places" />
 
+    <item
+        android:id="@+id/navigation_events"
+        android:icon="@drawable/ic_event"
+        android:title="@string/events" />
+
+
 </menu>

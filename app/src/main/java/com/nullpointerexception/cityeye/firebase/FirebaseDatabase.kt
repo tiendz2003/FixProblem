@@ -1,6 +1,5 @@
 package com.nullpointerexception.cityeye.firebase
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.net.Uri
@@ -8,7 +7,6 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -16,8 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
-import com.nullpointerexception.cityeye.entities.Answer
-import com.nullpointerexception.cityeye.entities.Comment
+import com.nullpointerexception.cityeye.entities.Event
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.entities.User
@@ -373,27 +370,6 @@ object FirebaseDatabase {
 
         }
 
-    suspend fun getAllAnswersForUser(userID: String): List<Answer> =
-        suspendCoroutine { continuation ->
-            val colRef = Firebase.firestore.collection("answers").whereEqualTo("userID", userID)
-            colRef.get()
-                .addOnSuccessListener { querySnapshot ->
-                    val documents = querySnapshot.documents
-                    val answersList = mutableListOf<Answer>()
-                    for (document in documents) {
-                        val answer = document.toObject(Answer::class.java)
-                        if (answer != null) {
-                            answersList.add(answer)
-                        }
-                    }
-                    continuation.resume(answersList)
-                }
-                .addOnFailureListener { exception ->
-                    Log.d(TAG, "Error getting documents: ", exception)
-                }
-
-        }
-
     fun markNotificationAsRead(notificationID: String) {
         val database = Firebase.firestore
         database.collection("userNotifications").document(notificationID)
@@ -420,45 +396,26 @@ object FirebaseDatabase {
             }
     }
 
-    @SuppressLint("SuspiciousIndentation")
-    suspend fun addComment(text: String, problemID: String, user: User) = suspendCoroutine<Unit> {
-        val database = Firebase.firestore
-        val colRef = database.collection("problems").document(problemID).collection("comments")
-        val comment =
-            Comment(
-                user.displayName,
-                text,
-                Timestamp.now(),
-                user.photoUrl
-            )
-        colRef.add(comment).addOnSuccessListener {
-
-        }
-            .addOnFailureListener {
-
-            }
-    }
-
-    suspend fun listenForUserNotifications(ids: List<String>) = suspendCoroutine {
-        val colRef = Firebase.firestore.collection("userNotifications")
-        val query = colRef.whereArrayContains("notificationID", ids)
-
-        query.addSnapshotListener { snapshot, exception ->
-            if (exception != null) {
-                // Handle any errors
-                return@addSnapshotListener
-            }
-
-            if (snapshot != null) {
-                // Loop through the documents in the snapshot and update your UI or perform any necessary actions
-                var count = 0
-                for (document in snapshot.documents) {
-                    if (document.toObject(UserNotification::class.java)!!.isRead == true) count++
+    suspend fun getEvents(): List<Event> =
+        suspendCoroutine { continuation ->
+            val colRef = Firebase.firestore.collection("events")
+            colRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val eventsList = mutableListOf<Event>()
+                    for (document in documents) {
+                        val event = document.toObject(Event::class.java)
+                        if (event != null) {
+                            eventsList.add(event)
+                        }
+                    }
+                    continuation.resume(eventsList)
                 }
-                it.resume(count)
-            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+
         }
-    }
 
 
 }

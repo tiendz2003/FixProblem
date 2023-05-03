@@ -17,6 +17,7 @@ import com.google.maps.PlacesApi
 import com.google.maps.model.PlaceType
 import com.google.maps.model.PlacesSearchResponse
 import com.nullpointerexception.cityeye.R
+import com.nullpointerexception.cityeye.entities.Event
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.LocationUtil
@@ -177,6 +178,24 @@ class SharedViewModel : ViewModel() {
                     supportedCities
                 )
             )
+        }
+    }
+
+    private val _events = MutableLiveData<List<Event>>()
+    var event: LiveData<List<Event>> = _events
+
+    fun setEvents(events: List<Event>) {
+        _events.value = events
+    }
+
+    fun getEvents(): MutableLiveData<List<Event>> {
+        return _events
+    }
+
+    fun getAllEvents() {
+        viewModelScope.launch {
+            val events = FirebaseDatabase.getEvents()
+            setEvents(events)
         }
     }
 

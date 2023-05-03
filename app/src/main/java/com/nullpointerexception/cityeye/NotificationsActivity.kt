@@ -22,6 +22,7 @@ class NotificationsActivity : AppCompatActivity() {
 
         binding = ActivityNotificationsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         viewModel = ViewModelProvider(this)[NotificationsViewModel::class.java]
 
