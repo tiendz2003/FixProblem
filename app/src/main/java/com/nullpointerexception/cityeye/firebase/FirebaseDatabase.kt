@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Event
+import com.nullpointerexception.cityeye.entities.MapItem
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.entities.User
@@ -417,5 +418,25 @@ object FirebaseDatabase {
 
         }
 
+    suspend fun getMapItems(): List<MapItem> =
+        suspendCoroutine { continuation ->
+            val colRef = Firebase.firestore.collection("markers")
+            colRef.get()
+                .addOnSuccessListener { querySnapshot ->
+                    val documents = querySnapshot.documents
+                    val itemsList = mutableListOf<MapItem>()
+                    for (document in documents) {
+                        val item = document.toObject(MapItem::class.java)
+                        if (item != null) {
+                            itemsList.add(item)
+                        }
+                    }
+                    continuation.resume(itemsList)
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
+
+        }
 
 }

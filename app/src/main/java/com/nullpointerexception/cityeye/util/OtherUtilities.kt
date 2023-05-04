@@ -2,6 +2,9 @@ package com.nullpointerexception.cityeye.util
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import com.google.android.gms.maps.model.LatLng
 import com.nullpointerexception.cityeye.ProblemPreview
@@ -64,6 +67,19 @@ class OtherUtilities {
         val sdf = SimpleDateFormat("E, MMM dd · HH:mm")
 
         return sdf.format(date)
+    }
+
+    fun shrinkMarker(originalDrawable: Drawable): Drawable {
+        val bitmap = Bitmap.createBitmap(
+            originalDrawable.intrinsicWidth / 2,
+            originalDrawable.intrinsicHeight / 2,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        originalDrawable.setBounds(0, 0, canvas.width, canvas.height)
+        originalDrawable.draw(canvas)
+
+        return originalDrawable
     }
 
 }

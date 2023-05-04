@@ -26,7 +26,9 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
@@ -62,6 +64,8 @@ class CaptureFragment : Fragment() {
 
         googleMap.isMyLocationEnabled = true
 
+        googleMap.clear()
+
         val myLocation =
             LatLng(
                 viewModel.myCoordinates.value!!.latitude,
@@ -69,25 +73,56 @@ class CaptureFragment : Fragment() {
             )
         googleMap.clear()
 
-        if (!viewModel.isLoaded) {
+        if (!viewModel.hasZoomedIn) {
             googleMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     myLocation, 17.0f
                 )
             )
-        } else {
-            googleMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    myLocation, 17.0f
-                )
-            )
+            viewModel.hasZoomedIn = true
         }
+
         viewModel.getCoordinates().observe(viewLifecycleOwner) {
+            if (!viewModel.areItemsLoaded) {
+                viewModel.getLatestMapItems()
+            }
+        }
+        viewModel.getMapItems().observe(viewLifecycleOwner) {
             makeHeatmap(googleMap)
             binding.indicator.hide()
+
+            for (item in viewModel.getMapItems().value!!) {
+
+                if (item.type == "solarnaKlupa") {
+
+                    val bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_solar)
+
+                    item.lat?.let { it1 -> LatLng(it1, item.lng!!) }?.let { it2 ->
+                        MarkerOptions()
+                            .position(it2)
+                            .icon(bitmapDescriptor)
+                    }?.let { it3 -> googleMap.addMarker(it3) }
+
+                } else if (item.type == "autoPunjac") {
+
+                    val bitmapDescriptor =
+                        BitmapDescriptorFactory.fromResource(R.drawable.ic_car_charger)
+
+                    item.lat?.let { it1 -> item.lng?.let { it2 -> LatLng(it1, it2) } }?.let { it2 ->
+                        MarkerOptions()
+                            .position(it2)
+                            .icon(bitmapDescriptor)
+                    }?.let { it3 -> googleMap.addMarker(it3) }
+                }
+            }
+
+            viewModel.areItemsLoaded = true
+
         }
+
         binding.capture.visibility = View.VISIBLE
     }
+
 
 
     override fun onCreateView(
@@ -148,6 +183,8 @@ class CaptureFragment : Fragment() {
         setUpLocationListener(this.activity as AppCompatActivity)
 
         binding.indicator.show()
+
+        viewModel.getMyFusedLocationNow(requireActivity())
 
         binding.capture.setOnClickListener {
             if (PermissionUtils.requestPermission(requireActivity())) {
@@ -217,7 +254,7 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(10000).setFastestInterval(10000)
+        val locationRequest = LocationRequest().setInterval(3000).setFastestInterval(3000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,
@@ -243,7 +280,6 @@ class CaptureFragment : Fragment() {
                                     location.longitude
                                 )
                             )
-                            viewModel.isLoaded = true
 
                         }
                     }
@@ -257,10 +293,11 @@ class CaptureFragment : Fragment() {
         if (viewModel.getCoordinates().value!!.isNotEmpty()) {
             val heatmapProvider = HeatmapTileProvider.Builder()
                 .data(viewModel.getCoordinates().value)
-                .radius(40)
+                .radius(15)
                 .build()
 
-            val tileOverlayOptions = TileOverlayOptions().tileProvider(heatmapProvider).fadeIn(true)
+            val tileOverlayOptions =
+                TileOverlayOptions().tileProvider(heatmapProvider).fadeIn(false)
             googleMap.addTileOverlay(tileOverlayOptions)
         }
     }

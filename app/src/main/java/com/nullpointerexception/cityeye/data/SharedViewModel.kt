@@ -1,15 +1,17 @@
 package com.nullpointerexception.cityeye.data
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.maps.GeoApiContext
@@ -18,6 +20,7 @@ import com.google.maps.model.PlaceType
 import com.google.maps.model.PlacesSearchResponse
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.entities.Event
+import com.nullpointerexception.cityeye.entities.MapItem
 import com.nullpointerexception.cityeye.entities.SupportedCities
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
 import com.nullpointerexception.cityeye.util.LocationUtil
@@ -52,14 +55,7 @@ class SharedViewModel : ViewModel() {
         return _problemCoordinates
     }
 
-    private val _map = MutableLiveData<SupportMapFragment>()
-    var map: LiveData<SupportMapFragment> = _map
-
-    fun setmap(map: SupportMapFragment) {
-        _map.value = map
-    }
-
-    var isLoaded = false
+    var hasZoomedIn = false
 
     fun loadProblemCoordinates() {
         viewModelScope.launch {
@@ -198,6 +194,52 @@ class SharedViewModel : ViewModel() {
             setEvents(events)
         }
     }
+
+
+    private val _mapItems = MutableLiveData<List<MapItem>>()
+    var mapItems: LiveData<List<MapItem>> = _mapItems
+
+    fun setMapItems(items: List<MapItem>) {
+        _mapItems.value = items
+    }
+
+    fun getMapItems(): MutableLiveData<List<MapItem>> {
+        return _mapItems
+    }
+
+    fun getLatestMapItems() {
+        viewModelScope.launch {
+            val response = FirebaseDatabase.getMapItems()
+            setMapItems(response)
+        }
+    }
+
+
+    fun getMyFusedLocationNow(activity: Activity) {
+        viewModelScope.launch {
+            var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+
+            val location = withContext(Dispatchers.IO) {
+                if (ActivityCompat.checkSelfPermission(
+                        activity.applicationContext,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        activity.applicationContext,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+
+                } else {
+                    fusedLocationClient.lastLocation.await()
+                }
+            }
+            if (location != null) {
+                setMyCoordinates(LatLng((location as Location).latitude, location.longitude))
+            }
+        }
+    }
+
+    var areItemsLoaded = false
 
 
 }
