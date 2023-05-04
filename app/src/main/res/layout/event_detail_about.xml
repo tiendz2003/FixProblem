@@ -6,11 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/locationTitle"
+        android:id="@+id/aboutTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="26dp"
         android:text="@string/about"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -18,13 +18,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/aboutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="4dp"
         android:maxWidth="300dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationTitle"
+        app:layout_constraintTop_toBottomOf="@+id/aboutTitle"
         tools:text="oughseugosugusrbgosrbgousrbousrbousrbsruobnsroubnsroubnsroubnsroubnsroubnsrobusrnoubnsrobusrnboughseugosugusrbgosrbgousrbousrbousrbsruobnsroubnsroubnsroubnsroubnsroubnsrobusrnoubnsrobusrnb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

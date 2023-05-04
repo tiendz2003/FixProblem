@@ -7,6 +7,7 @@ data class Event(
     val description: String? = null,
     val city: String? = null,
     val location: String? = null,
+    val locationAddress: String? = null,
     val epochStart: Long? = null,
     val epochEnd: Long? = null,
     val price: Int? = null,

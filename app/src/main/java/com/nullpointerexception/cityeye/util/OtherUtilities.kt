@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 
 class OtherUtilities {
@@ -63,9 +61,7 @@ class OtherUtilities {
     fun epochToFormattedString(epoch: Long): String {
         val date = Date(epoch * 1000L)
 
-        val sdf = SimpleDateFormat("E, MMM dd · HH:mm", Locale.US)
-
-        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        val sdf = SimpleDateFormat("E, MMM dd · HH:mm")
 
         return sdf.format(date)
     }
