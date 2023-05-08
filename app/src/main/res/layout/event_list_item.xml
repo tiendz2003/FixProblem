@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/image"
@@ -70,7 +71,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorBlack" />
+        app:tint="?attr/colorBlack"
+        android:foreground="?android:attr/selectableItemBackground" />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"

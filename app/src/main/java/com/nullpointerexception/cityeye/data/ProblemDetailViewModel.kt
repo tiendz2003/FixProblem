@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nullpointerexception.cityeye.entities.Answer
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 
 class ProblemDetailViewModel : ViewModel() {
 
@@ -22,13 +24,33 @@ class ProblemDetailViewModel : ViewModel() {
         return _problem
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun getThisProblem(problemID: String) {
         viewModelScope.launch {
-            val response = FirebaseDatabase.getProblemById(problemID)
-            if (response != null) {
-                setProblem(response)
+            val problemResponse = async {
+                FirebaseDatabase.getProblemById(problemID)
             }
+            val answerResponse = async {
+                FirebaseDatabase.getAnswerByID(problemID)
+            }
+
+            problemResponse.await()
+            answerResponse.await()
+
+            problemResponse.getCompleted()?.let { setProblem(it) }
+            answerResponse.getCompleted()?.let { setAnswer(it) }
         }
+    }
+
+    private val _answer = MutableLiveData<Answer>()
+    var answer: LiveData<Answer> = _answer
+
+    fun setAnswer(answer: Answer) {
+        _answer.value = answer
+    }
+
+    fun getAnswer(): MutableLiveData<Answer> {
+        return _answer
     }
 
 }

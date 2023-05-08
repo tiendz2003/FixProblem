@@ -3,6 +3,7 @@ package com.nullpointerexception.cityeye
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
@@ -80,12 +81,13 @@ class MainActivity : AppCompatActivity() {
                     viewModel.badge!!,
                     binding.mainToolbar.notificationsIcon
                 )
+                binding.mainToolbar.notificationsIcon.visibility = View.VISIBLE
+                binding.mainToolbar.notificationsIconEmpty.visibility = View.GONE
             } else {
-                BadgeUtils.detachBadgeDrawable(
-                    viewModel.badge,
-                    binding.mainToolbar.notificationsIcon
-                )
+                binding.mainToolbar.notificationsIcon.visibility = View.GONE
+                binding.mainToolbar.notificationsIconEmpty.visibility = View.VISIBLE
             }
         }
+
     }
 }

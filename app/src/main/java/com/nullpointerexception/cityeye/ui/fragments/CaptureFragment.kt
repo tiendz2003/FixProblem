@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.maps.android.heatmaps.HeatmapTileProvider
@@ -41,6 +43,9 @@ import com.nullpointerexception.cityeye.databinding.FragmentCaptureBinding
 import com.nullpointerexception.cityeye.util.CameraUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import com.nullpointerexception.cityeye.util.PermissionUtils
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
@@ -254,7 +259,7 @@ class CaptureFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun setUpLocationListener(activity: AppCompatActivity) {
         val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity)
-        val locationRequest = LocationRequest().setInterval(3000).setFastestInterval(3000)
+        val locationRequest = LocationRequest().setInterval(8000).setFastestInterval(8000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         if (ActivityCompat.checkSelfPermission(
                 activity.applicationContext,
@@ -264,8 +269,23 @@ class CaptureFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            PermissionUtils.requestAccessFineLocationPermission(activity, 10)
-            return
+            val snackbar = Snackbar.make(
+                requireView(),
+                "Location permission is required",
+                Snackbar.LENGTH_LONG
+            )
+            snackbar.setAction("Settings") {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+            GlobalScope.launch {
+                delay(2000)
+                snackbar.anchorView = requireActivity().findViewById(R.id.nav_view)
+                snackbar.show()
+            }
+
         }
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,

@@ -35,6 +35,10 @@ class NotificationsActivity : AppCompatActivity() {
             setNotifications()
         }
 
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
     }
 
     override fun onStart() {

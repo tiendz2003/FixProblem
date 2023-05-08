@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/loadIndicator"
@@ -93,7 +94,8 @@
         android:src="@drawable/ic_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorBlack" />
+        app:tint="?attr/colorBlack"
+        android:foreground="?android:attr/selectableItemBackground" />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"

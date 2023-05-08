@@ -1,9 +1,11 @@
 package com.nullpointerexception.cityeye
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import coil.load
+import coil.Coil
+import coil.request.ImageRequest
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.data.ProblemDetailViewModel
@@ -34,7 +36,25 @@ class ProblemDetailActivity : AppCompatActivity() {
 
 
             Firebase.storage.reference.child("images/${it.imageName}").downloadUrl.addOnSuccessListener { url ->
-                binding.image.load(url)
+                val request = ImageRequest.Builder(this)
+                    .data(url)
+                    .target { drawable ->
+                        binding.imageLoadingIndicator.hide()
+                        binding.image.setImageDrawable(drawable)
+                        binding.image.visibility = View.VISIBLE
+                    }
+                    .build()
+                Coil.imageLoader(this).enqueue(request)
+            }
+
+
+        }
+
+        viewModel.getAnswer().observe(this) {
+            if (it.response.isNullOrEmpty()) {
+                binding.answer.text = getString(R.string.answer, getString(R.string.no_answer))
+            } else {
+                binding.answer.text = getString(R.string.answer, it.response)
             }
         }
 

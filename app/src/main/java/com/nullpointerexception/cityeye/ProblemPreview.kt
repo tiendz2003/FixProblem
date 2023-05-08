@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
@@ -54,8 +53,8 @@ class ProblemPreview : AppCompatActivity() {
         binding.fab.setOnClickListener {
 
 
-            if (!binding.problemTitleEditText.checkIfCharactersExceed(20) && !binding.problemDescriptionEditText.checkIfCharactersExceed(
-                    70
+            if (!binding.problemTitleEditText.checkIfCharactersExceed(50) && !binding.problemDescriptionEditText.checkIfCharactersExceed(
+                    200
                 )
             ) {
 
@@ -117,9 +116,7 @@ class ProblemPreview : AppCompatActivity() {
     }
 
     private fun setProblemImage() {
-        binding.problemImage.load(viewModel.image.value) {
-            transformations(CircleCropTransformation())
-        }
+        binding.problemImage.load(viewModel.image.value)
     }
 
     fun TextInputLayout.text(): String {

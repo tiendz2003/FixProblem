@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -14,6 +15,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.R
+import com.nullpointerexception.cityeye.entities.Answer
 import com.nullpointerexception.cityeye.entities.Event
 import com.nullpointerexception.cityeye.entities.MapItem
 import com.nullpointerexception.cityeye.entities.Problem
@@ -59,7 +61,8 @@ object FirebaseDatabase {
             location.longitude.toString(),
             (System.currentTimeMillis() / 1000).toInt(),
             null,
-            false
+            false,
+            Timestamp.now()
         )
 
 
@@ -438,5 +441,24 @@ object FirebaseDatabase {
                 }
 
         }
+
+    suspend fun getAnswerByID(problemID: String): Answer? = suspendCoroutine { continuation ->
+        val docRef = Firebase.firestore.collection("answers").whereEqualTo("problemID", problemID)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                val documents = document.documents
+                for (document in documents) {
+                    val problem = document.toObject(Answer::class.java)
+                    if (problem != null) {
+                        continuation.resume(problem)
+                    }
+                }
+
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+    }
+
 
 }

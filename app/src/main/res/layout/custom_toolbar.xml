@@ -38,7 +38,22 @@
                 app:layout_constraintHorizontal_bias="0.877"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorBlack" />
+                app:tint="?attr/colorBlack"
+                android:foreground="?android:attr/selectableItemBackground" />
+
+            <ImageView
+                android:id="@+id/notificationsIconEmpty"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_notification"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/userImage"
+                app:layout_constraintHorizontal_bias="0.877"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorBlack"
+                android:visibility="gone"
+                android:foreground="?android:attr/selectableItemBackground" />
 
             <ImageView
                 android:id="@+id/userImage"

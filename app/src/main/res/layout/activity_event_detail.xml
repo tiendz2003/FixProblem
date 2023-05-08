@@ -46,7 +46,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="250dp"
                     android:src="@drawable/ic_arrow_back"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    android:foreground="?android:attr/selectableItemBackground" />
 
                 <ImageView
                     android:id="@+id/shareButton"
@@ -56,7 +57,8 @@
                     android:layout_marginStart="360dp"
                     android:layout_marginTop="250dp"
                     android:src="@drawable/ic_share"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"
+                    android:foreground="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 

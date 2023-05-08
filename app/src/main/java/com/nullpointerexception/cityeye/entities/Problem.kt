@@ -1,5 +1,8 @@
 package com.nullpointerexception.cityeye.entities
 
+import com.google.firebase.Timestamp
+
+
 data class Problem(
     var uid: String? = null,
     var userName: String? = null,
@@ -13,7 +16,8 @@ data class Problem(
     val location_lon: String? = null,
     val epoch: Int? = null,
     val answerID: String? = null,
-    val solved: Boolean? = null
+    val solved: Boolean? = null,
+    val timestamp: Timestamp? = null
 ) {
 
     override fun toString(): String {

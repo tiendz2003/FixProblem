@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".NotificationsActivity">
 
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/colorBlack" />
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
@@ -13,7 +24,7 @@
         android:layout_margin="10dp"
         android:text="@string/notifications"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView

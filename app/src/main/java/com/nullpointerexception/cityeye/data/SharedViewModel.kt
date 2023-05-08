@@ -228,12 +228,16 @@ class SharedViewModel : ViewModel() {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        99
+                    )
                 } else {
                     fusedLocationClient.lastLocation.await()
                 }
             }
-            if (location != null) {
+            if (location != null && location !is Unit) {
                 setMyCoordinates(LatLng((location as Location).latitude, location.longitude))
             }
         }

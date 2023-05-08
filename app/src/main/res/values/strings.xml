@@ -215,4 +215,7 @@
     <string name="priceText">$ %1$s</string>
     <string name="event_duration">%1$s - %2$s</string>
 
+    <string name="answer">Answer: %1$s</string>
+    <string name="no_answer">No answer yet.</string>
+
 </resources>

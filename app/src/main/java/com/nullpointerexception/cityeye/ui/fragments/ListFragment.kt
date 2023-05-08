@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.nullpointerexception.cityeye.data.ProblemPreviewViewModel
 import com.nullpointerexception.cityeye.databinding.FragmentListBinding
 import com.nullpointerexception.cityeye.entities.Problem
@@ -31,6 +32,7 @@ class ListFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[ProblemPreviewViewModel::class.java]
 
         val query = FirebaseFirestore.getInstance().collection("problems")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
         val options: FirestoreRecyclerOptions<Problem> = FirestoreRecyclerOptions.Builder<Problem>()
             .setQuery(query, Problem::class.java)
             .build()
