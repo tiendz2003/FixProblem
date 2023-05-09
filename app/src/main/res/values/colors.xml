@@ -17,4 +17,8 @@
     <color name="toolbarDark">#2B2B2B</color>
     <color name="toolbarLight">#FFFFFF</color>
 
+    <color name="myPrimary">#D5573B</color>
+    <color name="mySecondary">#885053</color>
+    <color name="myTertiary">#777DA7</color>
+
 </resources>

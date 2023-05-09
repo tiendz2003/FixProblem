@@ -67,7 +67,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     fun setInfo() {
-        binding.content.header.username.text = viewModel.user.value!!.displayName
+        binding.content.header.username.text = viewModel.user.value!!.displayName ?: "User471659"
         binding.content.header.problemNumber.text =
             getString(R.string.profileNoProblems, viewModel.user.value!!.problems!!.size)
         binding.content.header.city.text = "Zagreb"

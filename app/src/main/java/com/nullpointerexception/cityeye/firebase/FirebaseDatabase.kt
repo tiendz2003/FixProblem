@@ -25,6 +25,8 @@ import com.nullpointerexception.cityeye.entities.UserNotification
 import com.nullpointerexception.cityeye.util.NetworkUtil
 import com.nullpointerexception.cityeye.util.OtherUtilities
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -447,17 +449,34 @@ object FirebaseDatabase {
         docRef.get()
             .addOnSuccessListener { document ->
                 val documents = document.documents
-                for (document in documents) {
-                    val problem = document.toObject(Answer::class.java)
-                    if (problem != null) {
-                        continuation.resume(problem)
+                if (documents.size == 0) {
+                    continuation.resume(null)
+                } else {
+                    for (document in documents) {
+                        val problem = document.toObject(Answer::class.java)
+                        if (problem != null) {
+                            continuation.resume(problem)
+                        }
                     }
                 }
-
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
+    }
+
+    fun assignUsername(userID: String) {
+        val docRef = Firebase.firestore.collection("users").document(userID)
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("yyyyMMdd")
+        val formattedDate = dateFormat.format(currentDate)
+
+        val numberDigits = formattedDate.toString().toMutableList()
+        numberDigits.shuffle()
+
+        val shuffledNumber = numberDigits.joinToString("").toInt()
+
+        docRef.update("displayName", "User$shuffledNumber")
     }
 
 

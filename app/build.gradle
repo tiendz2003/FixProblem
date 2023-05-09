@@ -42,6 +42,8 @@ android {
 
 dependencies {
 
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+
     implementation 'androidx.palette:palette:1.0.0'
 
     implementation "com.google.android.libraries.places:places:3.1.0"

@@ -26,7 +26,8 @@ class ProblemDetailActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[ProblemDetailViewModel::class.java]
 
-        viewModel.getThisProblem(intent.getStringExtra("problemID")!!)
+        viewModel.getProblem(intent.getStringExtra("problemID")!!)
+        viewModel.getAnswer(intent.getStringExtra("problemID")!!)
 
         viewModel.getProblem().observe(this) {
             binding.title.text = it.title
@@ -39,7 +40,7 @@ class ProblemDetailActivity : AppCompatActivity() {
                 val request = ImageRequest.Builder(this)
                     .data(url)
                     .target { drawable ->
-                        binding.imageLoadingIndicator.hide()
+
                         binding.image.setImageDrawable(drawable)
                         binding.image.visibility = View.VISIBLE
                     }
@@ -47,11 +48,11 @@ class ProblemDetailActivity : AppCompatActivity() {
                 Coil.imageLoader(this).enqueue(request)
             }
 
-
+            binding.imageLoadingIndicator.hide()
         }
 
         viewModel.getAnswer().observe(this) {
-            if (it.response.isNullOrEmpty()) {
+            if (it == null) {
                 binding.answer.text = getString(R.string.answer, getString(R.string.no_answer))
             } else {
                 binding.answer.text = getString(R.string.answer, it.response)

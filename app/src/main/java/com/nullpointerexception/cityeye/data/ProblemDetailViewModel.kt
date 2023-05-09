@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.nullpointerexception.cityeye.entities.Answer
 import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.firebase.FirebaseDatabase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class ProblemDetailViewModel : ViewModel() {
@@ -24,32 +22,34 @@ class ProblemDetailViewModel : ViewModel() {
         return _problem
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getThisProblem(problemID: String) {
+
+    fun getProblem(problemID: String) {
         viewModelScope.launch {
-            val problemResponse = async {
-                FirebaseDatabase.getProblemById(problemID)
+            val problemResponse = FirebaseDatabase.getProblemById(problemID)
+            if (problemResponse != null) {
+                setProblem(problemResponse)
             }
-            val answerResponse = async {
-                FirebaseDatabase.getAnswerByID(problemID)
-            }
-
-            problemResponse.await()
-            answerResponse.await()
-
-            problemResponse.getCompleted()?.let { setProblem(it) }
-            answerResponse.getCompleted()?.let { setAnswer(it) }
         }
     }
 
-    private val _answer = MutableLiveData<Answer>()
-    var answer: LiveData<Answer> = _answer
+    fun getAnswer(problemID: String) {
+        viewModelScope.launch {
+            val answerResponse = FirebaseDatabase.getAnswerByID(problemID)
+            if (answerResponse != null) {
+                setAnswer(answerResponse)
+            } else {
+                setAnswer(null)
+            }
+        }
+    }
 
-    fun setAnswer(answer: Answer) {
+    private val _answer = MutableLiveData<Answer?>()
+
+    fun setAnswer(answer: Answer?) {
         _answer.value = answer
     }
 
-    fun getAnswer(): MutableLiveData<Answer> {
+    fun getAnswer(): MutableLiveData<Answer?> {
         return _answer
     }
 
