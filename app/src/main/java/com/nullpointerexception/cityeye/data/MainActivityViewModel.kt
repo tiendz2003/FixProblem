@@ -60,10 +60,13 @@ class MainActivityViewModel : ViewModel() {
             userDocument.addSnapshotListener { snapshot, e ->
                 if (snapshot != null && snapshot.exists()) {
                     val notifications = snapshot.get("notifications") as? ArrayList<String>
-                    if (!notifications?.equals(_user.value?.notifications)!!) {
-                        getUserFromDb()
-                        getLiveMessagesCount()
+                    if (!_user.value?.notifications.isNullOrEmpty()) {
+                        if (!notifications?.equals(_user.value?.notifications)!!) {
+                            getUserFromDb()
+                            getLiveMessagesCount()
+                        }
                     }
+
                 }
             }
         }

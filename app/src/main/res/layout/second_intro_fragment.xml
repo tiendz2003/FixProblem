@@ -36,14 +36,15 @@
         android:id="@+id/textView4"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:gravity="start"
         android:text="@string/intro_second_slide"
+        android:textColor="@color/white"
         android:textSize="17sp"
-        android:layout_marginStart="30dp"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        android:textColor="@color/white" />
+        app:layout_constraintVertical_bias="0.013" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
