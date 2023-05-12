@@ -4,11 +4,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import coil.Coil
 import coil.ImageLoader
 import coil.load
 import coil.request.ImageRequest
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.data.EventDetailViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityEventDetailBinding
 import com.nullpointerexception.cityeye.entities.Event
@@ -45,6 +49,18 @@ class EventDetailActivity : AppCompatActivity() {
             ImageLoader(this).enqueue(request)
 
             binding.image.load(viewModel.event.value!!.imageUrl)
+
+            Firebase.storage.reference.child("eventImages/${viewModel.event.value!!.imageUrl}").downloadUrl.addOnSuccessListener { url ->
+
+                val request = ImageRequest.Builder(this)
+                    .data(url)
+                    .target { drawable ->
+                        binding.image.setImageDrawable(drawable)
+                        binding.image.visibility = View.VISIBLE
+                    }
+                    .build()
+                Coil.imageLoader(this).enqueue(request)
+            }
 
             binding.price.price.text =
                 getString(R.string.priceText, viewModel.event.value!!.price.toString())

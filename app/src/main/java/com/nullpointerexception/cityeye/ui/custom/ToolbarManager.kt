@@ -56,6 +56,9 @@ class ToolbarManager(
         toolbar.notificationsIcon.setOnClickListener {
             startNotificationsActivity()
         }
+        toolbar.notificationsIconEmpty.setOnClickListener {
+            startNotificationsActivity()
+        }
     }
 
     fun startProfileActivity() {

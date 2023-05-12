@@ -41,9 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
 
-        if (Firebase.auth.currentUser == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
         supportActionBar?.hide()
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)

@@ -69,6 +69,7 @@ class ProblemPreview : AppCompatActivity() {
                         viewModel.address.value!!
                     )
                     binding.loadIndicator.show()
+                    binding.fab.isEnabled = false
 
                 } else {
                     Snackbar.make(

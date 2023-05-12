@@ -11,7 +11,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nullpointerexception.cityeye.data.ProfileViewModel
 import com.nullpointerexception.cityeye.databinding.ActivityProfileBinding
-import com.nullpointerexception.cityeye.entities.Problem
 import com.nullpointerexception.cityeye.ui.adapters.RecyclerViewProfileAdapter
 
 class ProfileActivity : AppCompatActivity() {
@@ -76,9 +75,11 @@ class ProfileActivity : AppCompatActivity() {
     fun setProblems() {
         val recyclerView = binding.content.problems.problemsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
+        val problemsSorted =
+            viewModel.getProblems().value?.sortedWith(compareByDescending { it.timestamp })
         recyclerView.adapter = RecyclerViewProfileAdapter(
             this,
-            viewModel.getProblems().value as ArrayList<Problem>
+            ArrayList(problemsSorted)
         )
     }
 }

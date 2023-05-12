@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.Coil
 import coil.load
+import coil.request.ImageRequest
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.nullpointerexception.cityeye.EventDetailActivity
 import com.nullpointerexception.cityeye.R
 import com.nullpointerexception.cityeye.databinding.EventListItemBinding
@@ -44,7 +48,20 @@ class RecyclerViewEvents(
         holder.binding.title.text = event.title
         holder.binding.locationText.text = event.location
         holder.binding.date.text = OtherUtilities().epochToFormattedString(event.epochStart!!)
-        holder.binding.image.load(event.imageUrl)
+
+        Firebase.storage.reference.child("eventImages/${event.imageUrl}").downloadUrl.addOnSuccessListener { url ->
+            holder.binding.image.load(url)
+
+            val request = ImageRequest.Builder(context)
+                .data(url)
+                .target { drawable ->
+                    holder.binding.image.setImageDrawable(drawable)
+                    holder.binding.image.visibility = View.VISIBLE
+                }
+                .build()
+            Coil.imageLoader(context).enqueue(request)
+        }
+
         holder.binding.share.setOnClickListener {
             var textToShare = context.getString(
                 R.string.shareEvent,

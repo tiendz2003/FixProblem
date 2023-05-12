@@ -10,7 +10,8 @@ import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 object CameraUtil {
 
@@ -36,7 +37,7 @@ object CameraUtil {
     }
 
 
-    fun compressImageFile(file: File, quality: Int): File {
+    private fun compressImageFile(file: File, quality: Int): File {
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
         val matrix = Matrix()
         matrix.postRotate(90f)

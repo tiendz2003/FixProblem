@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,11 @@ class RecyclerViewProblemsAdapter(
         holder.binding.title.text = model.title
         holder.binding.address.text = model.address
         holder.binding.date.text = OtherUtilities().getDateFromEpoch(model.epoch!!)
+
+        holder.binding.title.isSelected = true
+        holder.binding.title.isSingleLine = true
+        holder.binding.title.marqueeRepeatLimit = -1
+        holder.binding.title.ellipsize = TextUtils.TruncateAt.MARQUEE
 
         Firebase.storage.reference.child("images/${model.imageName}").downloadUrl.addOnSuccessListener { url ->
             holder.binding.image.load(url)
