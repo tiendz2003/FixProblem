@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:textSize="15sp"
+        android:fontFamily="@font/pro_rounded_medium"
         app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintHorizontal_bias="0.132"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +29,7 @@
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/pro_rounded_medium"
         tools:text="Some really really really long description that you cannot even imagine how login it is" />
 
     <TextView
@@ -38,11 +40,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="16dp"
         android:textSize="15sp"
+        android:fontFamily="@font/pro_rounded_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description"
         app:layout_constraintVertical_bias="1.0"
-        tools:text="Selska cesta 123, Zagreb" />
+        tools:text="Hoang Xa, Lien Mac,Bac Tu Liem" />
 
     <TextView
         android:id="@+id/time"
@@ -54,7 +57,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.456"
-        tools:text="05-04-2023 12:15:13" />
+        tools:text="05-04-2023 12:15:13"
+        android:fontFamily="@font/pro_rounded_thin"
+        />
 
     <ImageView
         android:id="@+id/image"

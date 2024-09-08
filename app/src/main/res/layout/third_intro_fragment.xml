@@ -23,12 +23,12 @@
         android:id="@+id/textView6"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="12dp"
+        android:fontFamily="@font/pro_rounded_medium"
         android:text="@string/intro_third_slide_title"
         android:textColor="@color/white"
         android:textSize="30sp"
-        android:layout_marginStart="30dp"
-        app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/animationView" />
 
@@ -42,6 +42,7 @@
         android:text="@string/intro_third_slide"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:fontFamily="@font/pro_rounded_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"

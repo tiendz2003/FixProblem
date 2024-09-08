@@ -69,7 +69,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.666"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/problemTitleEditText"
@@ -88,7 +89,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="100dp" />
+                    android:maxHeight="100dp"
+                    android:fontFamily="@font/pro_rounded_thin"
+                    android:textColor="@color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,8 +100,7 @@
                 android:id="@+id/problemDescriptionEditText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginVertical="20dp"
                 android:maxHeight="200dp"
                 android:hint="@string/problemPreviewDescription"
                 app:counterEnabled="true"
@@ -111,7 +113,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="100dp" />
+                    android:maxHeight="100dp"
+                    android:fontFamily="@font/pro_rounded_thin"
+                    android:textColor="@color/black"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,6 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="68dp"
                 android:text="@string/problemPreviewAddress"
+                android:fontFamily="@font/pro_rounded_thin"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/address"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/problemDescriptionEditText" />
@@ -132,6 +138,8 @@
                 android:layout_marginStart="204dp"
                 android:layout_marginTop="48dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:fontFamily="@font/pro_rounded_thin"
+                android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@+id/problemDescriptionEditText"
                 tools:text="TestTestTestTestTestTestTestTestTestTestTestTestTestTest" />
 
@@ -144,6 +152,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="50dp"
                 app:icon="@drawable/ic_send"
+                android:fontFamily="@font/pro_rounded_medium"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"

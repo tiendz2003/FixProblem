@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.nullpointerexception.cityeye">
+    package="cityeyev1">
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -38,12 +36,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CityEye">
         <activity
-            android:name=".EventDetailActivity"
+            android:name="com.nullpointerexception.cityeyev1.EventDetailActivity"
             android:exported="false"
             android:label="@string/title_activity_event_detail"
             android:theme="@style/Theme.CityEye.NoActionBar" />
         <activity
-            android:name=".intro.IntroApp"
+            android:name="com.nullpointerexception.cityeyev1.intro.IntroApp"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -53,10 +51,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NotificationsActivity"
+            android:name="com.nullpointerexception.cityeyev1.NotificationsActivity"
             android:exported="false" />
         <activity
-            android:name=".ProblemDetailActivity"
+            android:name="com.nullpointerexception.cityeyev1.ProblemDetailActivity"
             android:exported="false" />
 
         <meta-data
@@ -70,7 +68,7 @@
             android:resource="@drawable/eye_viewed_svgrepo_com" />
 
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.nullpointerexception.cityeyev1.ProfileActivity"
             android:exported="false"
             android:label="@string/title_activity_profile"
             android:theme="@style/Theme.CityEye.NoActionBar" />
@@ -80,24 +78,24 @@
             android:value="custom_ica" />
 
         <activity
-            android:name=".ProblemPreview"
+            android:name="com.nullpointerexception.cityeyev1.ProblemPreview"
             android:exported="false"
             android:label="@string/title_activity_problem_preview"
             android:theme="@style/Theme.CityEye.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.nullpointerexception.cityeyev1.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.nullpointerexception.cityeyev1.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.nullpointerexception.cityeye.fileprovider"
+            android:authorities="com.nullpointerexception.cityeyev1.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

@@ -1,12 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.nullpointerexception.cityeye.MainActivity">
+    tools:context="cityeyev1.MainActivity"
+    >
 
     <item
         android:id="@+id/navigation_capture"
         android:icon="@drawable/ic_map"
-        android:title="@string/map" />
+        android:title="@string/map"
+        />
 
     <item
         android:id="@+id/navigation_list"

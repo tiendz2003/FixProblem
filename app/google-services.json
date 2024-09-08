@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "626523382367",
-    "project_id": "cityeyen",
-    "storage_bucket": "cityeyen.appspot.com"
+    "project_number": "596885646694",
+    "project_id": "cityeyev1",
+    "storage_bucket": "cityeyev1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:626523382367:android:54d6d2ee09814afcb2f1ea",
+        "mobilesdk_app_id": "1:596885646694:android:c761670789b2233025aca7",
         "android_client_info": {
-          "package_name": "com.nullpointerexception.cityeye"
+          "package_name": "com.nullpointerexception.cityeyev1"
         }
       },
       "oauth_client": [
         {
-          "client_id": "626523382367-752v04civgee3ea182800fpvc36v5qh7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nullpointerexception.cityeye",
-            "certificate_hash": "538074e1b0c16aa223c831e9e101d39970caa0b3"
-          }
-        },
-        {
-          "client_id": "626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com",
+          "client_id": "904679447587-07j0q3f07f5l6a3a59u4she0lgj5p7jr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDx-nfQHNu1jxB8mT3ZiCaxQ4BrUiN57RU"
+          "current_key": "AIzaSyBY3CL0DPDka_GYumsm1Hq3plHXzT2SZ24"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com",
+              "client_id": "904679447587-07j0q3f07f5l6a3a59u4she0lgj5p7jr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,221 +1,94 @@
 <resources>
-    <string name="app_name">CityEye</string>
-    <string name="title_activity_login">Login activity</string>
-    <string name="capture">Capture</string>
-    <string name="reports">Reports</string>
-    <string name="map">Map</string>
-    <string name="places">Places</string>
-    <string name="events">Events</string>
+    <string name="app_name">Fix Problem</string>
+    <string name="title_activity_login">Hoạt động đăng nhập</string>
+    <string name="capture">Chụp ảnh</string>
+    <string name="reports">Báo cáo</string>
+    <string name="map">Bản đồ</string>
+    <string name="places">Địa điểm</string>
+    <string name="events">Sự kiện</string>
 
-
-    <string name="client_ID">626523382367-a81bjbmmo0n2mrm614629stpfgc2mj4m.apps.googleusercontent.com</string>
+    <string name="client_ID">904679447587-eoa9iihgvb731vn9kl99a53aelgd3b25.apps.googleusercontent.com</string>
     <string name="maps_key">AIzaSyCUY11RGhx0bJVxMRphkwgtBbxobSDtDTo</string>
 
-    <string name="dialog_permission_request_title">Permissions</string>
-    <string name="dialog_permission_request_support">Please open app settings and grant camera and location permissions.
-    Thank you.</string>
-    <string name="dialog_permission_request_open_settings">Open setting</string>
-    <string name="dialog_permission_request_cancel">Cancel</string>
+    <string name="dialog_permission_request_title">Quyền truy cập</string>
+    <string name="dialog_permission_request_support">Vui lòng mở cài đặt ứng dụng và cấp quyền truy cập máy ảnh và vị trí. Cảm ơn bạn.</string>
+    <string name="dialog_permission_request_open_settings">Mở cài đặt</string>
+    <string name="dialog_permission_request_cancel">Hủy bỏ</string>
 
-    <string name="profile_dropdown_profile">Profile</string>
-    <string name="welcome">Welcome</string>
-    <string name="login">Login</string>
+    <string name="profile_dropdown_profile">Hồ sơ cá nhân</string>
+    <string name="welcome">Chào mừng</string>
+    <string name="login">Đăng nhập</string>
     <string name="email">E-mail</string>
-    <string name="password">Password</string>
-    <string name="forgotPassword">Forgot password?</string>
+    <string name="password">Mật khẩu</string>
+    <string name="forgotPassword">Quên mật khẩu?</string>
     <string name="google">Google</string>
-    <string name="or">or</string>
+    <string name="or">hoặc</string>
 
-    <string name="profile_dropdown_signOut">Sign out</string>
-    <string name="title_activity_problem_preview">ProblemPreview</string>
-    <string name="action_settings">Settings</string>
+    <string name="profile_dropdown_signOut">Đăng xuất</string>
+    <string name="title_activity_problem_preview">Xem trước sự cố</string>
+    <string name="action_settings">Cài đặt</string>
 
-    <string name="problem_detail">Problem details</string>
-    <string name="problemPreviewTitle">Title: </string>
-    <string name="problemPreviewDescription">Description: </string>
-    <string name="problemPreviewAddress">Address: </string>
-    <string name="details">Details</string>
-    <string name="send">SEND</string>
-    <string name="titleOrDescriptionTooLong">Title or description is too long!</string>
-    <string name="titleOrDescriptionNotLongEnough">Title or description is not long enough!</string>
-    <string name="errorUploading">Error occured while uploading!</string>
-    <string name="problemExists">Problem already exists!</string>
-    <string name="userExists">User already exists!</string>
-    <string name="problemUploaded">Problem uploaded successfully!</string>
-    <string name="noInternet">No internet connection!</string>
-    <string name="geocoderError">Unable to get address!</string>
+    <string name="problem_detail">Chi tiết sự cố</string>
+    <string name="problemPreviewTitle">Tiêu đề: </string>
+    <string name="problemPreviewDescription">Mô tả: </string>
+    <string name="problemPreviewAddress">Địa chỉ: </string>
+    <string name="details">Chi tiết</string>
+    <string name="send">GỬI</string>
+    <string name="titleOrDescriptionTooLong">Tiêu đề hoặc mô tả quá dài!</string>
+    <string name="titleOrDescriptionNotLongEnough">Tiêu đề hoặc mô tả chưa đủ dài!</string>
+    <string name="errorUploading">Lỗi trong quá trình tải lên!</string>
+    <string name="problemExists">Sự cố đã tồn tại!</string>
+    <string name="userExists">Người dùng đã tồn tại!</string>
+    <string name="problemUploaded">Tải lên sự cố thành công!</string>
+    <string name="noInternet">Không có kết nối internet!</string>
+    <string name="geocoderError">Không thể lấy địa chỉ!</string>
 
-    <string name="errorLogging">Error while logging in.</string>
-    <string name="profileNoProblems">%1$d problems reported</string>
-    <string name="title_activity_profile">Profile</string>
+    <string name="errorLogging">Lỗi khi đăng nhập.</string>
+    <string name="profileNoProblems">%1$d sự cố đã được báo cáo</string>
+    <string name="title_activity_profile">Hồ sơ cá nhân</string>
 
-    <string name="notification_channel_id">CHANNEL_ID</string>
+    <string name="notification_channel_id">KÊNH_THÔNG_BÁO</string>
 
-    <string name="isSolved">Is solved: </string>
-    <string name="problemResolved">Problem Resolved</string>
-    <string name="notifications">Notifications</string>
+    <string name="isSolved">Đã được giải quyết: </string>
+    <string name="problemResolved">Sự cố đã được giải quyết</string>
+    <string name="notifications">Thông báo</string>
 
-    <string name="notInSupportedCityTitle">Oops!</string>
-    <string name="notInSupportedCityDescription">You are not in supported city</string>
-    <string name="retry">RETRY</string>
-    <string name="title_activity_intro">IntroActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="notInSupportedCityTitle">Rất tiếc!</string>
+    <string name="notInSupportedCityDescription">Bạn không nằm trong thành phố được hỗ trợ</string>
+    <string name="retry">THỬ LẠI</string>
+    <string name="title_activity_intro">Hoạt động giới thiệu</string>
 
-    <string name="intro_first_slide_title">Make a Difference</string>
-    <string name="intro_first_slide">Report issues in your city with ease. Take a photo and add details to help improve your community.</string>
-    <string name="intro_second_slide_title">Track Your Reports</string>
-    <string name="intro_second_slide">Get updates on issues you have reported and see what others are reporting.</string>
-    <string name="intro_third_slide_title">Join Forces with Your Neighbors</string>
-    <string name="intro_third_slide">Connect with your community. See what issues are being reported near you and join discussions to make your voice heard.</string>
-    <string name="welcome_to_city_eye">Welcome to CityEye!</string>
-    <string name="lets_improve">Let\'s improve our city together.</string>
+    <string name="first_fragment_label">Fragment đầu tiên</string>
+    <string name="second_fragment_label">Fragment thứ hai</string>
+    <string name="next">Tiếp theo</string>
+    <string name="previous">Trước đó</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="intro_first_slide_title">Tạo sự khác biệt</string>
+    <string name="intro_first_slide">Báo cáo các vấn đề trong thành phố của bạn một cách dễ dàng. Chụp ảnh và thêm chi tiết để giúp cải thiện cộng đồng của bạn.</string>
+    <string name="intro_second_slide_title">Theo dõi báo cáo của bạn</string>
+    <string name="intro_second_slide">Nhận cập nhật về các vấn đề bạn đã báo cáo và xem những gì người khác đang báo cáo.</string>
+    <string name="intro_third_slide_title">Hợp tác với hàng xóm của bạn</string>
+    <string name="intro_third_slide">Kết nối với cộng đồng của bạn. Xem những vấn đề được báo cáo gần bạn và tham gia thảo luận để thể hiện ý kiến của bạn.</string>
+    <string name="welcome_to_city_eye">Chào mừng đến với CityEye!</string>
+    <string name="lets_improve">Cùng nhau cải thiện thành phố của chúng ta.</string>
+
+    <string name="hello_blank_fragment">Xin chào blank fragment</string>
 
     <string name="rating">%1$s/%2$s</string>
     <string name="place_image">https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&amp;photo_reference=%1$s&amp;key=%2$s</string>
-    <string name="shareEvent">Hey, check out this event from CityEye! \n %1$s \n %2$s \n %3$s \n %4$s $</string>
-    <string name="title_activity_event_detail">EventDetailActivity</string>
+    <string name="shareEvent">Này, hãy xem sự kiện này từ CityEye! \n %1$s \n %2$s \n %3$s \n %4$s $</string>
+    <string name="title_activity_event_detail">Chi tiết sự kiện</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
-    <string name="large_text">
-        "Material is the metaphor.\n\n"
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</string>
 
-        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
-        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
-        "technologically advanced and open to imagination and magic.\n"
-        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
-        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
-        "flexibility of the material creates new affordances that supercede those in the physical "
-        "world, without breaking the rules of physics.\n"
-        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
-        "interact, and exist in space and in relation to each other. Realistic lighting shows "
-        "seams, divides space, and indicates moving parts.\n\n"
-
-        "Bold, graphic, intentional.\n\n"
-
-        "The foundational elements of print based design typography, grids, space, scale, color, "
-        "and use of imagery guide visual treatments. These elements do far more than please the "
-        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
-        "imagery, large scale typography, and intentional white space create a bold and graphic "
-        "interface that immerse the user in the experience.\n"
-        "An emphasis on user actions makes core functionality immediately apparent and provides "
-        "waypoints for the user.\n\n"
-
-        "Motion provides meaning.\n\n"
-
-        "Motion respects and reinforces the user as the prime mover. Primary user actions are "
-        "inflection points that initiate motion, transforming the whole design.\n"
-        "All action takes place in a single environment. Objects are presented to the user without "
-        "breaking the continuity of experience even as they transform and reorganize.\n"
-        "Motion is meaningful and appropriate, serving to focus attention and maintain continuity. "
-        "Feedback is subtle yet clear. Transitions are efﬁcient yet coherent.\n\n"
-
-        "3D world.\n\n"
-
-        "The material environment is a 3D space, which means all objects have x, y, and z "
-        "dimensions. The z-axis is perpendicularly aligned to the plane of the display, with the "
-        "positive z-axis extending towards the viewer. Every sheet of material occupies a single "
-        "position along the z-axis and has a standard 1dp thickness.\n"
-        "On the web, the z-axis is used for layering and not for perspective. The 3D world is "
-        "emulated by manipulating the y-axis.\n\n"
-
-        "Light and shadow.\n\n"
-
-        "Within the material environment, virtual lights illuminate the scene. Key lights create "
-        "directional shadows, while ambient light creates soft shadows from all angles.\n"
-        "Shadows in the material environment are cast by these two light sources. In Android "
-        "development, shadows occur when light sources are blocked by sheets of material at "
-        "various positions along the z-axis. On the web, shadows are depicted by manipulating the "
-        "y-axis only. The following example shows the card with a height of 6dp.\n\n"
-
-        "Resting elevation.\n\n"
-
-        "All material objects, regardless of size, have a resting elevation, or default elevation "
-        "that does not change. If an object changes elevation, it should return to its resting "
-        "elevation as soon as possible.\n\n"
-
-        "Component elevations.\n\n"
-
-        "The resting elevation for a component type is consistent across apps (e.g., FAB elevation "
-        "does not vary from 6dp in one app to 16dp in another app).\n"
-        "Components may have different resting elevations across platforms, depending on the depth "
-        "of the environment (e.g., TV has a greater depth than mobile or desktop).\n\n"
-
-        "Responsive elevation and dynamic elevation offsets.\n\n"
-
-        "Some component types have responsive elevation, meaning they change elevation in response "
-        "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
-        "changes are consistently implemented using dynamic elevation offsets.\n"
-        "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
-        "across actions and component types. For example, all components that lift on press have "
-        "the same elevation change relative to their resting elevation.\n"
-        "Once the input event is completed or cancelled, the component will return to its resting "
-        "elevation.\n\n"
-
-        "Avoiding elevation interference.\n\n"
-
-        "Components with responsive elevations may encounter other components as they move between "
-        "their resting elevations and dynamic elevation offsets. Because material cannot pass "
-        "through other material, components avoid interfering with one another any number of ways, "
-        "whether on a per component basis or using the entire app layout.\n"
-        "On a component level, components can move or be removed before they cause interference. "
-        "For example, a floating action button (FAB) can disappear or move off screen before a "
-        "user picks up a card, or it can move if a snackbar appears.\n"
-        "On the layout level, design your app layout to minimize opportunities for interference. "
-        "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
-        "when a user tries to pick up one of cards.\n\n"
-    </string>
-
-    <string name="addToCalendar">Add to calendar</string>
-    <string name="viewOnMaps">View on maps</string>
-    <string name="about">About</string>
-    <string name="price">Price</string>
-    <string name="tickets">Tickets</string>
+    <string name="addToCalendar">Thêm vào lịch</string>
+    <string name="viewOnMaps">Xem trên bản đồ</string>
+    <string name="about">Thông tin</string>
+    <string name="price">Giá</string>
+    <string name="tickets">Vé</string>
     <string name="priceText">$ %1$s</string>
     <string name="event_duration">%1$s - %2$s</string>
 
-    <string name="answer">Answer: %1$s</string>
-    <string name="no_answer">No answer yet.</string>
-
+    <string name="answer">Trả lời: %1$s</string>
+    <string name="no_answer">Chưa có câu trả lời.</string>
 </resources>

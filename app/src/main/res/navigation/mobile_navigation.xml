@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_capture"
-        android:name="com.nullpointerexception.cityeye.ui.fragments.CaptureFragment"
+        android:name="com.nullpointerexception.cityeyev1.ui.fragments.CaptureFragment"
         android:label="@string/map"
         tools:layout="@layout/fragment_capture" />
 
     <fragment
         android:id="@+id/navigation_list"
-        android:name="com.nullpointerexception.cityeye.ui.fragments.ListFragment"
+        android:name="com.nullpointerexception.cityeyev1.ui.fragments.ListFragment"
         android:label="@string/reports"
         tools:layout="@layout/fragment_list" />
 
     <fragment
         android:id="@+id/navigation_places"
-        android:name="com.nullpointerexception.cityeye.ui.fragments.PlacesFragment"
+        android:name="com.nullpointerexception.cityeyev1.ui.fragments.PlacesFragment"
         android:label="fragment_places"
         tools:layout="@layout/fragment_places" />
 
     <fragment
         android:id="@+id/navigation_events"
-        android:name="com.nullpointerexception.cityeye.ui.fragments.EventsFragment"
+        android:name="com.nullpointerexception.cityeyev1.ui.fragments.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events" />
 

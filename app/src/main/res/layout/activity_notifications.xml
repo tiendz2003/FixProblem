@@ -24,6 +24,7 @@
         android:layout_margin="10dp"
         android:text="@string/notifications"
         android:textSize="30sp"
+        android:fontFamily="@font/pro_rounded_medium"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
 

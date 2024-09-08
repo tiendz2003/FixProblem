@@ -12,6 +12,7 @@
         android:layout_marginStart="26dp"
         android:layout_marginTop="26dp"
         android:text="@string/about"
+        android:fontFamily="@font/pro_rounded_medium"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +25,10 @@
         android:layout_marginStart="26dp"
         android:layout_marginTop="4dp"
         android:maxWidth="300dp"
+        android:fontFamily="@font/pro_rounded_thin"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aboutTitle"
-        tools:text="oughseugosugusrbgosrbgousrbousrbousrbsruobnsroubnsroubnsroubnsroubnsroubnsrobusrnoubnsrobusrnboughseugosugusrbgosrbgousrbousrbousrbsruobnsroubnsroubnsroubnsroubnsroubnsrobusrnoubnsrobusrnb" />
+        tools:text="Ronaldo is my GOAT" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
