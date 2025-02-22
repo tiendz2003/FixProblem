@@ -1,0 +1,15 @@
+package com.example.fixproblem
+
+import android.graphics.PointF
+import com.mapbox.geojson.Point
+
+
+data class MapState (
+    val cameraCenter :Point = Point.fromLngLat(105.8412,21.0245),
+    val zoomLevel:Double = 13.0,
+    val markers:List<MapMarker> = emptyList()
+)
+data class MapMarker (
+    val point: Float,
+    val title: String
+)

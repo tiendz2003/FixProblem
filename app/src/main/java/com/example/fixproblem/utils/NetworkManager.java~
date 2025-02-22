@@ -1,0 +1,11 @@
+package com.example.fixproblem.utils;
+
+import javax.inject.Inject;
+
+public class NetworkManager @Inject(
+
+) {
+    public static boolean isNetworkAvailable() {
+
+    }
+}

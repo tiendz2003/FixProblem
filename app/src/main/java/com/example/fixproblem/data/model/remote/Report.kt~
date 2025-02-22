@@ -1,0 +1,49 @@
+package com.example.fixproblem.data.model.remote
+
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+import com.google.firebase.firestore.GeoPoint
+
+@Immutable
+@Stable
+data class Report @JvmOverloads constructor(
+    val id: String = "", // Unique ID cho mỗi báo cáo
+    val userName:String?="",
+    val userImage:String="",
+    val title: String = "",
+    val description: String = "",
+    val imageUrl: String = "",
+    val location: GeoPoint= GeoPoint(0.0, 0.0),
+    val timestamp: Long = System.currentTimeMillis(),
+    val userId: String = "", // ID của người đăng báo cáo
+    val status: String = "pending", // pending, reviewing, resolved
+    val category: String = "", // Loại vấn đề môi trường
+    val isLiked:Boolean = false,
+    val like: Int = 0,
+    val shares: Int = 0,
+)
+data class Comment @JvmOverloads constructor(
+    val id: String = "",
+    val reportId: String = "", // Khóa ngoại tham chiếu đến Report
+    val userId: String = "",
+    val userName: String = "",
+    val userPhotoUrl: String = "",
+    val content: String = "",
+    val timestamp: Long = System.currentTimeMillis(),
+    val likes: Int = 0,
+    val isLiked: Boolean = false,
+    val parentId:String? = null ,//null nếu là comment gốc
+    val replyCount:Int = 0
+)
+data class CommentReply @JvmOverloads constructor(
+    val comment: Comment,
+    val replies: List<Comment> = emptyList(),
+    val 
+)
+data class User(
+    var id: String = "",
+    var name: String = "",
+    var email: String = "",
+    var profilePictureUrl: String? = null,
+    var reportsCount: Int = 0
+)
