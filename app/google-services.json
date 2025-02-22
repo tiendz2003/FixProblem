@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "378439497473",
+    "project_id": "fixproblem-a6416",
+    "storage_bucket": "fixproblem-a6416.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378439497473:android:e4a678c92c270fe16d8d00",
+        "android_client_info": {
+          "package_name": "com.example.fixproblem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378439497473-69kt4ck41iilq3inr6k9no4e8i4uea27.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fixproblem",
+            "certificate_hash": "bf572b925c6629be2d9098840f1d428cf0ccc734"
+          }
+        },
+        {
+          "client_id": "378439497473-saf3ppiur6np3jat61f47hgks14j08re.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBJY8AZXJ6KyrDlBK3oSy0Rvqt6_4k_i4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378439497473-saf3ppiur6np3jat61f47hgks14j08re.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

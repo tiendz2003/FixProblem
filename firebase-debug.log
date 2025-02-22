@@ -1,0 +1,85 @@
+[debug] [2025-02-21T14:05:12.486Z] ----------------------------------------------------------------------
+[debug] [2025-02-21T14:05:12.488Z] Command:       D:\NodeJs\node.exe C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-02-21T14:05:12.489Z] CLI Version:   13.31.2
+[debug] [2025-02-21T14:05:12.489Z] Platform:      win32
+[debug] [2025-02-21T14:05:12.489Z] Node Version:  v22.12.0
+[debug] [2025-02-21T14:05:12.489Z] Time:          Fri Feb 21 2025 21:05:12 GMT+0700 (Indochina Time)
+[debug] [2025-02-21T14:05:12.489Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-21T14:05:12.648Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-21T14:05:12.649Z] > authorizing via signed-in user (buitienk12km2@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\DELL
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-02-21T14:05:27.299Z] Using project from CLI flag: siufascore
+[debug] [2025-02-21T14:05:27.299Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:27.299Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:27.300Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/siufascore [none]
+[debug] [2025-02-21T14:05:27.727Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/siufascore 200
+[debug] [2025-02-21T14:05:27.727Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/siufascore {"projectId":"siufascore","projectNumber":"650967418124","displayName":"Siufascore","name":"projects/siufascore","resources":{"hostingSite":"siufascore","realtimeDatabaseInstance":"siufascore-default-rtdb"},"state":"ACTIVE","etag":"1_7edbf02e-11f5-45b5-8dc6-68ba009f01c4"}
+[info] i  Using project siufascore (Siufascore) 
+[info] 
+=== Functions Setup
+[debug] [2025-02-21T14:05:27.734Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-21T14:05:27.735Z] > authorizing via signed-in user (buitienk12km2@gmail.com)
+[debug] [2025-02-21T14:05:27.735Z] [iam] checking project siufascore for permissions ["firebase.projects.get"]
+[debug] [2025-02-21T14:05:27.735Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:27.735Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:27.735Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/siufascore:testIamPermissions [none]
+[debug] [2025-02-21T14:05:27.735Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/siufascore:testIamPermissions x-goog-quota-user=projects/siufascore
+[debug] [2025-02-21T14:05:27.736Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/siufascore:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-02-21T14:05:28.792Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/siufascore:testIamPermissions 200
+[debug] [2025-02-21T14:05:28.792Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/siufascore:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-02-21T14:05:28.793Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:28.793Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:28.793Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:28.793Z] Checked if tokens are valid: true, expires at: 1740149847940
+[debug] [2025-02-21T14:05:28.793Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/cloudfunctions.googleapis.com [none]
+[debug] [2025-02-21T14:05:28.793Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/siufascore
+[debug] [2025-02-21T14:05:28.794Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/runtimeconfig.googleapis.com [none]
+[debug] [2025-02-21T14:05:28.795Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/siufascore
+[debug] [2025-02-21T14:05:30.220Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/cloudfunctions.googleapis.com 200
+[debug] [2025-02-21T14:05:30.220Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/cloudfunctions.googleapis.com [omitted]
+[debug] [2025-02-21T14:05:30.221Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/runtimeconfig.googleapis.com 200
+[debug] [2025-02-21T14:05:30.221Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/siufascore/services/runtimeconfig.googleapis.com [omitted]
+[info] 
+Detected existing codebase(s): default
+
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[error] Invalid codebase name. Codebase must be less than 64 characters and can contain only lowercase letters, numeric characters, underscores, and dashes.
+[debug] [2025-02-21T14:10:00.992Z] Error: Path contains invalid characters: C:\Users\DELL\? Would you like to initialize a new codebase, or overwrite an existing one? Initialize
+    at checkPath (C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\mkdirs\utils.js:16:21)
+    at module.exports.makeDirSync (C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\mkdirs\make-dir.js:21:3)
+    at Object.createFileSync (C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\fs-extra\lib\ensure\file.js:59:45)
+    at Config.writeProjectFile (C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\lib\config.js:159:12)
+    at C:\Users\DELL\AppData\Roaming\npm\node_modules\firebase-tools\lib\config.js:193:22
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: An unexpected error has occurred.

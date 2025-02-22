@@ -1,0 +1,553 @@
+package com.example.fixproblem.report.newsfeed
+
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.fixproblem.R
+import com.example.fixproblem.data.model.remote.Report
+import com.example.fixproblem.extension.formatTimestamp
+import com.example.fixproblem.extension.shimmerEffect
+import com.example.fixproblem.presentation.theme.CustomColor
+import com.example.fixproblem.report.newsfeed.comment.CommentScreen
+import com.example.fixproblem.report.newsfeed.comment.CommentViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+
+//Cách 2: Sử dụng coroutineScope
+/* fun example2{
+     //val coroutineScope = rememberCoroutineScope()
+     //Bonus:Triển khai thêm nút cuộn lên đầu trang
+     //Lắng nghe sự thay đổi của listState
+     *//*
+        Với các sự kiện thay đổi liên tục (như cuộn danh sách):
+        Sử dụng snapshotFlow kết hợp với coroutine để xử lý,
+        vì nó tách logic ra khỏi Compose UI và không làm ảnh hưởng Main Thread.
+        ----
+        Với trạng thái phụ thuộc ít thay đổi:
+        Sử dụng derivedStateOf để tối ưu hóa
+        việc tái dựng giao diện, tránh tính toán lại không cần thiết.
+        **//*
+        *//*  LaunchedEffect(listState) {
+              //snapsotFlow quan sát trạng thái compose
+              snapshotFlow {
+                  //Khi người dùng cuộn ,snapshowFlow sẽ phát ra giá trị mới
+                  listState.firstVisibleItemIndex
+              }
+                  .collect { index ->
+                  //Nhận giá trị mới
+                  coroutineScope.launch {
+                      isShowFilterCategory = index >0
+                  }
+              }
+          }*//*
+    }
+    (1)Bằng cách cung cấp key duy nhất cho mỗi item, Compose có thể:
+    Nhận diện chính xác từng item dựa trên giá trị của key thay vì dựa vào vị trí.
+    Hạn chế việc tái tạo không cần thiết: Khi một item được thêm hoặc xóa,
+    chỉ các item bị ảnh hưởng thực sự mới được tái tạo.
+    */
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class, FlowPreview::class)
+@Composable
+fun NewsFeedScreen(
+    navController: NavController,
+    viewModel:NewsFeedViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    val listState = rememberLazyListState()
+    val pagedReportsItem = viewModel.pagedReports.collectAsLazyPagingItems()
+
+    //Kéo qua phần tử đầu tiên :true> false
+    val isShowFilterCategory by remember {
+        // mutableStateOf(false)
+        //Quan sát khi phần tử đầu tiên của list vượt qua
+        derivedStateOf { listState.firstVisibleItemIndex > 0 }
+    }
+    var isShowBottomSheet by remember { mutableStateOf(false) }
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect{effect->
+            when(effect){
+                is NewsFeedEffect.NavigateToDetail -> {
+                    navController.navigate("report_detail/${effect.reportId}")
+                }
+                is NewsFeedEffect.ShareReportLink -> TODO()
+                is NewsFeedEffect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    var selectedCategory by rememberSaveable{ mutableStateOf("Tất cả") }//giữ lại state khi navigate
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    var selectReportId by remember { mutableStateOf<String?>(null) }
+    var commentViewModel: CommentViewModel? by remember { mutableStateOf(null) }
+
+    Scaffold (
+        modifier = Modifier.fillMaxSize()
+            .background(Color.White)
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            CenterAlignedTopAppBar(
+                modifier = Modifier.fillMaxWidth().background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            CustomColor,
+                            Color(0xFF60A5FA)
+                        )
+                    )
+                ),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent,
+                    scrolledContainerColor = Color.Transparent,
+                    titleContentColor = Color.White
+                ),
+                windowInsets = WindowInsets(0,0,0,0),
+                title = {
+                    Text(
+                        modifier = Modifier.padding(top = 15.dp),
+                        text ="Bảng tin",
+                        fontSize = 25.sp,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontFamily = FontFamily(Font(R.font.heavy)),
+                    )
+                },
+                scrollBehavior = scrollBehavior
+            )
+
+        },
+        content = {innerPadding->
+
+                  LaunchedEffect(listState) {
+                      snapshotFlow { listState.firstVisibleItemIndex }
+                          .distinctUntilChanged()
+                          .debounce(300)
+                          .collect { firstVisibleIndex ->
+                              val endIndex = minOf(firstVisibleIndex + 5, pagedReportsItem.itemCount)
+                              val visibleReports = (firstVisibleIndex until endIndex)
+                                  .mapNotNull {
+                                      pagedReportsItem[it]
+                                  }.filter {
+                                      it.imageUrl.isNotEmpty()
+                                  }
+                              if (visibleReports.isNotEmpty()) {
+                                  viewModel.processIntent(NewsFeedIntent.PrefetchImages(visibleReports))
+                              }
+                          }
+                  }
+                  LazyColumn(
+                      // contentPadding = innerPadding,
+                      modifier = Modifier
+                          .fillMaxSize().padding(top = innerPadding.calculateTopPadding()),
+                      verticalArrangement = Arrangement.spacedBy(8.dp),
+                      state = listState,
+                      ){
+                      stickyHeader {
+                          //Hiệu ứng xuất hiện
+                          AnimatedVisibility(
+                              visible = isShowFilterCategory,
+                              enter = fadeIn() + expandVertically(),
+                              exit = fadeOut() + shrinkVertically()
+                          ){
+                              LazyRow(
+                                  modifier = Modifier
+                                      .fillMaxWidth()
+                                      .background(Color.White)
+                                      .height(60.dp)
+                                      .padding(15.dp),
+                                  horizontalArrangement = Arrangement.SpaceEvenly
+                              ) {
+                                  val categories = listOf("Tất cả", "Trong tuần","Nổi bật","Mới nhất")
+                                  items(categories) { category ->
+                                      FilterChip(
+                                          selected = selectedCategory == category,
+                                          onClick = {
+                                              selectedCategory = category
+                                              viewModel.processIntent(NewsFeedIntent.UpdateCategory(category))
+                                                    },
+                                          label = { Text(text = category) },
+                                          modifier = Modifier.padding(4.dp)
+                                      )
+                                  }
+                              }
+                          }
+                      }
+                      Log.e("NewsFeedScreen",pagedReportsItem.itemCount.toString())
+                      items(
+                         count =  pagedReportsItem.itemCount,
+                          //Best practice với lazycolumn(1)
+                          key = { index ->
+                              val report = pagedReportsItem[index]
+                              report?.id ?: index
+                          },
+                          contentType = { index ->
+                              // ContentType function cũng nhận index
+                              pagedReportsItem[index]?.id
+                          }
+                      ) { index ->
+                          pagedReportsItem[index]?.let { report ->
+                              NewsFeedCard(
+                                  post = report,
+                                  onLike = {id, isLike ->
+                                  viewModel.processIntent(NewsFeedIntent.LikeReport(id, isLike))
+                              },
+                              onComment = {
+                                  //Truyền reportID
+                                  selectReportId = report.id
+                                  isShowBottomSheet = true
+
+                              })
+                          }
+                          Spacer(modifier = Modifier.height(4.dp))
+                      }
+                      // Loading state
+                      when (pagedReportsItem.loadState.refresh) {
+                          is LoadState.Loading -> {
+                              item {
+                                  Box(
+                                      modifier = Modifier.fillMaxWidth(),
+                                      contentAlignment = Alignment.BottomCenter
+                                  ) {
+                                      CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                                  }
+                              }
+                          }
+                          is LoadState.Error -> {
+                              item {
+                                  Box(
+                                      modifier = Modifier.fillMaxSize(),
+                                      contentAlignment = Alignment.Center
+                                  ) {
+                                      Text(text ="Đã có lỗi xảy ra")
+                                  }
+                              }
+                          }
+                          else -> {}
+                      }
+                      when(pagedReportsItem.loadState.append){
+                          is LoadState.Loading -> {
+                              item {
+                                  LoadingItem()
+                              }
+                          }
+                          is LoadState.Error -> {
+                              item {
+                                  Box(
+                                      modifier = Modifier.fillMaxSize(),
+                                      contentAlignment = Alignment.Center
+                                  ) {
+                                      Text(text ="Đã có lỗi xảy ra")
+
+                                  }
+                              }
+                          }
+                          else -> Unit
+                      }
+
+                  }
+          }
+    )
+    // ModalBottomSheet để bình luận
+    if(isShowBottomSheet){
+        ModalBottomSheet(
+            modifier = Modifier.fillMaxSize().padding(top = 15.dp),
+            onDismissRequest = {
+                isShowBottomSheet = false
+                selectReportId = null
+                //Reset lại comment khi đóng
+                commentViewModel?.resetComments()
+            },
+            sheetState = bottomSheetState,
+            shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+            containerColor = Color.White,
+            tonalElevation = 16.dp,
+            windowInsets = WindowInsets(0,0,0,0)//full màn hình
+        ) {
+            selectReportId?.let {reportId->
+                CommentScreen(
+                    modifier = Modifier.fillMaxHeight(),
+                    isShowKeyboard = isShowBottomSheet,
+                    reportId = reportId,
+                    onViewModelCreated = { viewModel ->
+                        commentViewModel = viewModel
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadingItem() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+    }
+}
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun NewsFeedScreenPreview() {
+   // NewsFeedScreen()
+}
+@Composable
+fun NewsFeedCard(
+    post: Report,
+    modifier: Modifier = Modifier,
+    onLike:(String,Boolean)->Unit,
+    onComment:()->Unit
+) {
+    //Quan sát giá trị của isLike khi khởi động compose
+    val context = LocalContext.current
+    // Lấy density ở ngoài remember block
+    val density = LocalDensity.current
+
+    // Tính toán kích thước theo density
+    val imageWidth = with(density) { 800.dp.toPx().toInt() }
+    val imageHeight = with(density) { 600.dp.toPx().toInt() }
+
+    var isLiked by remember { mutableStateOf(post.isLiked) }
+    // Theo dõi số lượt like
+    var likeCount by remember(post.like) { mutableIntStateOf(post.like) }
+    val imgRequest = remember(post.imageUrl) {
+        ImageRequest.Builder(context)
+            .data(post.imageUrl)
+            .size(
+                width = imageWidth,
+                height =  imageHeight
+            )
+            // Cấu hình cache
+            .memoryCacheKey(post.imageUrl)
+            .diskCacheKey(post.imageUrl)
+            .crossfade(true)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .build()
+    }
+    Card(
+        modifier = modifier
+            .fillMaxWidth().padding(vertical = 8.dp),
+        border = BorderStroke(1.dp, Color.LightGray),
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column{
+            Row (
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+               Surface(
+                   shape = CircleShape,
+                   modifier = Modifier.size(40.dp)
+               ) {
+                   AsyncImage(
+                       modifier = Modifier.clip(shape = CircleShape).border(1.dp,Color.Gray,
+                           CircleShape),
+                       model = post.userImage,
+                       contentDescription = "Avatar",
+                       contentScale = ContentScale.Crop,
+                       alignment = Alignment.Center
+                   )
+               }
+                Spacer(modifier = Modifier.width(10.dp))
+                Column(
+                    modifier = Modifier.weight(2f)
+                ) {
+                    Text(
+                        text = post.userName?:"Tên người dùng",
+                        fontWeight = FontWeight.Normal,
+                        color = Color.Black,
+                        fontSize = 16.sp
+                    )
+                    Text(
+                        text = post.timestamp.formatTimestamp(),
+                        fontWeight = FontWeight.Light,
+                        color = Color.LightGray,
+                        fontSize = 14.sp
+                    )
+                }
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier = Modifier.fillMaxWidth().weight(0.5f),
+
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = "Location"
+                    )
+                }
+            }
+            AsyncImage(
+                //link hình ảnh
+                model = imgRequest ,
+                contentDescription = "Problem",
+                modifier = Modifier.fillMaxWidth().height(300.dp).padding(5.dp).shimmerEffect(true),
+                placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
+                filterQuality = FilterQuality.High,
+                contentScale = ContentScale.Crop
+            )
+            //Caption
+            Text(
+                text = post.description,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp
+            )
+            //Like,CMT,Share
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.Absolute.SpaceAround
+            ){
+                //Like
+                IconButton(
+                    onClick = {
+                        isLiked = !isLiked
+                        likeCount = if(isLiked) likeCount + 1 else likeCount - 1
+                        onLike(post.id,isLiked)
+                    }
+                    ,
+                    modifier = Modifier.fillMaxWidth(fraction = 0.2f).pointerInput(Unit){
+                        //Thêm các sự kiện như giữ hoặc doubletap
+                        detectTapGestures(
+                           // onLongPress = {isLiked = !isLiked}
+                        )
+                    }
+                ) {
+                    Row (
+                        verticalAlignment = Alignment.CenterVertically,
+                    ){
+                        Icon(
+                            imageVector = if(isLiked) Icons.Filled.Favorite
+                            else Icons.Outlined.Favorite,
+                            contentDescription = "Thích",
+                            tint = if(isLiked) Color.Red
+                            else Color.Gray
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = likeCount.toString())
+                    }
+                }
+                //CMT
+                IconButton(
+                    onClick = {
+                        onComment()
+                    },
+                    modifier = Modifier.fillMaxWidth(fraction = 0.3f)
+                ){
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.comment),
+                            contentDescription = "Comment",
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(text = "0")
+
+                    }
+                }
+                //Share
+                IconButton(
+                    onClick = {},
+                    modifier = Modifier.fillMaxWidth(fraction = 0.3f)
+                ){
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Outlined.Share,
+                            contentDescription = "Comment",
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(text = "44")
+                    }
+                }
+            }
+        }
+    }
+
+}
