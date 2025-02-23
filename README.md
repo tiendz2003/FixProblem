@@ -7,7 +7,7 @@ FixProblem là một ứng dụng cho phép người dùng chụp và báo cáo 
 - 💬 **Tương tác & Thảo luận**: Thích, bình luận và chia sẻ bài viết để thảo luận về các vấn đề xã hội và môi trường.
 - 🗺️ **Tích hợp bản đồ tương tác**: Hiển thị các vấn đề trên bản đồ, cho phép người dùng nhấn vào để xem chi tiết.
 - 🚗 **Chỉ đường đến vị trí sự cố**: Người dùng có thể tìm đường đến vị trí sự cố để sửa chữa hoặc giải quyết vấn đề.
-- 🌙 **Hỗ trợ chế độ tối**: Chuyển sang chế độ tối để trải nghiệm thị giác tốt hơn.
+- 🌙 **Hỗ trợ chế độ tối**: Chuyển sang chế độ tối để trải nghiệm thị giác tốt hơn (Đang triển khai)
 - 🔔 **Thông báo theo thời gian thực**: Nhận thông báo khi có người thích hoặc bình luận vào bài viết.
 
 ## **🛠 Công Nghệ Sử Dụng**
