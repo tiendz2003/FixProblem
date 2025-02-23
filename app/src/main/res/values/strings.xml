@@ -3,7 +3,7 @@
     <string name="mapbox_access_token"
         translatable="false"
         tools:ignore="true"
-        >sk.eyJ1IjoiYnVpdGllbiIsImEiOiJjbTYxeG1mOTcwdjF5MnFzYmZhcTVpeno5In0.hYr0erfG0qk1Ra3ykDE0Gg</string>
+        >sk.eyJ1IjoiYnVpdGllbiIsImEiOiJjbTYxeG1mOTcwdjF5MnFzYmZhcTVpeno5In0.hYr0erfGqk1Ra3ykDE0Gg</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="web_client_id">378439497473-saf3ppiur6np3jat61f47hgks14j08re.apps.googleusercontent.com</string>
